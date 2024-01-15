@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "167e4190-7629-4b2a-bd26-fee85eeb7b7c",
+		"name": "Foodista_Blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31217253"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"fullName\": \"marcus test\",\r\n    \"email\": \"marcustest2@gmail.com\",\r\n    \"userName\": \"marcustest\",\r\n    \"passwd\": \"password\",\r\n    \"roleID\": null,\r\n    \"role\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userID\": \"655295fd5c85b303bb697c11\",\r\n    \"fullName\": \"Olusegun Sofola\",\r\n    \"email\": \"ssofola@gmail.com\",\r\n    \"userName\": \"ssofola\",\r\n    \"passwd\": \"abc#123\",\r\n    \"roleID\": \"65528e5db42c9e35469ce865\",\r\n    \"role\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/655295fd5c85b303bb697c11",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"655295fd5c85b303bb697c11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/users/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"marcustest2\",\r\n    \"password\": \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users/login",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Blog",
+			"item": [
+				{
+					"name": "get blogs all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/blogs/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"blogs",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get blogs by user id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/blogs/user/65726ef59a6f7547d80ecd85",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"blogs",
+								"user",
+								"65726ef59a6f7547d80ecd85"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get blogs by blog id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/blogs/657243e75d27f103154362a3",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"blogs",
+								"657243e75d27f103154362a3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "post blog",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"user\": {\n        \"userID\": \"657272e9c305a7007c0527c0\",\n        \"fullName\": \"marcus test\",\n        \"email\": \"marcustest2@gmail.com\",\n        \"userName\": \"marcustest\",\n        \"passwd\": \"password\",\n        \"role\": null\n    },\n    \"title\": \"blog title 2 22\",\n    \"description\": \"blog desc\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/blogs/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"blogs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Post",
+			"item": [
+				{
+					"name": "get post all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/posts/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get post by post id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/posts/65763bfb8945fd330a739ba8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"65763bfb8945fd330a739ba8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create post by user's blog id",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"post-title 123 6\",\n    \"author\": \"post-author 321 7\",\n    \"pubDate\": \"2022-01-01T00:00:00.000+00:00\",\n    \"category\": \"FREE\",\n    \"classification\": \"RECIPE\",\n    \"cookingType\": null,\n    \"cookingStyle\": null,\n    \"tags\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/posts/user/65727305c305a7007c0527c1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"user",
+								"65727305c305a7007c0527c1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update post by post id",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"postID\": \"65763bfb8945fd330a739ba8\",\n    \"blog\": {\n        \"blogID\": \"65727305c305a7007c0527c1\",\n        \"user\": {\n            \"userID\": \"657272e9c305a7007c0527c0\",\n            \"fullName\": \"marcus test\",\n            \"email\": \"marcustest2@gmail.com\",\n            \"userName\": \"marcustest\",\n            \"passwd\": \"password\",\n            \"role\": null\n        },\n        \"title\": \"abc blog title 2 22\",\n        \"description\": \"blog desc\"\n    },\n    \"title\": \"post-title 123 6\",\n    \"author\": \"post-author 321 7\",\n    \"pubDate\": \"2022-01-01T00:00:00.000+00:00\",\n    \"category\": \"FREE\",\n    \"classification\": \"RECIPE\",\n    \"cookingType\": null,\n    \"cookingStyle\": null,\n    \"tags\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/posts/65763bfb8945fd330a739ba8",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"posts",
+								"65763bfb8945fd330a739ba8"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

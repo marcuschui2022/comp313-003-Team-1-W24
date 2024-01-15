@@ -1,0 +1,41 @@
+.nav-font-md{
+  font-size: 1.5rem !important;
+  color: grey;
+}
+
+.entry-meta{
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.entry {
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.entry-footer{
+  padding-top: 10px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.entry-footer i {
+  color: #0d64fd;
+  display: inline;
+}
+
+.entry-footer .item {
+  list-style: none;
+  display: flex;
+  padding: 0;
+  font-size: 14px;
+}
+
+.entry-footer .item  li+li::before {
+  padding-right: 6px;
+  color: #6c757d;
+  content: ",";
+}
