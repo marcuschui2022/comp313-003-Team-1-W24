@@ -22,6 +22,7 @@ import getLPTheme from "./getLPTheme";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
+import Highlights from "../components/Highlights";
 
 // const defaultTheme = createTheme({});
 
@@ -94,8 +95,8 @@ export default function LandingPage() {
         {/*   <Features /> */}
         {/*   <Divider /> */}
         {/*   <Testimonials /> */}
-        {/*   <Divider /> */}
-        {/*   <Highlights /> */}
+        <Divider />
+        <Highlights />
         {/*   <Divider /> */}
         {/*   <Pricing /> */}
         <Divider />
