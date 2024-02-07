@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-// import Divider from "@mui/material/Divider";
+import Divider from "@mui/material/Divider";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
@@ -21,8 +21,9 @@ import Navbar from "../components/Navbars/Navbar";
 import getLPTheme from "./getLPTheme";
 import Hero from "../components/Hero";
 import Footer from "../components/Footer";
+import FAQ from "../components/FAQ";
 
-const defaultTheme = createTheme({});
+// const defaultTheme = createTheme({});
 
 function ToggleCustomTheme({ showCustomTheme, toggleCustomTheme }) {
   return (
@@ -72,7 +73,7 @@ ToggleCustomTheme.propTypes = {
 export default function LandingPage() {
   const [mode, setMode] = React.useState("light");
   // const [showCustomTheme, setShowCustomTheme] = React.useState(true);
-  // const LPtheme = createTheme(getLPTheme(mode));
+  const LPtheme = createTheme(getLPTheme(mode));
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
@@ -84,7 +85,7 @@ export default function LandingPage() {
 
   return (
     // <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={LPtheme}>
       <CssBaseline />
       <Navbar mode={mode} toggleColorMode={toggleColorMode} />
       <Hero />
@@ -97,9 +98,9 @@ export default function LandingPage() {
         {/*   <Highlights /> */}
         {/*   <Divider /> */}
         {/*   <Pricing /> */}
-        {/*   <Divider /> */}
-        {/*   <FAQ /> */}
-        {/*   <Divider /> */}
+        <Divider />
+        <FAQ />
+        <Divider />
         <Footer />
       </Box>
       {/* <ToggleCustomTheme */}
