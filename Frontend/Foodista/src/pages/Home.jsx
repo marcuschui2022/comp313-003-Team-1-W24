@@ -23,6 +23,7 @@ import Hero from "../components/Hero";
 import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
 import Highlights from "../components/Highlights";
+import Testimonials from "../components/Testimonials";
 
 // const defaultTheme = createTheme({});
 
@@ -93,8 +94,8 @@ export default function LandingPage() {
       <Box sx={{ bgcolor: "background.default" }}>
         {/*   <LogoCollection /> */}
         {/*   <Features /> */}
-        {/*   <Divider /> */}
-        {/*   <Testimonials /> */}
+        <Divider />
+        <Testimonials />
         <Divider />
         <Highlights />
         {/*   <Divider /> */}
