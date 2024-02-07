@@ -9,6 +9,7 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 // import SvgMaterialDesign from "docs/src/icons/SvgMaterialDesign";
+import Navbar from "../components/Navbars/Navbar";
 // import Hero from "./components/Hero";
 // import LogoCollection from "./components/LogoCollection";
 // import Highlights from "./components/Highlights";
@@ -17,7 +18,9 @@ import AutoAwesomeRoundedIcon from "@mui/icons-material/AutoAwesomeRounded";
 // import Testimonials from "./components/Testimonials";
 // import FAQ from "./components/FAQ";
 // import Footer from "./components/Footer";
-import Navbar from "../components/Navbars/Navbar";
+import getLPTheme from "./getLPTheme";
+import Hero from "../components/Hero";
+import Footer from "../components/Footer";
 
 const defaultTheme = createTheme({});
 
@@ -68,31 +71,41 @@ ToggleCustomTheme.propTypes = {
 
 export default function LandingPage() {
   const [mode, setMode] = React.useState("light");
+  // const [showCustomTheme, setShowCustomTheme] = React.useState(true);
+  // const LPtheme = createTheme(getLPTheme(mode));
 
   const toggleColorMode = () => {
     setMode((prev) => (prev === "dark" ? "light" : "dark"));
   };
 
+  // const toggleCustomTheme = () => {
+  //   setShowCustomTheme((prev) => !prev);
+  // };
+
   return (
+    // <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}>
     <ThemeProvider theme={defaultTheme}>
-      {/* <ThemeProvider theme={showCustomTheme ? LPtheme : defaultTheme}> */}
       <CssBaseline />
       <Navbar mode={mode} toggleColorMode={toggleColorMode} />
-      {/* <Hero /> */}
-      {/* <Box sx={{ bgcolor: "background.default" }}> */}
-      {/*   <LogoCollection /> */}
-      {/*   <Features /> */}
-      {/*   <Divider /> */}
-      {/*   <Testimonials /> */}
-      {/*   <Divider /> */}
-      {/*   <Highlights /> */}
-      {/*   <Divider /> */}
-      {/*   <Pricing /> */}
-      {/*   <Divider /> */}
-      {/*   <FAQ /> */}
-      {/*   <Divider /> */}
-      {/*   <Footer /> */}
-      {/* </Box> */}
+      <Hero />
+      <Box sx={{ bgcolor: "background.default" }}>
+        {/*   <LogoCollection /> */}
+        {/*   <Features /> */}
+        {/*   <Divider /> */}
+        {/*   <Testimonials /> */}
+        {/*   <Divider /> */}
+        {/*   <Highlights /> */}
+        {/*   <Divider /> */}
+        {/*   <Pricing /> */}
+        {/*   <Divider /> */}
+        {/*   <FAQ /> */}
+        {/*   <Divider /> */}
+        <Footer />
+      </Box>
+      {/* <ToggleCustomTheme */}
+      {/*   showCustomTheme={showCustomTheme} */}
+      {/*   toggleCustomTheme={toggleCustomTheme} */}
+      {/* /> */}
     </ThemeProvider>
   );
 }
