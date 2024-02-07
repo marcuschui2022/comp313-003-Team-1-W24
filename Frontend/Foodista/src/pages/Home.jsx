@@ -24,6 +24,8 @@ import Footer from "../components/Footer";
 import FAQ from "../components/FAQ";
 import Highlights from "../components/Highlights";
 import Testimonials from "../components/Testimonials";
+import ArticlesList from "../components/ArticlesList";
+import HomeSection from "../components/HomeSection";
 
 // const defaultTheme = createTheme({});
 
@@ -94,6 +96,8 @@ export default function LandingPage() {
       <Box sx={{ bgcolor: "background.default" }}>
         {/*   <LogoCollection /> */}
         {/*   <Features /> */}
+        <HomeSection />
+        <ArticlesList />
         <Divider />
         <Testimonials />
         <Divider />

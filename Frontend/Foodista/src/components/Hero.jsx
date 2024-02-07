@@ -1,10 +1,7 @@
-import { alpha } from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
-import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 
 export default function Hero() {
@@ -41,7 +38,7 @@ export default function Hero() {
               textAlign: "center",
             }}
           >
-            Foodista! Food Blog
+            <span style={{ fontWeight: "bold" }}>Foodista</span> ! Food Blog
           </Typography>
           <Typography
             component="h3"
