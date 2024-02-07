@@ -1,25 +1,28 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
-import Link from "@mui/material/Link";
-import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import ChevronRightRoundedIcon from "@mui/icons-material/ChevronRightRounded";
-import DevicesRoundedIcon from "@mui/icons-material/DevicesRounded";
-import EdgesensorHighRoundedIcon from "@mui/icons-material/EdgesensorHighRounded";
-import ViewQuiltRoundedIcon from "@mui/icons-material/ViewQuiltRounded";
 import {
   Avatar,
   CardContent,
   CardHeader,
   CardMedia,
-  Divider,
-  IconButton,
   CardActionArea,
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  TextField,
+  InputAdornment,
+  Button,
+  Divider,
+  Box,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
+import { grey } from "@mui/material/colors";
+import SearchIcon from "@mui/icons-material/Search";
 
 const cardData = [
   {
@@ -92,7 +95,7 @@ export default function ArticlesList() {
   return (
     <Container id="articlesList" sx={{ py: 2 }}>
       <Grid container spacing={2}>
-        <Grid item xs={12} md={9.5}>
+        <Grid item xs={12} md={12} lg={9}>
           <Grid container spacing={2}>
             {cardData.map((card, index) => (
               <Grid item xs={12} sm={12} md={6} key={index}>
@@ -136,6 +139,10 @@ export default function ArticlesList() {
                       </Typography>
                     </CardContent>
                     <CardHeader
+                      sx={{
+                        backgroundColor: grey[100],
+                        // borderTop: "0.5px ",
+                      }}
                       avatar={<Avatar src={""} aria-label="author" />}
                       title={card.author}
                       titleTypographyProps={{ variant: "subtitle2" }}
@@ -161,12 +168,20 @@ export default function ArticlesList() {
         <Grid
           item
           xs={12}
-          md={2.5}
-          sx={{ display: { xs: "none", sm: "flex" }, width: "100%" }}
+          md={12}
+          lg={3}
+          // sx={{ display: { xs: "none", sm: "flex" }, width: "100%" }}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "left",
+            gap: 1,
+            width: "100%",
+          }}
         >
           <Typography
-            component="h6"
-            variant="h6"
+            component="h5"
+            variant="h5"
             sx={{
               color: (theme) =>
                 theme.palette.mode === "light"
@@ -177,29 +192,114 @@ export default function ArticlesList() {
           >
             Search
           </Typography>
-
-          {/* <Card */}
-          {/*   variant="outlined" */}
-          {/*   sx={{ */}
-          {/*     height: "100%", */}
-          {/*     width: "100%", */}
-          {/*     display: { xs: "none", sm: "flex" }, */}
-          {/*     pointerEvents: "none", */}
-          {/*   }} */}
-          {/* > */}
-          {/*   <Box */}
-          {/*     sx={{ */}
-          {/*       m: "auto", */}
-          {/*       width: 420, */}
-          {/*       height: 500, */}
-          {/*       backgroundSize: "contain", */}
-          {/*       backgroundImage: (theme) => */}
-          {/*         theme.palette.mode === "light" */}
-          {/*           ? items[selectedItemIndex].imageLight */}
-          {/*           : items[selectedItemIndex].imageDark, */}
-          {/*     }} */}
-          {/*   /> */}
-          {/* </Card> */}
+          <Divider />
+          <FormControl>
+            <TextField
+              sx={{ mb: 2, mt: 2 }}
+              fullWidth
+              variant="outlined"
+              placeholder="Search"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </FormControl>
+          <Typography
+            component="h5"
+            variant="h5"
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "light"
+                  ? "primary.main"
+                  : "primary.light",
+              display: "flex",
+            }}
+          >
+            Post Categories
+          </Typography>
+          <Divider />
+          <FormControl>
+            <RadioGroup
+              sx={{ mb: 2 }}
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel value="All" control={<Radio />} label="All" />
+              <FormControlLabel value="Free" control={<Radio />} label="Free" />
+              <FormControlLabel
+                value="Premium"
+                control={<Radio />}
+                label="Premium"
+              />
+            </RadioGroup>
+          </FormControl>
+          <Typography
+            component="h5"
+            variant="h5"
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "light"
+                  ? "primary.main"
+                  : "primary.light",
+              display: "flex",
+            }}
+          >
+            Post Type
+          </Typography>
+          <Divider />
+          <FormControl>
+            <RadioGroup
+              sx={{ mb: 2 }}
+              row
+              aria-labelledby="demo-row-radio-buttons-group-label"
+              name="row-radio-buttons-group"
+            >
+              <FormControlLabel value="All" control={<Radio />} label="All" />
+              <FormControlLabel
+                value="Article"
+                control={<Radio />}
+                label="Article"
+              />
+              <FormControlLabel
+                value="Recipe"
+                control={<Radio />}
+                label="Recipe"
+              />
+            </RadioGroup>
+          </FormControl>
+          <Typography
+            component="h5"
+            variant="h5"
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "light"
+                  ? "primary.main"
+                  : "primary.light",
+              display: "flex",
+            }}
+          >
+            Cuisine Locale
+          </Typography>
+          <Divider />
+          <Typography
+            component="h5"
+            variant="h5"
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "light"
+                  ? "primary.main"
+                  : "primary.light",
+              display: "flex",
+            }}
+          >
+            Recent Posts
+          </Typography>
+          <Divider />
         </Grid>
       </Grid>
     </Container>
