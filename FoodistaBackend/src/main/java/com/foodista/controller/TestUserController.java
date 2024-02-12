@@ -83,7 +83,7 @@ public class TestUserController {
 	}
 
 	@DeleteMapping("/testUser/{id}")
-	public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") Integer id) {
+	public ResponseEntity<HttpStatus> deleteTestUser(@PathVariable("id") Integer id) {
 		try {
 			testUserService.delete(id);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
