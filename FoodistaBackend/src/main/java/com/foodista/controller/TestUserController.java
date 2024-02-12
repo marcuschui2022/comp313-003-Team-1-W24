@@ -69,10 +69,10 @@ public class TestUserController {
 
 	@PutMapping("/testUser/{id}")
 	public ResponseEntity<TestUser> updateTestUser(@PathVariable("id") Integer id, @RequestBody TestUser testUser) {
-		Optional<TestUser> tutorialData = testUserService.getById(id);
+		Optional<TestUser> testUserData = testUserService.getById(id);
 
-		if (tutorialData.isPresent()) {
-			TestUser _testUser = tutorialData.get();
+		if (testUserData.isPresent()) {
+			TestUser _testUser = testUserData.get();
 			_testUser.setId(testUser.getId());
 			_testUser.setUsername(testUser.getUsername());
 			_testUser.setEmail(testUser.getEmail());
