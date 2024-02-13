@@ -1,0 +1,156 @@
+{
+	"info": {
+		"_postman_id": "732af0d5-7049-4ca8-8321-c167fe5b7616",
+		"name": "COMP313_Team_1_Backend_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31217253"
+	},
+	"item": [
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\":\"marcus\",\n    \"lastName\":\"chui\",\n    \"email\":\"marcus10@marcus.com\",\n    \"password\":\"marcus\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\":\"marcus@marcus.com\",\n    \"password\":\"marcus\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/signin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"signin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role required \"USER\" expect access ok",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/test/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"test",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role  no required expect everyone can access",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/test/anon",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"test",
+						"anon"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role required \"ADMIN\"  expect block",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/test/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"test",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "role required \"User\" for whole controller expect use bearer token to access",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/testUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"testUser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
