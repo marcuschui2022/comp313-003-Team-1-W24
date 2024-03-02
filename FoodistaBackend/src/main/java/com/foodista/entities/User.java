@@ -16,39 +16,42 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @ToString
-@Table(name = "jwt_test_users")
+@Table(name = "REGISTERED_USER")
 public class User implements UserDetails {
 
     @Id
+    @Column(name = "USER_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String firstName;
+    // @Column(name = "FULL_NAME")
+    String fullName;
 
-    String lastName;
+    // @Column(name = "USER_NAME")
+    String username;
 
     @Column(unique = true)
     String email;
 
+    @Column(name = "REGISTERED_USER_PASSWORD")
     String password;
 
-    @Enumerated(EnumType.STRING)
-    Role role;
+    @Column(name = "ROLE_ID")
+    Integer role;
+    // 1 is admin, 2 is user
 
-    LocalDateTime createdAt;
-
-    LocalDateTime updatedAt;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        // return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
     }
 
-    @Override
-    public String getUsername() {
-        // our "username" for security is the email field
-        return email;
-    }
+//   @Override
+//   public String getUsername() {
+//       // our "username" for security is the email field
+//       return email;
+//   }
 
     @Override
     public boolean isAccountNonExpired() {

@@ -32,11 +32,8 @@ public class UserService {
     }
 
     public User save(User newUser) {
-        if (newUser.getId() == null) {
-            newUser.setCreatedAt(LocalDateTime.now());
-        }
 
-        newUser.setUpdatedAt(LocalDateTime.now());
+        newUser.setRole(2);
 //        try {
         return userRepository.save(newUser);
 //        } catch (DataIntegrityViolationException e) {
