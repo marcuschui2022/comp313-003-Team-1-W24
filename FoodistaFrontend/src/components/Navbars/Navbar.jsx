@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -21,8 +21,7 @@ const logoStyle = {
 };
 
 function Navbar({mode, toggleColorMode}) {
-    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
-    const isUserLoggedIn = Boolean(token);
+    const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
     const [open, setOpen] = useState(false);
 
@@ -30,7 +29,7 @@ function Navbar({mode, toggleColorMode}) {
 
     const clearToken = () => {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        navigate('/')
+        setIsUserLoggedIn(false)
     }
 
     const toggleDrawer = (newOpen) => () => {
@@ -51,6 +50,17 @@ function Navbar({mode, toggleColorMode}) {
         }
     };
 
+    useEffect(() => {
+        const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+        if (token) {
+            console.log('User is logged in');
+            setIsUserLoggedIn(true);
+        } else {
+            console.log('User is not logged in');
+            setIsUserLoggedIn(false);
+        }
+    }, []);
+
     return (
         <div>
             <AppBar
@@ -60,9 +70,6 @@ function Navbar({mode, toggleColorMode}) {
                     bgcolor: "transparent",
                     backgroundImage: "none",
                     mt: 2,
-                    // borderWidth: '2px',
-                    // borderStyle: 'solid',
-                    // borderColor: 'red'
                 }}
             >
                 <Container maxWidth="lg">

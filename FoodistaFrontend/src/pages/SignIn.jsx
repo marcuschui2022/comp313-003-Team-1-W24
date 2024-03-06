@@ -155,7 +155,7 @@ export default function SignIn() {
                                 <Typography variant="body2" color="text.secondary" align="center">
                                     {'Copyright © '}
                                     <Link color="inherit" href="#" onClick={() => navigate('/')}>
-                                        Your Website
+                                        Foodista
                                     </Link>{' '}
                                     {new Date().getFullYear()}
                                     {'.'}
