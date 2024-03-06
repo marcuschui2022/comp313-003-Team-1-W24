@@ -7,24 +7,73 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {useNavigate} from "react-router-dom"
+import CircularIndeterminate from "../components/CircularIndeterminate.jsx";
+import {useState} from "react";
 
 const defaultTheme = createTheme();
 
 
 export default function SignIn() {
+    const [isLoading, setIsLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
+
+    const apiUrl = "/api/v1/signup";
+
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        setIsLoading(false)
+        setErrorMsg("")
+        const form = new FormData(event.currentTarget);
+        const formData = {
+            fullName: form.get('fullName'),
+            username: form.get('username'),
+            email: form.get('email'),
+            password: form.get('password'),
+            confirmPassword: form.get('confirmPassword'),
+        };
+
+        console.log(formData);
+
+        try {
+            setIsLoading(true)
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                // console.log(jsonResponse.token);
+                if (jsonResponse.token) {
+                    document.cookie = `token=${jsonResponse.token}`
+                    navigate('/')
+                }
+
+
+            } else {
+                const jsonResponse = await response.json();
+                if (jsonResponse.errorMessage) {
+                    setErrorMsg(jsonResponse.errorMessage);
+                } else {
+                    console.log('Error:', response.status, response.statusText);
+                }
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error);
+            setErrorMsg('Unexpected error: ' + error.message);
+        } finally {
+            setIsLoading(false)
+        }
     };
 
     return (
         <ThemeProvider theme={defaultTheme}>
+
             <Grid container component="main" sx={{height: '100vh'}}>
                 <CssBaseline/>
                 <Grid
@@ -77,6 +126,7 @@ export default function SignIn() {
                                 autoFocus
                             />
                             <TextField
+                                type="email"
                                 margin="normal"
                                 required
                                 fullWidth
@@ -104,14 +154,20 @@ export default function SignIn() {
                                 type="password"
                                 id="confirmPassword"
                             />
-
+                            {errorMsg && (
+                                <Typography color="error" sx={{mt: 2}}>
+                                    {errorMsg}
+                                </Typography>
+                            )}
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                                disabled={isLoading}
                             >
-                                Sign In
+                                {!isLoading ? "Sign In" : <CircularIndeterminate/>}
+
                             </Button>
                             <Grid container>
 

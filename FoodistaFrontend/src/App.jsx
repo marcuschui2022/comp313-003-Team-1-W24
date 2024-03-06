@@ -44,35 +44,4 @@ function App() {
     );
 }
 
-// function App() {
-//     const location = useLocation();
-//
-//     const [mode, setMode] = React.useState("light");
-//     const LPtheme = createTheme(getLPTheme(mode));
-//
-//     const toggleColorMode = () => {
-//         setMode((prev) => (prev === "dark" ? "light" : "dark"));
-//     };
-//
-//
-//     return (
-//         <ThemeProvider theme={LPtheme}>
-//             <CssBaseline/>
-//             <BrowserRouter>
-//
-//                 {/*<Navbar mode={mode} toggleColorMode={toggleColorMode}/>*/}
-//                 <Routes>
-//                     {location.pathname !== "/signup" && location.pathname !== "/signin" &&
-//                         <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
-//                     }
-//                     <Route path="/" element={<Home/>}/>
-//                     <Route path="/signup" element={<SignUp/>}/>
-//                     <Route path="/signin" element={<SignIn/>}/>
-//                 </Routes>
-//                 {/*<Footer/>*/}
-//             </BrowserRouter>
-//         </ThemeProvider>
-//     );
-// }
-
 export default App;
