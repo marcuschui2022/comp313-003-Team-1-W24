@@ -161,8 +161,7 @@ function Navbar({mode, toggleColorMode}) {
                                 variant="text"
                                 size="small"
                                 component="a"
-                                href="/material-ui/getting-started/templates/sign-in/"
-                                target="_blank"
+                                onClick={() => navigate('/signin')}
                             >
                                 Sign in
                             </Button>
@@ -172,7 +171,6 @@ function Navbar({mode, toggleColorMode}) {
                                 size="small"
                                 component="a"
                                 onClick={() => navigate('/signup')}
-                                // href="/signup"
                             >
                                 Sign up
                             </Button>
@@ -241,8 +239,7 @@ function Navbar({mode, toggleColorMode}) {
                                             color="primary"
                                             variant="outlined"
                                             component="a"
-                                            href="/material-ui/getting-started/templates/sign-in/"
-                                            target="_blank"
+                                            onClick={() => navigate('/signin')}
                                             sx={{width: "100%"}}
                                         >
                                             Sign in

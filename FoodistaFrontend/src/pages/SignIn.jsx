@@ -55,27 +55,9 @@ export default function SignIn() {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign Up
+                            Sign in
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="fullName"
-                                label="Full Name"
-                                name="fullName"
-                                autoFocus
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                id="username"
-                                label="User Name"
-                                name="username"
-                                autoFocus
-                            />
                             <TextField
                                 margin="normal"
                                 required
@@ -94,15 +76,7 @@ export default function SignIn() {
                                 label="Password"
                                 type="password"
                                 id="password"
-                            />
-                            <TextField
-                                margin="normal"
-                                required
-                                fullWidth
-                                name="confirmPassword"
-                                label="Confirm Password"
-                                type="password"
-                                id="confirmPassword"
+                                autoComplete="current-password"
                             />
 
                             <Button
@@ -114,21 +88,25 @@ export default function SignIn() {
                                 Sign In
                             </Button>
                             <Grid container>
-
+                                <Grid item xs>
+                                    <Link href="#" variant="body2">
+                                        Forgot password?
+                                    </Link>
+                                </Grid>
                                 <Grid item>
-                                    <Link href="#" variant="body2" onClick={() => navigate('/signin')}>
-                                        {"Have an account? Sign In"}
+                                    <Link href="#" variant="body2" onClick={() => navigate('/signup')}>
+                                        {"Don't have an account? Sign Up"}
                                     </Link>
                                 </Grid>
                             </Grid>
                             <Box sx={{mt: 5}}>
                                 <Typography variant="body2" color="text.secondary" align="center">
-                                    {'Copyright © '}
-                                    <Link color="inherit" href="#" onClick={() => navigate('/')}>
-                                        Your Website
-                                    </Link>{' '}
-                                    {new Date().getFullYear()}
-                                    {'.'}
+                                            {'Copyright © '}
+                                                <Link color="inherit" href="#" onClick={() => navigate('/')}>
+                                                    Your Website
+                                                </Link>{' '}
+                                                {new Date().getFullYear()}
+                                                {'.'}
                                 </Typography>
                             </Box>
                         </Box>

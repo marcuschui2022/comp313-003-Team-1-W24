@@ -1,34 +1,78 @@
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as React from "react";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import getLPTheme from "./pages/getLPTheme.js";
-import Navbar from "./components/Navbars/Navbar.jsx";
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import Navbar from "./components/Navbars/Navbar.jsx";
 
+function AppRoutes({mode, toggleColorMode}) {
+    const location = useLocation();
+
+    return (
+        <>
+            {location.pathname !== '/signup' && location.pathname !== '/signin' &&
+                <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
+            }
+            <Routes>
+                <Route path='/' element={<Home/>}/>
+                <Route path='/signup' element={<SignUp/>}/>
+                <Route path='/signin' element={<SignIn/>}/>
+            </Routes>
+        </>
+    )
+}
 
 function App() {
-    const [mode, setMode] = React.useState("light");
+
+    const [mode, setMode] = React.useState('light');
     const LPtheme = createTheme(getLPTheme(mode));
 
     const toggleColorMode = () => {
-        setMode((prev) => (prev === "dark" ? "light" : "dark"));
+        setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
     };
-
 
     return (
         <ThemeProvider theme={LPtheme}>
             <CssBaseline/>
             <BrowserRouter>
-                <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/signup" element={<SignUp/>}/>
-                </Routes>
+                <AppRoutes mode={mode} toggleColorMode={toggleColorMode}/>
             </BrowserRouter>
         </ThemeProvider>
     );
 }
+
+// function App() {
+//     const location = useLocation();
+//
+//     const [mode, setMode] = React.useState("light");
+//     const LPtheme = createTheme(getLPTheme(mode));
+//
+//     const toggleColorMode = () => {
+//         setMode((prev) => (prev === "dark" ? "light" : "dark"));
+//     };
+//
+//
+//     return (
+//         <ThemeProvider theme={LPtheme}>
+//             <CssBaseline/>
+//             <BrowserRouter>
+//
+//                 {/*<Navbar mode={mode} toggleColorMode={toggleColorMode}/>*/}
+//                 <Routes>
+//                     {location.pathname !== "/signup" && location.pathname !== "/signin" &&
+//                         <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
+//                     }
+//                     <Route path="/" element={<Home/>}/>
+//                     <Route path="/signup" element={<SignUp/>}/>
+//                     <Route path="/signin" element={<SignIn/>}/>
+//                 </Routes>
+//                 {/*<Footer/>*/}
+//             </BrowserRouter>
+//         </ThemeProvider>
+//     );
+// }
 
 export default App;
