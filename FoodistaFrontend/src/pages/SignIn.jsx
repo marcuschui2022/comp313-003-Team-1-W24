@@ -7,22 +7,68 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import {useNavigate} from "react-router-dom"
+import {useState} from "react";
+import CircularIndeterminate from "../components/CircularIndeterminate.jsx";
 
 const defaultTheme = createTheme();
 
 
 export default function SignIn() {
-   
+    const [isLoading, setIsLoading] = useState(false)
+    const [errorMsg, setErrorMsg] = useState("")
+
+    const apiUrl = "/api/v1/signin";
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
+        setIsLoading(false)
+        setErrorMsg("")
+        const form = new FormData(event.currentTarget);
+        const formData = {
+            email: form.get('email'),
+            password: form.get('password'),
+        };
+
+        try {
+            setIsLoading(true)
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                console.log(jsonResponse.token)
+                if (jsonResponse.token) {
+                    document.cookie = `token=${jsonResponse.token}`
+                    navigate('/')
+                }
+
+            } else {
+                if (response.status === 401) {
+                    setErrorMsg("Invalid email or password");
+                } else {
+                    const jsonResponse = await response.json();
+                    if (jsonResponse.errorMessage) {
+                        setErrorMsg(jsonResponse.errorMessage);
+                    } else {
+                        console.log('Error:', response.status, response.statusText);
+                    }
+                }
+
+            }
+        } catch (error) {
+            console.error('Unexpected error:', error);
+            setErrorMsg('Unexpected error: ' + error.message);
+        } finally {
+            setIsLoading(false)
+        }
+
     };
 
     return (
@@ -57,7 +103,7 @@ export default function SignIn() {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Sign In
                         </Typography>
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
                             <TextField
@@ -80,14 +126,18 @@ export default function SignIn() {
                                 id="password"
                                 autoComplete="current-password"
                             />
-
+                            {errorMsg && (
+                                <Typography color="error" sx={{mt: 2}}>
+                                    {errorMsg}
+                                </Typography>
+                            )}
                             <Button
                                 type="submit"
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
                             >
-                                Sign In
+                                {!isLoading ? "Sign In" : <CircularIndeterminate/>}
                             </Button>
                             <Grid container>
                                 <Grid item xs>
@@ -103,12 +153,12 @@ export default function SignIn() {
                             </Grid>
                             <Box sx={{mt: 5}}>
                                 <Typography variant="body2" color="text.secondary" align="center">
-                                            {'Copyright © '}
-                                                <Link color="inherit" href="#" onClick={() => navigate('/')}>
-                                                    Your Website
-                                                </Link>{' '}
-                                                {new Date().getFullYear()}
-                                                {'.'}
+                                    {'Copyright © '}
+                                    <Link color="inherit" href="#" onClick={() => navigate('/')}>
+                                        Your Website
+                                    </Link>{' '}
+                                    {new Date().getFullYear()}
+                                    {'.'}
                                 </Typography>
                             </Box>
                         </Box>

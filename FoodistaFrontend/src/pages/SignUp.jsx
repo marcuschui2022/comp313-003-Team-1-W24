@@ -39,8 +39,6 @@ export default function SignIn() {
             return
         }
 
-        console.log(formData);
-
         try {
             setIsLoading(true)
             const response = await fetch(apiUrl, {
@@ -170,7 +168,7 @@ export default function SignIn() {
                                 sx={{mt: 3, mb: 2}}
                                 disabled={isLoading}
                             >
-                                {!isLoading ? "Sign In" : <CircularIndeterminate/>}
+                                {!isLoading ? "Sign Up" : <CircularIndeterminate/>}
 
                             </Button>
                             <Grid container>
