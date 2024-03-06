@@ -136,6 +136,7 @@ export default function SignIn() {
                                 fullWidth
                                 variant="contained"
                                 sx={{mt: 3, mb: 2}}
+                                disabled={isLoading}
                             >
                                 {!isLoading ? "Sign In" : <CircularIndeterminate/>}
                             </Button>
