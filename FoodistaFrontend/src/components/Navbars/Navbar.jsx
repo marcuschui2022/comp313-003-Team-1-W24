@@ -1,4 +1,4 @@
-import * as React from "react";
+import {useState} from "react";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -21,9 +21,17 @@ const logoStyle = {
 };
 
 function Navbar({mode, toggleColorMode}) {
-    const [open, setOpen] = React.useState(false);
+    const token = document.cookie.split('; ').find(row => row.startsWith('token='));
+    const isUserLoggedIn = Boolean(token);
+
+    const [open, setOpen] = useState(false);
 
     const navigate = useNavigate();
+
+    const clearToken = () => {
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        navigate('/')
+    }
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -156,7 +164,7 @@ function Navbar({mode, toggleColorMode}) {
                             }}
                         >
                             <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode}/>
-                            <Button
+                            {!isUserLoggedIn ? <><Button
                                 color="primary"
                                 variant="text"
                                 size="small"
@@ -165,15 +173,25 @@ function Navbar({mode, toggleColorMode}) {
                             >
                                 Sign in
                             </Button>
-                            <Button
-                                color="primary"
-                                variant="contained"
-                                size="small"
-                                component="a"
-                                onClick={() => navigate('/signup')}
-                            >
-                                Sign up
-                            </Button>
+                                <Button
+                                    color="primary"
+                                    variant="contained"
+                                    size="small"
+                                    component="a"
+                                    onClick={() => navigate('/signup')}
+                                >
+                                    Sign up
+                                </Button></> : <><Typography sx={{color: 'primary.main'}}>Welcome, User!</Typography>
+                                <Button
+                                    color="primary"
+                                    variant="outlined"
+                                    size="small"
+                                    component="a"
+                                    onClick={clearToken}
+                                >
+                                    Logout
+                                </Button></>}
+
                         </Box>
                         <Box sx={{display: {sm: "", md: "none"}}}>
                             <Button
@@ -223,7 +241,7 @@ function Navbar({mode, toggleColorMode}) {
                                         FAQ
                                     </MenuItem>
                                     <Divider/>
-                                    <MenuItem>
+                                    {!isUserLoggedIn ? <> <MenuItem>
                                         <Button
                                             color="primary"
                                             variant="contained"
@@ -231,20 +249,32 @@ function Navbar({mode, toggleColorMode}) {
                                             sx={{width: "100%"}}
                                             onClick={() => navigate('/signup')}
                                         >
-                                            Sign up1
+                                            Sign up
                                         </Button>
                                     </MenuItem>
-                                    <MenuItem>
+                                        <MenuItem>
+                                            <Button
+                                                color="primary"
+                                                variant="outlined"
+                                                component="a"
+                                                onClick={() => navigate('/signin')}
+                                                sx={{width: "100%"}}
+                                            >
+                                                Sign in
+                                            </Button>
+                                        </MenuItem></> : <> <MenuItem><Typography sx={{color: 'primary.main'}}>Welcome,
+                                        user!</Typography></MenuItem> <MenuItem>
                                         <Button
                                             color="primary"
                                             variant="outlined"
                                             component="a"
-                                            onClick={() => navigate('/signin')}
+                                            onClick={clearToken}
                                             sx={{width: "100%"}}
                                         >
-                                            Sign in
+                                            Logout
                                         </Button>
-                                    </MenuItem>
+                                    </MenuItem></>}
+
                                 </Box>
                             </Drawer>
                         </Box>

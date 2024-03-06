@@ -34,6 +34,11 @@ export default function SignIn() {
             confirmPassword: form.get('confirmPassword'),
         };
 
+        if (formData.password !== formData.confirmPassword) {
+            setErrorMsg("Passwords do not match");
+            return
+        }
+
         console.log(formData);
 
         try {
@@ -48,7 +53,6 @@ export default function SignIn() {
 
             if (response.ok) {
                 const jsonResponse = await response.json();
-                // console.log(jsonResponse.token);
                 if (jsonResponse.token) {
                     document.cookie = `token=${jsonResponse.token}`
                     navigate('/')
@@ -106,7 +110,7 @@ export default function SignIn() {
                         <Typography component="h1" variant="h5">
                             Sign Up
                         </Typography>
-                        <Box component="form" noValidate onSubmit={handleSubmit} sx={{mt: 1}}>
+                        <Box component="form" onSubmit={handleSubmit} sx={{mt: 1}}>
                             <TextField
                                 margin="normal"
                                 required
