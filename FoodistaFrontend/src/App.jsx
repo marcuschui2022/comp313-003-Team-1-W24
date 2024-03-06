@@ -1,36 +1,47 @@
-// import "./App.css";
-// import "@fontsource/roboto/300.css";
-// import "@fontsource/roboto/400.css";
-// import "@fontsource/roboto/500.css";
-// import "@fontsource/roboto/700.css";
-import Home from "./pages/Home";
+import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
+import CssBaseline from "@mui/material/CssBaseline";
+import * as React from "react";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
+import getLPTheme from "./pages/getLPTheme.js";
+import Home from "./pages/Home.jsx";
+import SignUp from "./pages/SignUp.jsx";
+import SignIn from "./pages/SignIn.jsx";
+import Navbar from "./components/Navbars/Navbar.jsx";
+
+function AppRoutes({mode, toggleColorMode}) {
+    const location = useLocation();
+
+    return (
+        <>
+            {location.pathname !== '/signup' && location.pathname !== '/signin' &&
+                <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
+            }
+            <Routes>
+                <Route path='/' element={<Home/>}/>
+                <Route path='/signup' element={<SignUp/>}/>
+                <Route path='/signin' element={<SignIn/>}/>
+            </Routes>
+        </>
+    )
+}
 
 function App() {
-  return (
-    <>
-      <Home />
-      {/* <div> */}
-      {/*   <a href="https://vitejs.dev" target="_blank"> */}
-      {/*     <img src={viteLogo} className="logo" alt="Vite logo" /> */}
-      {/*   </a> */}
-      {/*   <a href="https://react.dev" target="_blank"> */}
-      {/*     <img src={reactLogo} className="logo react" alt="React logo" /> */}
-      {/*   </a> */}
-      {/* </div> */}
-      {/* <h1>Vite + React</h1> */}
-      {/* <div className="card"> */}
-      {/*   <button onClick={() => setCount((count) => count + 1)}> */}
-      {/*     count is {count} */}
-      {/*   </button> */}
-      {/*   <p> */}
-      {/*     Edit <code>src/App.jsx</code> and save to test HMR */}
-      {/*   </p> */}
-      {/* </div> */}
-      {/* <p className="read-the-docs"> */}
-      {/*   Click on the Vite and React logos to learn more */}
-      {/* </p> */}
-    </>
-  );
+
+    const [mode, setMode] = React.useState('light');
+    const LPtheme = createTheme(getLPTheme(mode));
+
+    const toggleColorMode = () => {
+        setMode(prev => (prev === 'dark' ? 'light' : 'dark'));
+    };
+
+    return (
+        <ThemeProvider theme={LPtheme}>
+            <CssBaseline/>
+            <BrowserRouter>
+                <AppRoutes mode={mode} toggleColorMode={toggleColorMode}/>
+            </BrowserRouter>
+        </ThemeProvider>
+    );
 }
 
 export default App;
