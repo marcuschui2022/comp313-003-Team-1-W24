@@ -46,6 +46,7 @@ export default function SignIn() {
                 console.log(jsonResponse.token)
                 if (jsonResponse.token) {
                     document.cookie = `token=${jsonResponse.token}`
+                    document.cookie = `fullName=${jsonResponse.fullName}`
                     navigate('/')
                 }
 

@@ -24,6 +24,7 @@ function Navbar({mode, toggleColorMode}) {
     const [isUserLoggedIn, setIsUserLoggedIn] = useState(false)
 
     const [open, setOpen] = useState(false);
+    const [fullName, setFullName] = useState("User")
 
     const navigate = useNavigate();
 
@@ -53,6 +54,8 @@ function Navbar({mode, toggleColorMode}) {
     useEffect(() => {
         const token = document.cookie.split('; ').find(row => row.startsWith('token='));
         if (token) {
+            const fullName = document.cookie.split('; ').find(row => row.startsWith('fullName='));
+            setFullName(fullName.split('=')[1])
             console.log('User is logged in');
             setIsUserLoggedIn(true);
         } else {
@@ -188,7 +191,7 @@ function Navbar({mode, toggleColorMode}) {
                                     onClick={() => navigate('/signup')}
                                 >
                                     Sign up
-                                </Button></> : <><Typography sx={{color: 'primary.main'}}>Welcome, User!</Typography>
+                                </Button></> : <><Typography sx={{color: 'primary.main'}}>Welcome, {fullName}!</Typography>
                                 <Button
                                     color="primary"
                                     variant="outlined"
