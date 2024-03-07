@@ -3,6 +3,8 @@ package com.foodista.controller;
 import com.foodista.dto.JwtAuthenticationResponse;
 import com.foodista.dto.SignInRequest;
 import com.foodista.dto.SignUpRequest;
+import com.foodista.dto.SignInResponse;
+
 import com.foodista.services.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -25,7 +27,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signin")
-    public JwtAuthenticationResponse signin(@RequestBody SignInRequest request) {
+    public SignInResponse signin(@RequestBody SignInRequest request) {
         return authenticationService.signin(request);
     }
 }
