@@ -6,6 +6,7 @@ import com.foodista.dto.SignUpRequest;
 import com.foodista.dto.SignInResponse;
 
 import com.foodista.services.AuthenticationService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,12 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
 
     @PostMapping("/signup")
-    public ResponseEntity signup(@RequestBody SignUpRequest request) {
+    public ResponseEntity signup(@Valid @RequestBody SignUpRequest request) {
         return authenticationService.signup(request);
     }
 
     @PostMapping("/signin")
-    public SignInResponse signin(@RequestBody SignInRequest request) {
+    public SignInResponse signin(@Valid @RequestBody SignInRequest request) {
         return authenticationService.signin(request);
     }
 }

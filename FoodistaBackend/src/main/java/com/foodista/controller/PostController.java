@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/v1/post")
 public class PostController {
 
-    @GetMapping("/")
+    @GetMapping()
     public String anonEndPoint() {
         return "everyone can see this";
     }
