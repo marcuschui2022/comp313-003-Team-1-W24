@@ -38,6 +38,10 @@ public class User implements UserDetails {
     @Column(name = "REGISTERED_USER_PASSWORD")
     String password;
 
+    @Column(name = "ROLE_ID")
+    Integer roleId;
+    // 1 is admin, 2 is user
+
     @Enumerated(EnumType.STRING)
     Role role;
 
