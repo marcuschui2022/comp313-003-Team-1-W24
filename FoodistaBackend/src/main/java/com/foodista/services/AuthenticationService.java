@@ -7,9 +7,9 @@ import com.foodista.dto.SignUpRequest;
 import com.foodista.dto.SignInResponse;
 
 import com.foodista.entities.User;
-import com.foodista.models.Role;
+import com.foodista.entities.Role;
 import com.foodista.repositories.UserRepository;
-
+import com.foodista.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -21,25 +21,35 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     public ResponseEntity signup(SignUpRequest request) {
+        Optional<Role> optionalRole = roleRepository.findById(2);
+
+        if (optionalRole.isEmpty()) {
+            throw new RuntimeException("Default role not found");
+        }
+
+        Role defaultRole = optionalRole.get();
+
         var user = User
                 .builder()
                 .fullName(request.getFullName())
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(Role.ROLE_USER)
+                .roleId(defaultRole.getId())
                 .build();
 
 //        user = userService.save(user);
@@ -49,7 +59,6 @@ public class AuthenticationService {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("duplicate email address"));
 
         }
-
 
         var jwt = jwtService.generateToken(user);
 

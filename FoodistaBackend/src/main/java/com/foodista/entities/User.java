@@ -9,9 +9,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-import com.foodista.models.Role;
-
-
 @Data
 @Builder
 @NoArgsConstructor
@@ -38,13 +35,20 @@ public class User implements UserDetails {
     @Column(name = "REGISTERED_USER_PASSWORD")
     String password;
 
-    @Enumerated(EnumType.STRING)
-    Role role;
+    @Column(name = "ROLE_ID")
+    Integer roleId;
+    // 1 is admin, 2 is user
 
+//    @Enumerated(EnumType.STRING)
+//    Role role;
+
+    @OneToOne(fetch = FetchType.EAGER) // Adjust fetch type as needed
+    @JoinColumn(name = "ROLE_ID", insertable = false, updatable = false)
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
+        return List.of(new SimpleGrantedAuthority(role.getRoleName()));
     }
 
     @Override
