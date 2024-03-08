@@ -37,7 +37,7 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .roleId(2)
-                .role(Role.ROLE_USER)
+                //.role(Role.ROLE_USER)
                 .build();
 
 //        user = userService.save(user);
@@ -63,14 +63,13 @@ public class AuthenticationService {
 
     }
 
-
     public SignInResponse signin(SignInRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
-        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
+        var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));  
         var jwt = jwtService.generateToken(user);
 
-        return SignInResponse.builder().token(jwt).fullName(user.getFullName()).build();
+        return SignInResponse.builder().token(jwt).fullName(user.getFullName()).role(user.getRole().getRoleName()).build();
     }
 
 }
