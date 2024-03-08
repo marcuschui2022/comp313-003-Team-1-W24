@@ -13,4 +13,5 @@ import lombok.NoArgsConstructor;
 public class SignInResponse {
     String token;
     String fullName;
+    String role;
 }
