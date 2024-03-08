@@ -36,18 +36,27 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .roleId(2)
                 .role(Role.ROLE_USER)
                 .build();
 
 //        user = userService.save(user);
+        
+        // check duplicate email records
+        if (!userRepository.findByEmail(user.getEmail()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("duplicate email address"));
+        }
+
+        // save new user
         try {
             user = userService.save(user);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("duplicate email address"));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("data integrity violation"));
 
         }
 
 
+        // generate the token for authenication
         var jwt = jwtService.generateToken(user);
 //        return JwtAuthenticationResponse.builder().token(jwt).build();
         return ResponseEntity.status(HttpStatus.OK).body(new JwtAuthenticationResponse(jwt));
