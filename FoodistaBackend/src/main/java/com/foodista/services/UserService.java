@@ -25,21 +25,20 @@ public class UserService {
         return new UserDetailsService() {
             @Override
             public UserDetails loadUserByUsername(String username) {
-                return userRepository.findByUsername(username)
+                return userRepository.findByEmail(username)
                         .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             }
         };
     }
 
     public User save(User newUser) {
-
-        newUser.setRole(2);
-//        try {
-        return userRepository.save(newUser);
-//        } catch (DataIntegrityViolationException e) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Duplicate key", e);
-//            return new User();
+//        if (newUser.getId() == null) {
+//            newUser.setCreatedAt(LocalDateTime.now());
 //        }
+//
+//        newUser.setUpdatedAt(LocalDateTime.now());
+        return userRepository.save(newUser);
     }
+
 
 }

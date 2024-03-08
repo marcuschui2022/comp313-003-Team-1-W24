@@ -6,14 +6,13 @@ import com.foodista.dto.SignInRequest;
 import com.foodista.dto.SignUpRequest;
 import com.foodista.dto.SignInResponse;
 
-import com.foodista.entities.Role;
 import com.foodista.entities.User;
+import com.foodista.models.Role;
 import com.foodista.repositories.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -37,7 +36,7 @@ public class AuthenticationService {
                 .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(2)
+                .role(Role.ROLE_USER)
                 .build();
 
 //        user = userService.save(user);

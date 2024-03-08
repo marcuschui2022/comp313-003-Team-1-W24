@@ -18,7 +18,13 @@ public class PostController {
 
     @GetMapping()
     public String anonEndPoint() {
-        return "everyone can see this";
+        return "everyone can see this post";
+    }
+
+    @GetMapping("/user")
+    @PreAuthorize("hasRole('USER')")
+    public String usersEndPoint() {
+        return "ONLY users can see this";
     }
 
 }

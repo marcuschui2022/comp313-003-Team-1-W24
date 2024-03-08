@@ -6,9 +6,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+
+import com.foodista.models.Role;
+
 
 @Data
 @Builder
@@ -28,7 +30,6 @@ public class User implements UserDetails {
     String fullName;
 
     // @Column(name = "USER_NAME")
-    @Column(unique = true)
     String username;
 
     @Column(unique = true)
@@ -37,22 +38,20 @@ public class User implements UserDetails {
     @Column(name = "REGISTERED_USER_PASSWORD")
     String password;
 
-    @Column(name = "ROLE_ID")
-    Integer role;
-    // 1 is admin, 2 is user
+    @Enumerated(EnumType.STRING)
+    Role role;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // return List.of(new SimpleGrantedAuthority(role.name()));
-        return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
-//   @Override
-//   public String getUsername() {
-//       // our "username" for security is the email field
-//       return email;
-//   }
+    @Override
+    public String getUsername() {
+        // our "username" for security is the email field
+        return email;
+    }
 
     @Override
     public boolean isAccountNonExpired() {
