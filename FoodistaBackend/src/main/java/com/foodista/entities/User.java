@@ -28,6 +28,7 @@ public class User implements UserDetails {
     String fullName;
 
     // @Column(name = "USER_NAME")
+    @Column(unique = true)
     String username;
 
     @Column(unique = true)
