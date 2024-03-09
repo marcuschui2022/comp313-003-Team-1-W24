@@ -59,6 +59,11 @@ function Navbar({ mode, toggleColorMode }) {
       const fullName = document.cookie
         .split("; ")
         .find((row) => row.startsWith("fullName="));
+      if (fullName === undefined) {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
+
       setFullName(fullName.split("=")[1]);
       console.log("User is logged in");
       setIsUserLoggedIn(true);
