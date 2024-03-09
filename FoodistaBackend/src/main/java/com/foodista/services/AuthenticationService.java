@@ -1,10 +1,6 @@
 package com.foodista.services;
 
-import com.foodista.dto.ErrorResponse;
-import com.foodista.dto.JwtAuthenticationResponse;
-import com.foodista.dto.SignInRequest;
-import com.foodista.dto.SignUpRequest;
-import com.foodista.dto.SignInResponse;
+import com.foodista.dto.*;
 
 import com.foodista.entities.User;
 import com.foodista.entities.Role;
@@ -18,9 +14,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.AuthenticationException;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -34,7 +29,7 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public ResponseEntity signup(SignUpRequest request) {
+    public ResponseEntity<AuthenticationResponse> signUp(SignUpRequest request) {
         Optional<Role> optionalRole = roleRepository.findById(2);
 
         if (optionalRole.isEmpty()) {
@@ -52,32 +47,33 @@ public class AuthenticationService {
                 .roleId(defaultRole.getId())
                 .build();
 
-//        user = userService.save(user);
         try {
             user = userService.save(user);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("duplicate email address"));
-
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthenticationResponse.builder().status(HttpStatus.BAD_REQUEST.name()).message("Duplicate email address").build());
         }
 
         var jwt = jwtService.generateToken(user);
 
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("token", jwt);
-        responseMap.put("fullName", user.getFullName());
-//        return JwtAuthenticationResponse.builder().token(jwt).build();
-//        return ResponseEntity.status(HttpStatus.OK).body(new JwtAuthenticationResponse(jwt));
-        return ResponseEntity.status(HttpStatus.OK).body(responseMap);
+        return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
     }
 
 
-    public SignInResponse signin(SignInRequest request) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+    public ResponseEntity<AuthenticationResponse> signIn(SignInRequest request) {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(AuthenticationResponse.builder()
+                    .status(HttpStatus.UNAUTHORIZED.name())
+                    .message("Invalid email or password")
+                    .build());
+
+        }
 
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
         var jwt = jwtService.generateToken(user);
 
-        return SignInResponse.builder().token(jwt).fullName(user.getFullName()).build();
+        return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
     }
 
 }
