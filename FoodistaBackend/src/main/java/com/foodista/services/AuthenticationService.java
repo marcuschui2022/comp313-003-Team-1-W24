@@ -50,12 +50,12 @@ public class AuthenticationService {
         try {
             user = userService.save(user);
         } catch (DataIntegrityViolationException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(AuthenticationResponse.builder().status(HttpStatus.BAD_REQUEST.name()).message("Duplicate email address").build());
+            return ResponseEntity.badRequest().body(AuthenticationResponse.builder().status(HttpStatus.BAD_REQUEST.name()).message("Duplicate email address").build());
         }
 
         var jwt = jwtService.generateToken(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
+        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
     }
 
 
@@ -73,7 +73,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
         var jwt = jwtService.generateToken(user);
 
-        return ResponseEntity.status(HttpStatus.OK).body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
+        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
     }
 
 }
