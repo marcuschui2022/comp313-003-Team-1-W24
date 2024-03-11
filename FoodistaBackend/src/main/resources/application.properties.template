@@ -1,0 +1,12 @@
+# Postgre or oracel
+spring.datasource.url=your_db_url
+spring.datasource.username=your_db_username
+spring.datasource.password=your_db_password
+# If you use oracle, do not forget to add the oracle driver to pom
+#spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
+# Hibernate ddl auto (create, create-drop, validate, update)
+spring.jpa.hibernate.ddl-auto=update
+# JWT secret key at least length>=34
+token.secret.key=your_jwt_sercret
+# JWT expiration is 1 hour
+token.expirationms=3600000
