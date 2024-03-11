@@ -5,11 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +26,16 @@ public class JwtService {
 
     @Value("${token.expirationms}")
     Long jwtExpirationMs;
+
+    String jwtSecretKeyBase64;
+    private Key key;
+
+    @PostConstruct
+    private void init() {
+        jwtSecretKeyBase64 = Base64.getEncoder().encodeToString(jwtSecretKey.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKeyBase64);
+        key = Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String extractUserName(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -71,8 +84,9 @@ public class JwtService {
     }
 
     private Key getSigningKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKey);
-        return Keys.hmacShaKeyFor(keyBytes);
+//        byte[] keyBytes = Decoders.BASE64.decode(jwtSecretKeyBase64);
+//        return Keys.hmacShaKeyFor(keyBytes);
+        return key;
     }
 
 }
