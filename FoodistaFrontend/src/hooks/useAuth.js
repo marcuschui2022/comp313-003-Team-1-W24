@@ -1,6 +1,8 @@
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
+const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
+
 export const useAuth = (apiUrl) => {
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -19,7 +21,7 @@ export const useAuth = (apiUrl) => {
 
         try {
             setIsLoading(true);
-            const response = await fetch(apiUrl, {
+            const response = await fetch(apiBaseUrl + apiUrl, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
