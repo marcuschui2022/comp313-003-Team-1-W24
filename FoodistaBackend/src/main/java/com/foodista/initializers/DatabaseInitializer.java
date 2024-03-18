@@ -1,9 +1,12 @@
 package com.foodista.initializers;
 
 import com.foodista.entities.Role;
-import com.foodista.repositories.RoleRepository;
 import com.foodista.entities.PostType;
+import com.foodista.entities.CategoryDetail;
+
+import com.foodista.repositories.RoleRepository;
 import com.foodista.repositories.PostTypeRepository;
+import com.foodista.repositories.CategoryDetailRepository;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,10 +17,16 @@ public class DatabaseInitializer implements CommandLineRunner {
 
     private final RoleRepository roleRepository;
     private final PostTypeRepository postTypeRepository;
+    private final CategoryDetailRepository categoryDetailRepository;
 
-    public DatabaseInitializer(RoleRepository roleRepository, PostTypeRepository postTypeRepository) {
+    public DatabaseInitializer(
+        RoleRepository roleRepository, 
+        PostTypeRepository postTypeRepository,
+        CategoryDetailRepository categoryDetailRepository
+    ) {
         this.roleRepository = roleRepository;
         this.postTypeRepository = postTypeRepository;
+        this.categoryDetailRepository = categoryDetailRepository;
     }
 
     @Override
@@ -38,23 +47,37 @@ public class DatabaseInitializer implements CommandLineRunner {
         }
 
         if(postTypeRepository.count() == 0) {
-            PostType recipt = new PostType();
-            recipt.setPostTypeId(1);
-            recipt.setPostTypeName("Recipt");
-            recipt.setPostTypeDescription("Food recipt");
-            postTypeRepository.save(recipt);
+            PostType normal = new PostType();
+            normal.setPostTypeId(1);
+            normal.setPostTypeName("normal");
+            normal.setPostTypeDescription("normal");
+            postTypeRepository.save(normal);
 
-            PostType food = new PostType();
-            food.setPostTypeId(2);
-            food.setPostTypeName("Food");
-            food.setPostTypeDescription("Food share");
-            postTypeRepository.save(food);
+            PostType premium = new PostType();
+            premium.setPostTypeId(2);
+            premium.setPostTypeName("premium");
+            premium.setPostTypeDescription("premium");
+            postTypeRepository.save(premium);
+        }
 
-            PostType restaurant = new PostType();
-            restaurant.setPostTypeId(3);
-            restaurant.setPostTypeName("Restaurant");
-            restaurant.setPostTypeDescription("Restaurant Share");
-            postTypeRepository.save(restaurant);
+        if(categoryDetailRepository.count() == 0) {
+            CategoryDetail recipt = new CategoryDetail();
+            recipt.setCategoryId((long)1);
+            recipt.setCategoryName("Recipt");
+            recipt.setCategoryDescription("Food recipt");
+            categoryDetailRepository.save(recipt);
+
+            CategoryDetail food = new CategoryDetail();
+            food.setCategoryId((long)2);
+            food.setCategoryName("Food");
+            food.setCategoryDescription("Food share");
+            categoryDetailRepository.save(food);
+
+            CategoryDetail restaurant = new CategoryDetail();
+            restaurant.setCategoryId((long)3);
+            restaurant.setCategoryName("Restaurant");
+            restaurant.setCategoryDescription("Restaurant Share");
+            categoryDetailRepository.save(restaurant);
         }
     }
 }

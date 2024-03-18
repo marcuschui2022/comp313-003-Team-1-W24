@@ -39,11 +39,11 @@ public class BlogService {
     public List<Blog> getByUserId(final Integer user_id) {
 
         List<Blog> blogs = new ArrayList<Blog>();
-        System.out.println("getUser1");
+        // System.out.println("getUser1");
 
         blogRepository.findByUserID(user_id).forEach(blogs::add);
         System.out.println(blogs);
-        System.out.println("getUser2");
+        // System.out.println("getUser2");
 
         return blogs;
     }
