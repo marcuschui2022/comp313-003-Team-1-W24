@@ -29,7 +29,7 @@ import java.util.Optional;
 public class BlogController {
 
     @Autowired
-    private BlogService blogService;
+    private final BlogService blogService;
     private final UserRepository userRepository;
 
     @GetMapping("/")
