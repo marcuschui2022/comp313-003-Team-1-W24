@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import com.foodista.entities.Blog;
 import com.foodista.repositories.BlogRepository;
+import com.foodista.dto.BlogRequest;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class BlogService {
         List<Blog> blogs = new ArrayList<Blog>();
 
         blogRepository.findAll().forEach(blogs::add);
-
+        //System.out.println(blogs);
         return blogs;
     }
 
@@ -38,8 +39,11 @@ public class BlogService {
     public List<Blog> getByUserId(final Integer user_id) {
 
         List<Blog> blogs = new ArrayList<Blog>();
+        System.out.println("getUser1");
 
         blogRepository.findByUserID(user_id).forEach(blogs::add);
+        System.out.println(blogs);
+        System.out.println("getUser2");
 
         return blogs;
     }
@@ -48,11 +52,13 @@ public class BlogService {
         return blogRepository.findById(id);
     }
 
-    public Optional<Blog> update(final Integer id, final Blog blog) {
-        return blogRepository.findById(id).map(existingBlog -> {
+    public Optional<Blog> update(final Integer id, final BlogRequest blog) {
+        Integer user_id = Integer.valueOf(blog.getUser_id());
+
+        return blogRepository.findByIDAndUserID(id,user_id).map(existingBlog -> {
             if (existingBlog != null) {
                 existingBlog.setTitle(blog.getTitle());
-                existingBlog.setBlogDescription(blog.getBlogDescription());
+                existingBlog.setBlogDescription(blog.getBlog_description());
                 return blogRepository.save(existingBlog);
             } else {
                 return null;
@@ -61,6 +67,8 @@ public class BlogService {
     }
 
     public Blog save(final Blog blog) {
+        // System.out.println("blog");
+        // System.out.println(blog);
         return blogRepository.save(blog);
     }
 
