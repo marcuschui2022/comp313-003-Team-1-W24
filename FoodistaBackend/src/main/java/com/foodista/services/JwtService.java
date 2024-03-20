@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.foodista.entities.User;
+
 @Service
 public class JwtService {
 
@@ -41,8 +43,20 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String extractUserId(String token) {
+        // System.out.println("extractUserId");
+        Claims claims = extractAllClaims(token);
+        //  System.out.println(claims);
+        //   System.out.println(claims.get("userId"));
+
+        String id =claims.get("userId")  +"";         
+        return id;
+    }
+
+    public String generateToken(User userDetails) {
+        Map<String, Object> obj = new HashMap<>();
+        obj.put("userId", userDetails.getUserId());
+        return generateToken(obj, userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

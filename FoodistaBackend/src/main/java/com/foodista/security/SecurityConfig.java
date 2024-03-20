@@ -57,8 +57,7 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(entryPoint))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
-                        // .requestMatchers("/api/v1/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/test/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/post/**", "/api/v1/post/user/**" ,"/api/v1/post/blog/**" ).permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

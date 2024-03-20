@@ -58,6 +58,12 @@ public class DatabaseInitializer implements CommandLineRunner {
             premium.setPostTypeName("premium");
             premium.setPostTypeDescription("premium");
             postTypeRepository.save(premium);
+
+            PostType archive = new PostType();
+            archive.setPostTypeId(3);
+            archive.setPostTypeName("archive");
+            archive.setPostTypeDescription("archive");
+            postTypeRepository.save(archive);
         }
 
         if(categoryDetailRepository.count() == 0) {
