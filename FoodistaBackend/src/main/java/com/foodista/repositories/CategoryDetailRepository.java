@@ -1,8 +1,15 @@
 package com.foodista.repositories;
 
+import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import com.foodista.entities.CategoryDetail;
-import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryDetailRepository extends JpaRepository<CategoryDetail, Integer> {
+public interface CategoryDetailRepository extends JpaRepository<CategoryDetail, Long> {
+
+    @Query("SELECT c FROM CategoryDetail c WHERE c.categoryId = ?1")
+    Optional<CategoryDetail> findById(Integer id);
+
 }

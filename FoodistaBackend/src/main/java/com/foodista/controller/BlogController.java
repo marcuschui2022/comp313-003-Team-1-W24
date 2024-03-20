@@ -164,7 +164,7 @@ public class BlogController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteTutorial(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteBlog(@PathVariable("id") Integer id) {
         try {
             blogService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
