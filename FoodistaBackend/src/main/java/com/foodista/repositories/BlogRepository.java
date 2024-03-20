@@ -22,4 +22,7 @@ public interface BlogRepository extends CrudRepository<Blog, Serializable> {
 
     @Query("SELECT b FROM Blog b WHERE b.id = ?1 AND b.user.id = ?2")
     Optional<Blog> findByIDAndUserID(Integer id,Integer id2);
+
+    @Query("SELECT b FROM Blog b WHERE b.title = 'default'")
+    Optional<Blog> findByDefault();
 }

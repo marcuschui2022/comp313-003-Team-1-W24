@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.foodista.entities.Blog;
+import com.foodista.entities.User;
 import com.foodista.repositories.BlogRepository;
 import com.foodista.dto.BlogRequest;
 
@@ -42,7 +43,7 @@ public class BlogService {
         // System.out.println("getUser1");
 
         blogRepository.findByUserID(user_id).forEach(blogs::add);
-        System.out.println(blogs);
+        //System.out.println(blogs);
         // System.out.println("getUser2");
 
         return blogs;
@@ -82,5 +83,18 @@ public class BlogService {
         return blogToBeDeleted;
     }
 
+    public Blog findOrCreateDeflautBlog(User user) {
+        Optional<Blog> defaultBlog = blogRepository.findByDefault();
+
+        if (defaultBlog.isPresent()) {
+            return defaultBlog.get();
+        }else{
+            Blog blog = new Blog();
+            blog.setTitle("default");
+            blog.setBlogDescription("default");
+            blog.setUser(user);
+            return blogRepository.save(blog);
+        }
+    }
 
 }
