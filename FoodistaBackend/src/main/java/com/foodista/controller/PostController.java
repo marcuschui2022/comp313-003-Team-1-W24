@@ -216,12 +216,8 @@ public class PostController {
             token = token.split(" ")[1];
             String tokenUserId = jwtService.extractUserId(token);
 
-            if(Integer.valueOf(tokenUserId) != newpost.getUser_id()){
-                 return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-            }
-
             System.out.println("createBlog_1");
-            Long user_id = Long.valueOf(newpost.getUser_id());
+            Long user_id = Long.valueOf(tokenUserId) ;
             Optional<User> user = userRepository.findById(user_id);
 
             System.out.println("createBlog_get_User");
