@@ -33,7 +33,7 @@ public class PostService {
         // System.out.println("getALLPost");
 
         List<Post> posts = new ArrayList<Post>();
-        System.out.println(posts);
+        // System.out.println(posts);
 
         postRepository.findAllPost().forEach(posts::add);
         // System.out.println("finish");
@@ -62,7 +62,7 @@ public class PostService {
         // System.out.println("getPostByBlogId1");
 
         postRepository.findByBlogID(blog_id).forEach(posts::add);
-        System.out.println(posts);
+        // System.out.println(posts);
         // System.out.println("getPostByBlogId2");
 
         return posts;

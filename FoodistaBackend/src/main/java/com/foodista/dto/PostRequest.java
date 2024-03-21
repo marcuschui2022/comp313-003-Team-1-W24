@@ -18,12 +18,7 @@ public class PostRequest {
     Integer post_Id;
 
     @NotBlank
-    @NotNull
-    Integer user_id;
-
-    @NotBlank
     Integer blog_id;
-
     
     @NotBlank
     @NotNull
