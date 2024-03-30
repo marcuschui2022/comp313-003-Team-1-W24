@@ -1,6 +1,6 @@
 import Box from "@mui/material/Box";
 import Container from "@mui/material/Container";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Backdrop from '@mui/material/Backdrop';
 import SpeedDial from '@mui/material/SpeedDial';
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
@@ -25,7 +25,7 @@ const actions = [
   {icon: <ShareIcon/>, name: 'Share'},
 ];
 
-function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction}) {
+function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction, handleFetchBlogDataByCurrentUserId}) {
   const {handleSubmitNewBlog, isLoading, errorMsg} = useBlog(apiUrl);
 
   const defaultTheme = createTheme();
@@ -74,6 +74,8 @@ function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction})
                        setOpenNewBlogModal(false)
                        // Added setTimeout to ensure setOpenNewBlogModal is run first
                        setTimeout(() => setOpenDialAction(false), 100)
+                       setTimeout(() => handleFetchBlogDataByCurrentUserId(), 200)
+
                      })
                    }}
                    sx={{mt: 1}}>
@@ -126,24 +128,23 @@ function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction})
 }
 
 
-function BlogsRadioButtonsGroup() {
+function BlogsRadioButtonsGroup({options, setSelectedBlog, selectedBlog}) {
   return (
     <FormControl>
       <RadioGroup
         row
         aria-labelledby="demo-row-radio-buttons-group-label"
         name="row-radio-buttons-group"
+        value={selectedBlog}
       >
-        <FormControlLabel value="all" control={<Radio/>} label="All" defaultChecked={true}/>
-        <FormControlLabel value="default" control={<Radio/>} label="Default"/>
-        <FormControlLabel value="male" control={<Radio/>} label="Male"/>
-        <FormControlLabel value="other" control={<Radio/>} label="Other"/>
-        <FormControlLabel
-          value="disabled"
-          disabled
-          control={<Radio/>}
-          label="other"
-        />
+        <FormControlLabel sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} value="all"
+                          control={<Radio/>}
+                          label="All" onChange={() => setSelectedBlog('all')}/>
+        {options.map(x => <FormControlLabel
+          sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} key={x.blog_id}
+          value={x.blog_id} control={<Radio/>} label={x.title}
+          onChange={() => setSelectedBlog(x.blog_id)}/>)}
+
       </RadioGroup>
     </FormControl>
   );
@@ -152,6 +153,10 @@ function BlogsRadioButtonsGroup() {
 export default function MyBlog() {
   const [openDialAction, setOpenDialAction] = React.useState(false);
   const [openNewBlogModal, setOpenNewBlogModal] = useState(false)
+  const [selectedBlog, setSelectedBlog] = useState('all')
+
+  const {handleFetchBlogDataByCurrentUserId, isLoading, errorMsg, myBlogData} = useBlog(apiUrl);
+
   const handleOpen = () => setOpenDialAction(true);
   const handleClose = () => setOpenDialAction(false);
 
@@ -171,6 +176,12 @@ export default function MyBlog() {
     // handleClose()
   }
 
+  useEffect(() => {
+    handleFetchBlogDataByCurrentUserId();
+  }, []);
+
+
+  // console.log(myBlogData)
   return (
 
 
@@ -180,11 +191,11 @@ export default function MyBlog() {
           My Blogs
         </Typography>
         <Divider/>
-        <BlogsRadioButtonsGroup/>
+        <BlogsRadioButtonsGroup options={myBlogData} selectedBlog={selectedBlog} setSelectedBlog={setSelectedBlog}/>
         <Backdrop open={openDialAction}/>
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
-          sx={{position: 'absolute', bottom: 26, right: 26}}
+          sx={{position: 'fixed', bottom: 26, right: 26}}
           icon={<SpeedDialIcon/>}
           onClose={handleClose}
           onOpen={handleOpen}
@@ -204,7 +215,8 @@ export default function MyBlog() {
 
       </Container>
       <NewBlogModal openNewBlogMoal={openNewBlogModal} setOpenNewBlogModal={setOpenNewBlogModal}
-                    setOpenDialAction={setOpenDialAction}/>
+                    setOpenDialAction={setOpenDialAction}
+                    handleFetchBlogDataByCurrentUserId={handleFetchBlogDataByCurrentUserId}/>
 
     </>
   );

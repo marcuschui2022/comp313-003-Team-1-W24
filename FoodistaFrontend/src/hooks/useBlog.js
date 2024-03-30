@@ -8,6 +8,9 @@ export const useBlog = (apiUrl) => {
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  // blog ddata
+  const [myBlogData, setMyBlogData] = useState([]);
+
   const navigate = useNavigate();
 
   const handleSubmitNewBlog = async (event, formData) => {
@@ -28,7 +31,8 @@ export const useBlog = (apiUrl) => {
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse)
+        // console.log(jsonResponse)
+        setMyBlogData(jsonResponse);
         navigate("/myblog");
       } else {
         const jsonResponse = await response.json();
@@ -49,5 +53,44 @@ export const useBlog = (apiUrl) => {
     }
   };
 
-  return {handleSubmitNewBlog, isLoading, errorMsg};
+  const handleFetchBlogDataByCurrentUserId = async () => {
+    const userId = document.cookie.split('; ').find(row => row.startsWith('userId')).split('=')[1];
+    setIsLoading(false);
+    setErrorMsg("");
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(apiBaseUrl + apiUrl + "user/" + userId, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer  ${token}`
+        },
+      });
+
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        // console.log(jsonResponse)
+        setMyBlogData(jsonResponse)
+        navigate("/myblog");
+      } else {
+        const jsonResponse = await response.json();
+        if (jsonResponse.message) {
+          setErrorMsg(jsonResponse.message);
+        } else {
+          if (jsonResponse) {
+            setErrorMsg(jsonResponse);
+          } else {
+            setErrorMsg("Error: unexpected error...");
+          }
+        }
+      }
+    } catch (error) {
+      setErrorMsg("Unexpected error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {handleSubmitNewBlog, handleFetchBlogDataByCurrentUserId, isLoading, errorMsg, myBlogData};
 };
