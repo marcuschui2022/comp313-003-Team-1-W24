@@ -1,22 +1,17 @@
 package com.foodista.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
+import com.foodista.dto.BlogRequest;
 import com.foodista.entities.Blog;
 import com.foodista.entities.User;
 import com.foodista.repositories.BlogRepository;
-import com.foodista.dto.BlogRequest;
-
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.server.ResponseStatusException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -25,8 +20,9 @@ public class BlogService {
 
     @Autowired
     private BlogRepository blogRepository;
+    private final JwtService jwtService;
 
-    
+
     public List<Blog> getAll() {
 
         List<Blog> blogs = new ArrayList<Blog>();
@@ -56,7 +52,7 @@ public class BlogService {
     public Optional<Blog> update(final Integer id, final BlogRequest blog) {
         Integer user_id = Integer.valueOf(blog.getUser_id());
 
-        return blogRepository.findByIDAndUserID(id,user_id).map(existingBlog -> {
+        return blogRepository.findByIDAndUserID(id, user_id).map(existingBlog -> {
             if (existingBlog != null) {
                 existingBlog.setTitle(blog.getTitle());
                 existingBlog.setBlogDescription(blog.getBlog_description());
@@ -67,10 +63,16 @@ public class BlogService {
         });
     }
 
-    public Blog save(final Blog blog) {
-        // System.out.println("blog");
-        // System.out.println(blog);
-        return blogRepository.save(blog);
+    public Blog save(final Blog blog, String jwtToken) {
+        Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
+
+        if (foundUser.isPresent()) {
+            User user = foundUser.get();
+            blog.setUser(user);
+            return blogRepository.save(blog);
+        }
+
+        throw new RuntimeException("User not found from provided JWT token");
     }
 
     public Optional<Blog> delete(final Integer id) {
@@ -88,7 +90,7 @@ public class BlogService {
 
         if (defaultBlog.isPresent()) {
             return defaultBlog.get();
-        }else{
+        } else {
             Blog blog = new Blog();
             blog.setTitle("default");
             blog.setBlogDescription("default");

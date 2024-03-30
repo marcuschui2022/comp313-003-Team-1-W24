@@ -47,7 +47,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         AuthenticationEntryPoint entryPoint = new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED);
-         System.out.println('0');
+        System.out.println('0');
 
         http
                 .csrf(csrf -> csrf.disable())
@@ -57,7 +57,8 @@ public class SecurityConfig {
                 .exceptionHandling(exception -> exception.authenticationEntryPoint(entryPoint))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/post/**", "/api/v1/post/user/**" ,"/api/v1/post/blog/**" ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/post/**", "/api/v1/post/user/**", "/api/v1/post/blog/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/v1/post/**", "/api/v1/post/user/**", "/api/v1/post/blog/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider()).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

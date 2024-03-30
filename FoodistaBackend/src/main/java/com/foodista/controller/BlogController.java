@@ -1,22 +1,16 @@
 package com.foodista.controller;
 
+import com.foodista.FoodistaBackendApplication;
+import com.foodista.dto.BlogRequest;
+import com.foodista.dto.BlogResponse;
+import com.foodista.entities.Blog;
+import com.foodista.repositories.UserRepository;
+import com.foodista.services.BlogService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.access.prepost.PreAuthorize;
-
-import lombok.RequiredArgsConstructor;
-
-import com.foodista.entities.Blog;
-import com.foodista.services.BlogService;
-import com.foodista.dto.BlogRequest;
-import com.foodista.dto.BlogResponse;
-
-import com.foodista.entities.User;
-import com.foodista.repositories.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +20,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/blog")
-public class BlogController {
+public class BlogController extends FoodistaBackendApplication.BaseController {
 
     @Autowired
     private final BlogService blogService;
@@ -41,15 +35,15 @@ public class BlogController {
             // System.out.println("get_all_2");
 
             blogService.getAll().forEach(blog -> {
-            // System.out.println("getBlogId"+blog.getBlogId());
-            // System.out.println("getUser"+blog.getUser().getId());
+                // System.out.println("getBlogId"+blog.getBlogId());
+                // System.out.println("getUser"+blog.getUser().getId());
 
                 BlogResponse responseBlog = new BlogResponse(
-                    blog.getBlogId()+"",
-                    blog.getTitle(),
-                    blog.getBlogDescription(),
-                    blog.getUser().getId()+"");
-            
+                        blog.getBlogId() + "",
+                        blog.getTitle(),
+                        blog.getBlogDescription(),
+                        blog.getUser().getId() + "");
+
                 blogs.add(responseBlog);
 
             });
@@ -74,15 +68,15 @@ public class BlogController {
             // Optional<User> user = userRepository.findById(user_id);
 
             blogService.getByUserId(userId).forEach(blog -> {
-            // System.out.println("getBlogId"+blog.getBlogId());
-            // System.out.println("getUser"+blog.getUser().getId());
+                // System.out.println("getBlogId"+blog.getBlogId());
+                // System.out.println("getUser"+blog.getUser().getId());
 
                 BlogResponse responseBlog = new BlogResponse(
-                    blog.getBlogId()+"",
-                    blog.getTitle(),
-                    blog.getBlogDescription(),
-                    blog.getUser().getId()+"");
-            
+                        blog.getBlogId() + "",
+                        blog.getTitle(),
+                        blog.getBlogDescription(),
+                        blog.getUser().getId() + "");
+
                 blogs.add(responseBlog);
 
             });
@@ -97,7 +91,7 @@ public class BlogController {
         }
     }
 
-     @GetMapping("/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<BlogResponse> getBlogById(@PathVariable("id") Integer id) {
         Optional<Blog> blog = blogService.getById(id);
         //  System.out.println(blog);
@@ -106,10 +100,10 @@ public class BlogController {
             Blog tmp = blog.get();
             // System.out.println(tmp.getBlogId());
             BlogResponse responseBlog = new BlogResponse(
-                tmp.getBlogId()+"",
-                tmp.getTitle(),
-                tmp.getBlogDescription(),
-                tmp.getUser().getId()+"");
+                    tmp.getBlogId() + "",
+                    tmp.getTitle(),
+                    tmp.getBlogDescription(),
+                    tmp.getUser().getId() + "");
 
             return new ResponseEntity<>(responseBlog, HttpStatus.OK);
         } else {
@@ -118,30 +112,18 @@ public class BlogController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<BlogResponse> createBlog(@RequestBody BlogRequest newblog) {
+    public ResponseEntity<Blog> createBlog(@RequestBody BlogRequest blogRequest, @ModelAttribute("jwtToken") String jwtToken) {
         try {
-            //  System.out.println("createBlog_1");
-            Long user_id = Long.valueOf(newblog.getUser_id());
-            Optional<User> user = userRepository.findById(user_id);
-            // System.out.println(user);
-            // System.out.println("createBlog_2");
-
             Blog createdBlog = Blog.builder()
-                    .title(newblog.getTitle())
-                    .blogDescription(newblog.getBlog_description())
-                    .user(user.get())
+                    .title(blogRequest.getTitle())
+                    .blogDescription(blogRequest.getBlog_description())
                     .build();
-            Blog _blog = blogService.save(createdBlog);
 
-            BlogResponse responseBlog = new BlogResponse(
-                _blog.getBlogId()+"",
-                newblog.getTitle(),
-                newblog.getBlog_description(),
-                newblog.getUser_id()+"");
+            Blog blog = blogService.save(createdBlog, jwtToken);
 
-            return new ResponseEntity<>( responseBlog, HttpStatus.CREATED);
+
+            return new ResponseEntity<>(blog, HttpStatus.CREATED);
         } catch (Exception e) {
-            // System.out.println(e);
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -153,10 +135,10 @@ public class BlogController {
 
         if (tutorialData.isPresent()) {
             BlogResponse responseBlog = new BlogResponse(
-                id+"",
-                blog.getTitle(),
-                blog.getBlog_description(),
-                blog.getUser_id()+"");
+                    id + "",
+                    blog.getTitle(),
+                    blog.getBlog_description(),
+                    blog.getUser_id() + "");
             return new ResponseEntity<>(responseBlog, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

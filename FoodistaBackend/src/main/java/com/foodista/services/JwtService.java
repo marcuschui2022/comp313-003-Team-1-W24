@@ -1,5 +1,7 @@
 package com.foodista.services;
 
+import com.foodista.entities.User;
+import com.foodista.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,16 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
-
-import com.foodista.entities.User;
 
 @Service
 public class JwtService {
+    private final UserRepository userRepository;
+
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Value("${token.secret.key}")
     String jwtSecretKey;
@@ -49,8 +51,19 @@ public class JwtService {
         //  System.out.println(claims);
         //   System.out.println(claims.get("userId"));
 
-        String id =claims.get("userId")  +"";         
+        String id = claims.get("userId") + "";
         return id;
+    }
+
+    /**
+     * Extracts the user details from the provided token.
+     *
+     * @param token The token from which to extract the user details
+     * @return An Optional object that contains the User details if found, otherwise empty
+     */
+    public Optional<User> extractUserDetails(String token) {
+        String userId = this.extractUserId(token);
+        return this.userRepository.findById(Long.valueOf(userId));
     }
 
     public String generateToken(User userDetails) {
