@@ -63,13 +63,18 @@ public class BlogService {
         });
     }
 
-    public Blog save(final Blog blog, String jwtToken) {
+    public Blog save(BlogRequest blogRequest, String jwtToken) {
         Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
+
+        Blog newBlog = Blog.builder()
+                .title(blogRequest.getTitle())
+                .blogDescription(blogRequest.getBlog_description())
+                .build();
 
         if (foundUser.isPresent()) {
             User user = foundUser.get();
-            blog.setUser(user);
-            return blogRepository.save(blog);
+            newBlog.setUser(user);
+            return blogRepository.save(newBlog);
         }
 
         throw new RuntimeException("User not found from provided JWT token");

@@ -7,22 +7,20 @@ import SpeedDialIcon from '@mui/material/SpeedDialIcon';
 import SpeedDialAction from '@mui/material/SpeedDialAction';
 import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
 import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import {Fade, FormControl, FormControlLabel, Modal, Radio, RadioGroup, TextField} from "@mui/material";
+import {Fade, Modal, TextField} from "@mui/material";
 import Button from "@mui/material/Button";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useBlog} from "../hooks/useBlog.js";
+import {useNavigate} from "react-router-dom";
+import BlogsRadioButtonsGroup from "../components/BlogsRadioButtonsGroup.jsx";
 
-const apiUrl = "/api/v1/blog/";
+const apiUrl = "/api/v1/";
 
 const actions = [
   {icon: <FileCopyIcon/>, name: 'New Post'},
   {icon: <SaveIcon/>, name: 'New Blog'},
-  {icon: <PrintIcon/>, name: 'Print'},
-  {icon: <ShareIcon/>, name: 'Share'},
 ];
 
 function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction, handleFetchBlogDataByCurrentUserId}) {
@@ -128,32 +126,34 @@ function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction, 
 }
 
 
-function BlogsRadioButtonsGroup({options, setSelectedBlog, selectedBlog}) {
-  return (
-    <FormControl>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-        value={selectedBlog}
-      >
-        <FormControlLabel sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} value="all"
-                          control={<Radio/>}
-                          label="All" onChange={() => setSelectedBlog('all')}/>
-        {options.map(x => <FormControlLabel
-          sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} key={x.blog_id}
-          value={x.blog_id} control={<Radio/>} label={x.title}
-          onChange={() => setSelectedBlog(x.blog_id)}/>)}
-
-      </RadioGroup>
-    </FormControl>
-  );
-}
+// function BlogsRadioButtonsGroup({options, setSelectedBlog, selectedBlog}) {
+//   return (
+//     <FormControl>
+//       <RadioGroup
+//         row
+//         aria-labelledby="demo-row-radio-buttons-group-label"
+//         name="row-radio-buttons-group"
+//         value={selectedBlog}
+//       >
+//         <FormControlLabel sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} value="all"
+//                           control={<Radio/>}
+//                           label="All" onChange={() => setSelectedBlog('all')}/>
+//         {options.map(x => <FormControlLabel
+//           sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} key={x.blog_id}
+//           value={x.blog_id} control={<Radio/>} label={x.title}
+//           onChange={() => setSelectedBlog(x.blog_id)}/>)}
+//
+//       </RadioGroup>
+//     </FormControl>
+//   );
+// }
 
 export default function MyBlog() {
   const [openDialAction, setOpenDialAction] = React.useState(false);
   const [openNewBlogModal, setOpenNewBlogModal] = useState(false)
   const [selectedBlog, setSelectedBlog] = useState('all')
+
+  const navigate = useNavigate();
 
   const {handleFetchBlogDataByCurrentUserId, isLoading, errorMsg, myBlogData} = useBlog(apiUrl);
 
@@ -161,12 +161,15 @@ export default function MyBlog() {
   const handleClose = () => setOpenDialAction(false);
 
   const handleDialAction = ({name}) => {
-    console.log(name)
-    // handleClose()
 
     switch (name) {
       case 'New Blog':
         setOpenNewBlogModal(true)
+        break
+      case 'New Post':
+        // setOpenNewBlogModal(true)
+        // console.log(`hello world`)
+        navigate('/newpost')
         break
       default:
         setOpenDialAction(false)

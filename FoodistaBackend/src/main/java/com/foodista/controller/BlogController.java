@@ -114,15 +114,9 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
     @PostMapping("/")
     public ResponseEntity<Blog> createBlog(@RequestBody BlogRequest blogRequest, @ModelAttribute("jwtToken") String jwtToken) {
         try {
-            Blog createdBlog = Blog.builder()
-                    .title(blogRequest.getTitle())
-                    .blogDescription(blogRequest.getBlog_description())
-                    .build();
+            Blog newBlog = blogService.save(blogRequest, jwtToken);
 
-            Blog blog = blogService.save(createdBlog, jwtToken);
-
-
-            return new ResponseEntity<>(blog, HttpStatus.CREATED);
+            return new ResponseEntity<>(newBlog, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }

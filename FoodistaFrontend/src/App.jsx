@@ -8,6 +8,7 @@ import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import Navbar from "./components/Navbars/Navbar.jsx";
 import MyBlog from "./pages/MyBlog.jsx";
+import NewPost from "./pages/NewPost.jsx";
 
 function AppRoutes({mode, toggleColorMode}) {
   const location = useLocation();
@@ -22,6 +23,7 @@ function AppRoutes({mode, toggleColorMode}) {
         <Route path="/signup" element={<SignUp/>}/>
         <Route path="/signin" element={<SignIn/>}/>
         <Route path="/myblog" element={<MyBlog/>}/>
+        <Route path="/newpost" element={<NewPost/>}/>
       </Routes>
     </>
   );

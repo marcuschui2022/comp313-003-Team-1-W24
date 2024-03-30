@@ -49,19 +49,19 @@ public class DatabaseInitializer implements CommandLineRunner {
         if (postTypeRepository.count() == 0) {
             PostType normal = new PostType();
             normal.setPostTypeId(1L);
-            normal.setPostTypeName("normal");
+            normal.setPostTypeName("Normal");
             normal.setPostTypeDescription("normal");
             postTypeRepository.save(normal);
 
             PostType premium = new PostType();
             premium.setPostTypeId(2L);
-            premium.setPostTypeName("premium");
+            premium.setPostTypeName("Premium");
             premium.setPostTypeDescription("premium");
             postTypeRepository.save(premium);
 
             PostType archive = new PostType();
             archive.setPostTypeId(3L);
-            archive.setPostTypeName("archive");
+            archive.setPostTypeName("Archive");
             archive.setPostTypeDescription("archive");
             postTypeRepository.save(archive);
         }

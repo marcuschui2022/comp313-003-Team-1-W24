@@ -3,25 +3,24 @@ import {useNavigate} from "react-router-dom";
 
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
 
-export const useBlog = (apiUrl) => {
+export const usePost = (apiUrl) => {
   const token = document.cookie.split('; ').find(row => row.startsWith('token')).split('=')[1];
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
-  // blog ddata
-  const [myBlogData, setMyBlogData] = useState([]);
-  const [blogCategory, setBlogCategory] = useState([])
+  const [postType, setPostType] = useState([])
 
   const navigate = useNavigate();
 
-  const handleSubmitNewBlog = async (event, formData) => {
+
+  const handleSubmitNewPost = async (event, formData) => {
     event.preventDefault();
     setIsLoading(false);
     setErrorMsg("");
 
     try {
       setIsLoading(true);
-      const response = await fetch(apiBaseUrl + apiUrl + "blog/", {
+      const response = await fetch(apiBaseUrl + apiUrl + "post/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +32,6 @@ export const useBlog = (apiUrl) => {
       if (response.ok) {
         const jsonResponse = await response.json();
         // console.log(jsonResponse)
-        setMyBlogData(jsonResponse);
         navigate("/myblog");
       } else {
         const jsonResponse = await response.json();
@@ -54,53 +52,14 @@ export const useBlog = (apiUrl) => {
     }
   };
 
-
-  const handleFetchBlogDataByCurrentUserId = async () => {
-    const userId = document.cookie.split('; ').find(row => row.startsWith('userId')).split('=')[1];
-    setIsLoading(false);
-    setErrorMsg("");
-
-    try {
-      setIsLoading(true);
-      const response = await fetch(apiBaseUrl + apiUrl + "blog/" + "user/" + userId, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer  ${token}`
-        },
-      });
-
-      if (response.ok) {
-        const jsonResponse = await response.json();
-        console.log(jsonResponse)
-        setMyBlogData(jsonResponse)
-      } else {
-        const jsonResponse = await response.json();
-        if (jsonResponse.message) {
-          setErrorMsg(jsonResponse.message);
-        } else {
-          if (jsonResponse) {
-            setErrorMsg(jsonResponse);
-          } else {
-            setErrorMsg("Error: unexpected error...");
-          }
-        }
-      }
-    } catch (error) {
-      setErrorMsg("Unexpected error: " + error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleFetchCategory = async () => {
+  const handleFetchPostType = async () => {
 
     setIsLoading(false);
     setErrorMsg("");
 
     try {
       setIsLoading(true);
-      const response = await fetch(apiBaseUrl + apiUrl + "category/", {
+      const response = await fetch(apiBaseUrl + apiUrl + "post-type/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -111,7 +70,7 @@ export const useBlog = (apiUrl) => {
       if (response.ok) {
         const jsonResponse = await response.json();
         // console.log(jsonResponse)
-        setBlogCategory(jsonResponse)
+        setPostType(jsonResponse)
       } else {
         const jsonResponse = await response.json();
         if (jsonResponse.message) {
@@ -131,13 +90,9 @@ export const useBlog = (apiUrl) => {
     }
   };
 
-
   return {
-    handleSubmitNewBlog,
-    handleFetchBlogDataByCurrentUserId,
     isLoading,
     errorMsg,
-    myBlogData,
-    handleFetchCategory, blogCategory
+    handleFetchPostType, postType, handleSubmitNewPost
   };
 };
