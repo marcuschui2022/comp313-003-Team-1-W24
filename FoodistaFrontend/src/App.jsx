@@ -1,25 +1,27 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as React from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import {createTheme, ThemeProvider} from "@mui/material/styles";
 import getLPTheme from "./pages/getLPTheme.js";
 import Home from "./pages/Home.jsx";
 import SignUp from "./pages/SignUp.jsx";
 import SignIn from "./pages/SignIn.jsx";
 import Navbar from "./components/Navbars/Navbar.jsx";
+import MyBlog from "./pages/MyBlog.jsx";
 
-function AppRoutes({ mode, toggleColorMode }) {
+function AppRoutes({mode, toggleColorMode}) {
   const location = useLocation();
 
   return (
     <>
       {location.pathname !== "/signup" && location.pathname !== "/signin" && (
-        <Navbar mode={mode} toggleColorMode={toggleColorMode} />
+        <Navbar mode={mode} toggleColorMode={toggleColorMode}/>
       )}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+        <Route path="/" element={<Home/>}/>
+        <Route path="/signup" element={<SignUp/>}/>
+        <Route path="/signin" element={<SignIn/>}/>
+        <Route path="/myblog" element={<MyBlog/>}/>
       </Routes>
     </>
   );
@@ -35,9 +37,9 @@ function App() {
 
   return (
     <ThemeProvider theme={LPtheme}>
-      <CssBaseline />
+      <CssBaseline/>
       <BrowserRouter basename="/comp313-003-Team-1-W24">
-        <AppRoutes mode={mode} toggleColorMode={toggleColorMode} />
+        <AppRoutes mode={mode} toggleColorMode={toggleColorMode}/>
       </BrowserRouter>
     </ThemeProvider>
   );
