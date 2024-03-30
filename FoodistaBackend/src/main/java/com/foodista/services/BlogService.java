@@ -33,7 +33,7 @@ public class BlogService {
     }
 
 
-    public List<Blog> getByUserId(final Integer user_id) {
+    public List<Blog> getByUserId(final Long user_id) {
 
         List<Blog> blogs = new ArrayList<Blog>();
         // System.out.println("getUser1");
@@ -45,12 +45,12 @@ public class BlogService {
         return blogs;
     }
 
-    public Optional<Blog> getById(final Integer id) {
+    public Optional<Blog> getById(final Long id) {
         return blogRepository.findById(id);
     }
 
-    public Optional<Blog> update(final Integer id, final BlogRequest blog) {
-        Integer user_id = Integer.valueOf(blog.getUser_id());
+    public Optional<Blog> update(final Long id, final BlogRequest blog) {
+        Long user_id = blog.getUser_id();
 
         return blogRepository.findByIDAndUserID(id, user_id).map(existingBlog -> {
             if (existingBlog != null) {
@@ -75,7 +75,7 @@ public class BlogService {
         throw new RuntimeException("User not found from provided JWT token");
     }
 
-    public Optional<Blog> delete(final Integer id) {
+    public Optional<Blog> delete(final Long id) {
         Optional<Blog> blogToBeDeleted = getById(id);
 
         if (blogToBeDeleted.isPresent()) {

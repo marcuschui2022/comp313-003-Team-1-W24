@@ -30,7 +30,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public ResponseEntity<AuthenticationResponse> signUp(SignUpRequest request) {
-        Optional<Role> optionalRole = roleRepository.findById(2);
+        Optional<Role> optionalRole = roleRepository.findById(2L);
 
         if (optionalRole.isEmpty()) {
             throw new RuntimeException("Default role not found");

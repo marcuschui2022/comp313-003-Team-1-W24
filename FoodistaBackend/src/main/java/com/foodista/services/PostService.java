@@ -40,7 +40,7 @@ public class PostService {
         return posts;
     }
 
-    public List<Post> getByUserId(final Integer user_id) {
+    public List<Post> getByUserId(final Long user_id) {
 
         List<Post> posts = new ArrayList<Post>();
         System.out.println("getPostByUserId1");
@@ -56,7 +56,7 @@ public class PostService {
         return posts;
     }
 
-    public List<Post> getByBlogId(final Integer blog_id) {
+    public List<Post> getByBlogId(final Long blog_id) {
 
         List<Post> posts = new ArrayList<Post>();
         // System.out.println("getPostByBlogId1");
@@ -68,7 +68,7 @@ public class PostService {
         return posts;
     }
 
-    public Optional<Post> getById(final Integer id) {
+    public Optional<Post> getById(final Long id) {
         return postRepository.findById(id);
     }
 
@@ -90,7 +90,7 @@ public class PostService {
         return postRepository.save(post);
     }
 
-    public Optional<Post> delete(final Integer id) {
+    public Optional<Post> delete(final Long id) {
         Optional<Post> postToBeDeleted = getById(id);
 
         if (postToBeDeleted.isPresent()) {

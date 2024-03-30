@@ -39,10 +39,10 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
                 // System.out.println("getUser"+blog.getUser().getId());
 
                 BlogResponse responseBlog = new BlogResponse(
-                        blog.getBlogId() + "",
+                        blog.getBlogId(),
                         blog.getTitle(),
                         blog.getBlogDescription(),
-                        blog.getUser().getId() + "");
+                        blog.getUser().getId());
 
                 blogs.add(responseBlog);
 
@@ -61,7 +61,7 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
     }
 
     @GetMapping("/user/{user_id}")
-    public ResponseEntity<List<BlogResponse>> getAllBlogsByUser(@PathVariable("user_id") Integer userId) {
+    public ResponseEntity<List<BlogResponse>> getAllBlogsByUser(@PathVariable("user_id") Long userId) {
         try {
             List<BlogResponse> blogs = new ArrayList<BlogResponse>();
             // Long user_id = Long.valueOf(newblog.getUser_id());
@@ -72,10 +72,10 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
                 // System.out.println("getUser"+blog.getUser().getId());
 
                 BlogResponse responseBlog = new BlogResponse(
-                        blog.getBlogId() + "",
+                        blog.getBlogId(),
                         blog.getTitle(),
                         blog.getBlogDescription(),
-                        blog.getUser().getId() + "");
+                        blog.getUser().getId());
 
                 blogs.add(responseBlog);
 
@@ -92,7 +92,7 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BlogResponse> getBlogById(@PathVariable("id") Integer id) {
+    public ResponseEntity<BlogResponse> getBlogById(@PathVariable("id") Long id) {
         Optional<Blog> blog = blogService.getById(id);
         //  System.out.println(blog);
 
@@ -100,10 +100,10 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
             Blog tmp = blog.get();
             // System.out.println(tmp.getBlogId());
             BlogResponse responseBlog = new BlogResponse(
-                    tmp.getBlogId() + "",
+                    tmp.getBlogId(),
                     tmp.getTitle(),
                     tmp.getBlogDescription(),
-                    tmp.getUser().getId() + "");
+                    tmp.getUser().getId());
 
             return new ResponseEntity<>(responseBlog, HttpStatus.OK);
         } else {
@@ -130,15 +130,15 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<BlogResponse> updateBlog(@PathVariable("id") Integer id, @RequestBody BlogRequest blog) {
+    public ResponseEntity<BlogResponse> updateBlog(@PathVariable("id") Long id, @RequestBody BlogRequest blog) {
         Optional<Blog> tutorialData = blogService.update(id, blog);
 
         if (tutorialData.isPresent()) {
             BlogResponse responseBlog = new BlogResponse(
-                    id + "",
+                    id,
                     blog.getTitle(),
                     blog.getBlog_description(),
-                    blog.getUser_id() + "");
+                    blog.getUser_id());
             return new ResponseEntity<>(responseBlog, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -146,7 +146,7 @@ public class BlogController extends FoodistaBackendApplication.BaseController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteBlog(@PathVariable("id") Integer id) {
+    public ResponseEntity<HttpStatus> deleteBlog(@PathVariable("id") Long id) {
         try {
             blogService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);

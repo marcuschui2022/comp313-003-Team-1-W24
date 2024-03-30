@@ -13,16 +13,16 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     Iterable<Post> findAllPost();
 
     @Query("SELECT p FROM Post p WHERE p.postId = ?1")
-    Optional<Post> findById(Integer id);
+    Optional<Post> findById(Long id);
 
     @Query("SELECT p FROM Post p WHERE p.blog.blogId = ?1")
-    Iterable<Post> findByBlogID(Integer id);
+    Iterable<Post> findByBlogID(Long id);
 
     @Query("SELECT p FROM Post p WHERE p.blog.blogId = ?1")
-    Iterable<Post> findByBlogIDArray(Integer id);
+    Iterable<Post> findByBlogIDArray(Long id);
 
     @Query("SELECT p FROM Post p WHERE p.id = ?1 AND p.blog.blogId = ?2")
-    Optional<Post> findByIDAndBlogID(Integer id,Integer id2);
+    Optional<Post> findByIDAndBlogID(Long id, Long id2);
 
     @Query("SELECT p FROM Post p WHERE p.blog.blogId IN :blogIds")
     Iterable<Post> findByBlogIds(List<Long> blogIds);

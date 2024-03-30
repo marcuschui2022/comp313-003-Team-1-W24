@@ -13,6 +13,6 @@ public interface CategoryDetailRepository extends JpaRepository<CategoryDetail, 
     Iterable<CategoryDetail> findAllCategory();
 
     @Query("SELECT c FROM CategoryDetail c WHERE c.categoryId = ?1")
-    Optional<CategoryDetail> findById(Integer id);
+    Optional<CategoryDetail> findById(Long id);
 
 }

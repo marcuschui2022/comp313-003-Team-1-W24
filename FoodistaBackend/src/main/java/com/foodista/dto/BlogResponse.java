@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BlogResponse {
     @NotBlank
     @NotNull
-    String blog_id;
+    Long blog_id;
 
     @NotBlank
     @NotNull
@@ -27,5 +27,5 @@ public class BlogResponse {
 
     @NotBlank
     @NotNull
-    String user_id;
+    Long user_id;
 }
