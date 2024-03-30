@@ -9,6 +9,7 @@ export const usePost = (apiUrl) => {
   const [errorMsg, setErrorMsg] = useState("");
 
   const [postType, setPostType] = useState([])
+  const [userPostData, setUserPostData] = useState([])
 
   const navigate = useNavigate();
 
@@ -90,9 +91,50 @@ export const usePost = (apiUrl) => {
     }
   };
 
+  const handleFetchPostByUserId = async () => {
+    // const userId = document.cookie.split('; ').find(row => row.startsWith('userId')).split('=')[1];
+
+    setIsLoading(false);
+    setErrorMsg("");
+
+    try {
+      setIsLoading(true);
+      // const response = await fetch("http://localhost:8080/api/v1/post/user/1", {
+      const response = await fetch(apiBaseUrl + apiUrl + "post/user/", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer  ${token}`
+        },
+      });
+
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        console.log(jsonResponse)
+        setUserPostData(jsonResponse)
+      } else {
+        const jsonResponse = await response.json();
+        if (jsonResponse.message) {
+          setErrorMsg(jsonResponse.message);
+        } else {
+          if (jsonResponse) {
+            setErrorMsg(jsonResponse);
+          } else {
+            setErrorMsg("Error: unexpected error...");
+          }
+        }
+      }
+    } catch (error) {
+      setErrorMsg("Unexpected error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+
   return {
     isLoading,
     errorMsg,
-    handleFetchPostType, postType, handleSubmitNewPost
+    handleFetchPostType, postType, handleSubmitNewPost, handleFetchPostByUserId, userPostData
   };
 };

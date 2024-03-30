@@ -15,6 +15,8 @@ import {createTheme, ThemeProvider} from "@mui/material/styles";
 import {useBlog} from "../hooks/useBlog.js";
 import {useNavigate} from "react-router-dom";
 import BlogsRadioButtonsGroup from "../components/BlogsRadioButtonsGroup.jsx";
+import {usePost} from "../hooks/usePost.js";
+import {RichTextEditor} from '@mantine/rte';
 
 const apiUrl = "/api/v1/";
 
@@ -156,7 +158,7 @@ export default function MyBlog() {
   const navigate = useNavigate();
 
   const {handleFetchBlogDataByCurrentUserId, isLoading, errorMsg, myBlogData} = useBlog(apiUrl);
-
+  const {handleFetchPostByUserId, userPostData} = usePost(apiUrl);
   const handleOpen = () => setOpenDialAction(true);
   const handleClose = () => setOpenDialAction(false);
 
@@ -181,10 +183,12 @@ export default function MyBlog() {
 
   useEffect(() => {
     handleFetchBlogDataByCurrentUserId();
+    handleFetchPostByUserId();
   }, []);
 
 
   // console.log(myBlogData)
+  console.log(selectedBlog)
   return (
 
 
@@ -195,6 +199,25 @@ export default function MyBlog() {
         </Typography>
         <Divider/>
         <BlogsRadioButtonsGroup options={myBlogData} selectedBlog={selectedBlog} setSelectedBlog={setSelectedBlog}/>
+
+        {userPostData && userPostData.filter(p => {
+          if (selectedBlog === 'all') {
+            return p;
+          } else {
+            return p.blog.blogId === selectedBlog
+          }
+        }).map(p => {
+          return <Box key={p.postId} sx={{mb: 5, mt: 2}}>
+            <Typography variant="h5" gutterBottom>
+              Publish Date: {p.publishDate}
+            </Typography>
+            <RichTextEditor
+              readOnly={true}
+              value={p.postContent}
+              id="rte"/>
+          </Box>
+        })}
+
         <Backdrop open={openDialAction}/>
         <SpeedDial
           ariaLabel="SpeedDial tooltip example"
@@ -216,6 +239,7 @@ export default function MyBlog() {
         </SpeedDial>
 
 
+        <div style={{marginTop: "200px"}}></div>
       </Container>
       <NewBlogModal openNewBlogMoal={openNewBlogModal} setOpenNewBlogModal={setOpenNewBlogModal}
                     setOpenDialAction={setOpenDialAction}

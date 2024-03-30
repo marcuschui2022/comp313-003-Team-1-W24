@@ -72,7 +72,7 @@ export const useBlog = (apiUrl) => {
 
       if (response.ok) {
         const jsonResponse = await response.json();
-        console.log(jsonResponse)
+        // console.log(jsonResponse)
         setMyBlogData(jsonResponse)
       } else {
         const jsonResponse = await response.json();

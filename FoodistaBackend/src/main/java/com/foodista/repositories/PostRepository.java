@@ -26,4 +26,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE p.blog.blogId IN :blogIds")
     Iterable<Post> findByBlogIds(List<Long> blogIds);
+
+    @Query("SELECT p FROM Post p WHERE p.blog.user.id = ?1")
+    List<Post> findAllPostsByUserId(Long userId);
 }

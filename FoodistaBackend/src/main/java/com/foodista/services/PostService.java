@@ -132,6 +132,16 @@ public class PostService {
         throw new RuntimeException("User, blog, category, or post type not found");
     }
 
+    public List<Post> getAllPostsByUserId(String jwtToken) {
+        Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
+        if (foundUser.isPresent()) {
+            Long userId = foundUser.get().getId();
+            return postRepository.findAllPostsByUserId(userId);
+        } else {
+            throw new IllegalArgumentException("Invalid JWT Token");
+        }
+    }
+
     public Optional<Post> delete(final Long id) {
         Optional<Post> postToBeDeleted = getById(id);
 

@@ -89,6 +89,16 @@ public class PostController extends FoodistaBackendApplication.BaseController {
         }
     }
 
+    @GetMapping("/user/")
+    public ResponseEntity<List<Post>> getAllPostByUserId(@ModelAttribute("jwtToken") String jwtToken) {
+        try {
+            List<Post> posts = postService.getAllPostsByUserId(jwtToken);
+            return new ResponseEntity<>(posts, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping("/user/{user_id}")
     public ResponseEntity<List<PostResponse>> getAllPostByUser(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("user_id") Long userId) {
         try {
