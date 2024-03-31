@@ -1,0 +1,78 @@
+/* RecipeFinder.css */
+
+.recipe-finder-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    text-align: center;
+    color: #333;
+  }
+  
+  .description {
+    text-align: center;
+    color: #666;
+  }
+  
+  .search-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .search-input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .search-button {
+    padding: 10px 20px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #45a049;
+  }
+  
+  .recipe-details {
+    margin-top: 20px;
+  }
+  
+  .recipe-name {
+    color: #333;
+  }
+  
+  .section-title {
+    color: #555;
+  }
+  
+  .ingredient-list,
+  .instruction-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .ingredient,
+  .instruction {
+    margin-bottom: 5px;
+  }
+  
+  /* Media Query for smaller screens */
+  @media (max-width: 768px) {
+    .search-input {
+      width: 100%;
+    }
+  }
+  
