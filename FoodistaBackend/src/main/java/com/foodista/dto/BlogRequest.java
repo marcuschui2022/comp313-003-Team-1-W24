@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class BlogRequest {
     @NotBlank
     @NotNull
-    String user_id;
+    Long user_id;
 
     @NotBlank
     @NotNull

@@ -24,14 +24,14 @@ public class PostResponse {
     @NotNull
     Long blog_id;
 
-    @NotBlank
-    @NotNull
-    String author;
+//    @NotBlank
+//    @NotNull
+//    String author;
 
     @NotBlank
     @NotNull
     String publishDate;
-    
+
     @NotBlank
     @NotNull
     String post_content;

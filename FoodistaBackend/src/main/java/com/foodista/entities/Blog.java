@@ -1,11 +1,8 @@
 package com.foodista.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import com.foodista.entities.User;
 
 @Data
 @Builder
@@ -29,7 +26,6 @@ public class Blog {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
+    @JsonIgnore
     private User user;
-
-    // Getters and Setters
 }

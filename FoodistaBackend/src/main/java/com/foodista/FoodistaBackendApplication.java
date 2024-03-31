@@ -1,7 +1,9 @@
 package com.foodista;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @SpringBootApplication
 public class FoodistaBackendApplication {
@@ -26,6 +28,19 @@ public class FoodistaBackendApplication {
 
         //ctxt.close();
 
+    }
+
+
+    /**
+     * The BaseController class is an abstract class that provides a common base for all controllers in the application.
+     * <p>
+     * It contains a method to extract and return the JWT token from the request headers.
+     */
+    public abstract static class BaseController {
+        @ModelAttribute("jwtToken")
+        public String getJwtToken(HttpServletRequest request) {
+            return request.getHeader("Authorization").substring(7);
+        }
     }
 
 }

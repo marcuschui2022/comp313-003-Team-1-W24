@@ -15,13 +15,13 @@ public interface BlogRepository extends CrudRepository<Blog, Serializable> {
     Iterable<Blog> findAll();
 
     @Query("SELECT b FROM Blog b WHERE b.id = ?1")
-    Optional<Blog> findById(Integer id);
+    Optional<Blog> findById(Long id);
 
     @Query("SELECT b FROM Blog b WHERE b.user.id = ?1")
-    Iterable<Blog> findByUserID(Integer id);
+    Iterable<Blog> findByUserID(Long id);
 
     @Query("SELECT b FROM Blog b WHERE b.id = ?1 AND b.user.id = ?2")
-    Optional<Blog> findByIDAndUserID(Integer id,Integer id2);
+    Optional<Blog> findByIDAndUserID(Long id, Long id2);
 
     @Query("SELECT b FROM Blog b WHERE b.title = 'default'")
     Optional<Blog> findByDefault();

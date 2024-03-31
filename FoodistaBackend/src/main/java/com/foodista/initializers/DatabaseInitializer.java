@@ -20,9 +20,9 @@ public class DatabaseInitializer implements CommandLineRunner {
     private final CategoryDetailRepository categoryDetailRepository;
 
     public DatabaseInitializer(
-        RoleRepository roleRepository, 
-        PostTypeRepository postTypeRepository,
-        CategoryDetailRepository categoryDetailRepository
+            RoleRepository roleRepository,
+            PostTypeRepository postTypeRepository,
+            CategoryDetailRepository categoryDetailRepository
     ) {
         this.roleRepository = roleRepository;
         this.postTypeRepository = postTypeRepository;
@@ -34,53 +34,53 @@ public class DatabaseInitializer implements CommandLineRunner {
     public void run(String... args) throws Exception {
         if (roleRepository.count() == 0) {
             Role adminRole = new Role();
-            adminRole.setId(1);
+            adminRole.setId(1L);
             adminRole.setRoleName("Admin");
             adminRole.setDescription("Administrator role");
             roleRepository.save(adminRole);
 
             Role userRole = new Role();
-            userRole.setId(2);
+            userRole.setId(2L);
             userRole.setRoleName("User");
             userRole.setDescription("User role");
             roleRepository.save(userRole);
         }
 
-        if(postTypeRepository.count() == 0) {
+        if (postTypeRepository.count() == 0) {
             PostType normal = new PostType();
-            normal.setPostTypeId(1);
-            normal.setPostTypeName("normal");
+            normal.setPostTypeId(1L);
+            normal.setPostTypeName("Normal");
             normal.setPostTypeDescription("normal");
             postTypeRepository.save(normal);
 
             PostType premium = new PostType();
-            premium.setPostTypeId(2);
-            premium.setPostTypeName("premium");
+            premium.setPostTypeId(2L);
+            premium.setPostTypeName("Premium");
             premium.setPostTypeDescription("premium");
             postTypeRepository.save(premium);
 
             PostType archive = new PostType();
-            archive.setPostTypeId(3);
-            archive.setPostTypeName("archive");
+            archive.setPostTypeId(3L);
+            archive.setPostTypeName("Archive");
             archive.setPostTypeDescription("archive");
             postTypeRepository.save(archive);
         }
 
-        if(categoryDetailRepository.count() == 0) {
+        if (categoryDetailRepository.count() == 0) {
             CategoryDetail recipt = new CategoryDetail();
-            recipt.setCategoryId((long)1);
+            recipt.setCategoryId((long) 1);
             recipt.setCategoryName("Recipt");
             recipt.setCategoryDescription("Food recipt");
             categoryDetailRepository.save(recipt);
 
             CategoryDetail food = new CategoryDetail();
-            food.setCategoryId((long)2);
+            food.setCategoryId((long) 2);
             food.setCategoryName("Food");
             food.setCategoryDescription("Food share");
             categoryDetailRepository.save(food);
 
             CategoryDetail restaurant = new CategoryDetail();
-            restaurant.setCategoryId((long)3);
+            restaurant.setCategoryId((long) 3);
             restaurant.setCategoryName("Restaurant");
             restaurant.setCategoryDescription("Restaurant Share");
             categoryDetailRepository.save(restaurant);

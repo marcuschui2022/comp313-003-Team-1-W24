@@ -15,20 +15,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class PostRequest {
     @NotBlank
-    Integer post_Id;
+    Long post_Id;
 
     @NotBlank
-    Integer blog_id;
-    
+    Long blog_id;
+
     @NotBlank
     @NotNull
     String post_content;
 
     @NotBlank
     @NotNull
-    Integer category_id;
+    Long category_id;
 
     @NotBlank
     @NotNull
-    Integer post_type_id;
+    Long post_type_id;
 }
