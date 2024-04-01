@@ -1,0 +1,25 @@
+{
+	"info": {
+		"_postman_id": "9e70dd19-533c-4c81-aecf-8115c49e8c68",
+		"name": "PostType",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "33696856"
+	},
+	"item": [
+		{
+			"name": "getAllPostTypes",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOjEsInN1YiI6IjEyNEBnYW1pbC5jb20iLCJpYXQiOjE3MTA5OTQwNDQsImV4cCI6MTcxMDk5NzY0NH0.FM--JZj_Tn9oualxQJERq8ztvab3UnfygScNm4DKUUM"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/api/v1/post-type/"
+			},
+			"response": []
+		}
+	]
+}

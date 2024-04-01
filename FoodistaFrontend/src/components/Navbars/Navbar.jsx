@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 
 import Box from "@mui/material/Box";
@@ -12,7 +12,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Drawer from "@mui/material/Drawer";
 import MenuIcon from "@mui/icons-material/Menu";
 import ToggleColorMode from "../ToggleColorMode";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const logoStyle = {
   width: "140px",
@@ -20,14 +20,13 @@ const logoStyle = {
   cursor: "pointer",
 };
 
-function Navbar({ mode, toggleColorMode }) {
+function Navbar({mode, toggleColorMode}) {
   const [isUserLoggedIn, setIsUserLoggedIn] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [fullName, setFullName] = useState("User");
 
   const navigate = useNavigate();
-
   const clearToken = () => {
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     setIsUserLoggedIn(false);
@@ -42,7 +41,7 @@ function Navbar({ mode, toggleColorMode }) {
     const offset = 128;
     if (sectionElement) {
       const targetScroll = sectionElement.offsetTop - offset;
-      sectionElement.scrollIntoView({ behavior: "smooth" });
+      sectionElement.scrollIntoView({behavior: "smooth"});
       window.scrollTo({
         top: targetScroll,
         behavior: "smooth",
@@ -124,10 +123,11 @@ function Navbar({ mode, toggleColorMode }) {
                 alt="logo of sitemark"
                 onClick={() => navigate("/")}
               />
-              <Box sx={{ display: { xs: "none", md: "flex" } }}>
+              <Box sx={{display: {xs: "none", md: "flex"}}}>
                 <MenuItem
-                  onClick={() => scrollToSection("features")}
-                  sx={{ py: "6px", px: "12px" }}
+                  // onClick={() => scrollToSection("features")}
+                  onClick={() => navigate("/")}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Home
@@ -135,7 +135,7 @@ function Navbar({ mode, toggleColorMode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection("articlesList")}
-                  sx={{ py: "6px", px: "12px" }}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Articles
@@ -143,7 +143,7 @@ function Navbar({ mode, toggleColorMode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection("highlights")}
-                  sx={{ py: "6px", px: "12px" }}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Bloggers
@@ -151,7 +151,7 @@ function Navbar({ mode, toggleColorMode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection("pricing")}
-                  sx={{ py: "6px", px: "12px" }}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Videos
@@ -159,7 +159,7 @@ function Navbar({ mode, toggleColorMode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection("faq")}
-                  sx={{ py: "6px", px: "12px" }}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Recipes
@@ -167,22 +167,30 @@ function Navbar({ mode, toggleColorMode }) {
                 </MenuItem>
                 <MenuItem
                   onClick={() => scrollToSection("faq")}
-                  sx={{ py: "6px", px: "12px" }}
+                  sx={{py: "6px", px: "12px"}}
                 >
                   <Typography variant="body2" color="text.primary">
                     Contact
+                  </Typography>
+                </MenuItem>
+                <MenuItem
+                  onClick={() => navigate("/myblog")}
+                  sx={{py: "6px", px: "12px"}}
+                >
+                  <Typography variant="body2" color="text.primary">
+                    My Blog
                   </Typography>
                 </MenuItem>
               </Box>
             </Box>
             <Box
               sx={{
-                display: { xs: "none", md: "flex" },
+                display: {xs: "none", md: "flex"},
                 gap: 0.5,
                 alignItems: "center",
               }}
             >
-              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode} />
+              <ToggleColorMode mode={mode} toggleColorMode={toggleColorMode}/>
               {!isUserLoggedIn ? (
                 <>
                   <Button
@@ -206,7 +214,7 @@ function Navbar({ mode, toggleColorMode }) {
                 </>
               ) : (
                 <>
-                  <Typography sx={{ color: "primary.main" }}>
+                  <Typography sx={{color: "primary.main"}}>
                     Welcome, {fullName}!
                   </Typography>
                   <Button
@@ -221,15 +229,15 @@ function Navbar({ mode, toggleColorMode }) {
                 </>
               )}
             </Box>
-            <Box sx={{ display: { sm: "", md: "none" } }}>
+            <Box sx={{display: {sm: "", md: "none"}}}>
               <Button
                 variant="text"
                 color="primary"
                 aria-label="menu"
                 onClick={toggleDrawer(true)}
-                sx={{ minWidth: "30px", p: "4px" }}
+                sx={{minWidth: "30px", p: "4px"}}
               >
-                <MenuIcon />
+                <MenuIcon/>
               </Button>
               <Drawer anchor="right" open={open} onClose={toggleDrawer(false)}>
                 <Box
@@ -268,7 +276,7 @@ function Navbar({ mode, toggleColorMode }) {
                   <MenuItem onClick={() => scrollToSection("faq")}>
                     FAQ
                   </MenuItem>
-                  <Divider />
+                  <Divider/>
                   {!isUserLoggedIn ? (
                     <>
                       <MenuItem>
@@ -276,7 +284,7 @@ function Navbar({ mode, toggleColorMode }) {
                           color="primary"
                           variant="contained"
                           component="a"
-                          sx={{ width: "100%" }}
+                          sx={{width: "100%"}}
                           onClick={() => navigate("/signup")}
                         >
                           Sign up
@@ -288,7 +296,7 @@ function Navbar({ mode, toggleColorMode }) {
                           variant="outlined"
                           component="a"
                           onClick={() => navigate("/signin")}
-                          sx={{ width: "100%" }}
+                          sx={{width: "100%"}}
                         >
                           Sign in
                         </Button>
@@ -297,7 +305,7 @@ function Navbar({ mode, toggleColorMode }) {
                   ) : (
                     <>
                       <MenuItem>
-                        <Typography sx={{ color: "primary.main" }}>
+                        <Typography sx={{color: "primary.main"}}>
                           Welcome, {fullName}!
                         </Typography>
                       </MenuItem>
@@ -307,7 +315,7 @@ function Navbar({ mode, toggleColorMode }) {
                           variant="outlined"
                           component="a"
                           onClick={clearToken}
-                          sx={{ width: "100%" }}
+                          sx={{width: "100%"}}
                         >
                           Logout
                         </Button>

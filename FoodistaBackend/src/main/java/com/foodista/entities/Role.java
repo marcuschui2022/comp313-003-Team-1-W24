@@ -13,7 +13,7 @@ public class Role {
 
     @Id
     @Column(name = "ROLE_ID")
-    private Integer id;
+    private Long id;
 
     @Column(name = "ROLE_NAME")
     private String roleName;
@@ -24,17 +24,17 @@ public class Role {
     public Role() {
     }
 
-    public Role(Integer id, String roleName, String desc) {
+    public Role(Long id, String roleName, String desc) {
         this.id = id;
         this.roleName = roleName;
         this.desc = desc;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

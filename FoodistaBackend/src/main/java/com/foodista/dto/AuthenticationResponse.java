@@ -17,4 +17,5 @@ public class AuthenticationResponse {
     private String message;
     private String token;
     private String fullName;
+    private Long userId;
 }

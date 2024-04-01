@@ -30,7 +30,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public ResponseEntity<AuthenticationResponse> signUp(SignUpRequest request) {
-        Optional<Role> optionalRole = roleRepository.findById(2);
+        Optional<Role> optionalRole = roleRepository.findById(2L);
 
         if (optionalRole.isEmpty()) {
             throw new RuntimeException("Default role not found");
@@ -55,7 +55,7 @@ public class AuthenticationService {
 
         var jwt = jwtService.generateToken(user);
 
-        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
+        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).userId(user.getUserId()).build());
     }
 
 
@@ -73,7 +73,7 @@ public class AuthenticationService {
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow(() -> new IllegalArgumentException("Invalid username or password."));
         var jwt = jwtService.generateToken(user);
 
-        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).build());
+        return ResponseEntity.ok().body(AuthenticationResponse.builder().status(HttpStatus.OK.name()).token(jwt).fullName(user.getFullName()).userId(user.getUserId()).build());
     }
 
 }

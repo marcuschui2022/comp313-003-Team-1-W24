@@ -1,11 +1,8 @@
 package com.foodista.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 
 @Data
 @Builder
@@ -17,18 +14,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 public class Blog {
 
     @Id
+    @Column(name = "BLOG_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long blogId;
 
-    @Column(name = "title", nullable = false)
+    @Column(name = "TITLE", nullable = false)
     private String title;
 
-    @Column(name = "blog_description")
+    @Column(name = "BLOG_DESCRIPTION")
     private String blogDescription;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "USER_ID", nullable = false)
+    @JsonIgnore
     private User user;
-
-    // Getters and Setters
 }

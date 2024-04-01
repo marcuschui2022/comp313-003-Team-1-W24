@@ -1,5 +1,7 @@
 package com.foodista.services;
 
+import com.foodista.entities.User;
+import com.foodista.repositories.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,14 +14,16 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 
 @Service
 public class JwtService {
+    private final UserRepository userRepository;
+
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Value("${token.secret.key}")
     String jwtSecretKey;
@@ -41,8 +45,31 @@ public class JwtService {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
+    public String extractUserId(String token) {
+        // System.out.println("extractUserId");
+        Claims claims = extractAllClaims(token);
+        //  System.out.println(claims);
+        //   System.out.println(claims.get("userId"));
+
+        String id = claims.get("userId") + "";
+        return id;
+    }
+
+    /**
+     * Extracts the user details from the provided token.
+     *
+     * @param token The token from which to extract the user details
+     * @return An Optional object that contains the User details if found, otherwise empty
+     */
+    public Optional<User> extractUserDetails(String token) {
+        String userId = this.extractUserId(token);
+        return this.userRepository.findById(Long.valueOf(userId));
+    }
+
+    public String generateToken(User userDetails) {
+        Map<String, Object> obj = new HashMap<>();
+        obj.put("userId", userDetails.getUserId());
+        return generateToken(obj, userDetails);
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {

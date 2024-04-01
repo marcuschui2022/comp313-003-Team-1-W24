@@ -36,7 +36,7 @@ public class User implements UserDetails {
     String password;
 
     @Column(name = "ROLE_ID")
-    Integer roleId;
+    Long roleId;
     // 1 is admin, 2 is user
 
 //    @Enumerated(EnumType.STRING)
@@ -55,6 +55,11 @@ public class User implements UserDetails {
     public String getUsername() {
         // our "username" for security is the email field
         return email;
+    }
+
+    // @Override
+    public Long getUserId() {
+        return id;
     }
 
     @Override

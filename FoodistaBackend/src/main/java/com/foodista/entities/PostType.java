@@ -19,7 +19,7 @@ public class PostType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "post_type_id")
-    private Integer postTypeId;
+    private Long postTypeId;
 
     @Column(name = "post_type_name", nullable = false)
     private String postTypeName;

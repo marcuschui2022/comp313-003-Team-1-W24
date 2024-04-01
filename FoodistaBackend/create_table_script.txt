@@ -120,6 +120,7 @@ CREATE TABLE LIKE_DETAIL (
   CONSTRAINT pk_like_detail PRIMARY KEY (like_id),
   CONSTRAINT fk_like_detail1 FOREIGN KEY (user_id) REFERENCES REGISTERED_USER(user_id),
   CONSTRAINT fk_like_detail2 FOREIGN KEY (post_id) REFERENCES POST(post_id)
+
 );
 
 CREATE TABLE POST_PAYMENT (
@@ -128,3 +129,8 @@ CREATE TABLE POST_PAYMENT (
   CONSTRAINT fk_post_payment1 FOREIGN KEY (pay_det_id) REFERENCES PAYMENT_DETAIL(pay_det_id),
   CONSTRAINT fk_post_payment2 FOREIGN KEY (post_id) REFERENCES POST(post_id)
 );
+
+
+Insert into ROLE_DETAIL (ROLE_ID,ROLE_NAME,ROLE_DESCRIPTION) values (1,'ADMIN','admin');
+Insert into ROLE_DETAIL (ROLE_ID,ROLE_NAME,ROLE_DESCRIPTION) values (2,'USER','user');
+Insert into REGISTERED_USER (USER_ID,FULL_NAME,EMAIL,USERNAME,REGISTERED_USER_PASSWORD,ROLE_ID) values (1,'Test One','123@gamil.com','User1','$2a$10$t.UBr.pFL2SzUALpk5wDP./ke6a4Mt.tvwpyxa6Opvih5Hr.lwxai',2);
