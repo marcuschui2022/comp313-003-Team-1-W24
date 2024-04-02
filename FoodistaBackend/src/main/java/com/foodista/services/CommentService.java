@@ -1,6 +1,5 @@
 package com.foodista.services;
 
-import com.foodista.dto.CommentRequest;
 import com.foodista.entities.CommentDetail;
 import com.foodista.repositories.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +13,8 @@ import java.util.Optional;
 public class CommentService {
     private final CommentRepository commentRepository;
 
-    public List<CommentDetail> findAllComments(String userId, String postId ){
-        return commentRepository.findAllComment(Integer.parseInt(userId),Integer.parseInt(postId));
+    public List<CommentDetail> findAllComments(int postId ){
+        return commentRepository.findAllComment(postId);
     }
 
     public CommentDetail addComment(CommentDetail commentDetail) {
