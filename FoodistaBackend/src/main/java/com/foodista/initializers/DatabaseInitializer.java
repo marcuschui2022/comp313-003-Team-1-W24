@@ -1,13 +1,11 @@
 package com.foodista.initializers;
 
-import com.foodista.entities.Role;
-import com.foodista.entities.PostType;
 import com.foodista.entities.CategoryDetail;
-
-import com.foodista.repositories.RoleRepository;
-import com.foodista.repositories.PostTypeRepository;
+import com.foodista.entities.PostType;
+import com.foodista.entities.Role;
 import com.foodista.repositories.CategoryDetailRepository;
-
+import com.foodista.repositories.PostTypeRepository;
+import com.foodista.repositories.RoleRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,33 +48,33 @@ public class DatabaseInitializer implements CommandLineRunner {
             PostType normal = new PostType();
             normal.setPostTypeId(1L);
             normal.setPostTypeName("Normal");
-            normal.setPostTypeDescription("normal");
+            normal.setPostTypeDescription("Normal");
             postTypeRepository.save(normal);
 
             PostType premium = new PostType();
             premium.setPostTypeId(2L);
             premium.setPostTypeName("Premium");
-            premium.setPostTypeDescription("premium");
+            premium.setPostTypeDescription("Premium");
             postTypeRepository.save(premium);
 
             PostType archive = new PostType();
             archive.setPostTypeId(3L);
             archive.setPostTypeName("Archive");
-            archive.setPostTypeDescription("archive");
+            archive.setPostTypeDescription("Archive");
             postTypeRepository.save(archive);
         }
 
         if (categoryDetailRepository.count() == 0) {
             CategoryDetail recipt = new CategoryDetail();
             recipt.setCategoryId((long) 1);
-            recipt.setCategoryName("Recipt");
-            recipt.setCategoryDescription("Food recipt");
+            recipt.setCategoryName("Receipt");
+            recipt.setCategoryDescription("Food Receipt");
             categoryDetailRepository.save(recipt);
 
             CategoryDetail food = new CategoryDetail();
             food.setCategoryId((long) 2);
             food.setCategoryName("Food");
-            food.setCategoryDescription("Food share");
+            food.setCategoryDescription("Food Share");
             categoryDetailRepository.save(food);
 
             CategoryDetail restaurant = new CategoryDetail();

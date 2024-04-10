@@ -1,5 +1,6 @@
 package com.foodista.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,9 +20,13 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
 
-//    @Column(name = "author")
-//    private String author;
+    @Column(name = "post_profile_picture_url", nullable = false)
+    String postProfilePictureURL;
 
+    @Column(name = "post_description", nullable = false)
+    String postDescription;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd MMM yyyy")
     @Column(name = "publish_date")
     private Timestamp publishDate;
 

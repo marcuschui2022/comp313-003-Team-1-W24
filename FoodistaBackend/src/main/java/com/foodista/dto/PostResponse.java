@@ -1,16 +1,13 @@
 package com.foodista.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
+import com.foodista.entities.CategoryDetail;
+import com.foodista.entities.PostType;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import com.foodista.entities.CategoryDetail;
-import com.foodista.entities.PostType;
 
 @Data
 @Builder
@@ -24,9 +21,9 @@ public class PostResponse {
     @NotNull
     Long blog_id;
 
-//    @NotBlank
-//    @NotNull
-//    String author;
+    @NotBlank
+    @NotNull
+    String author;
 
     @NotBlank
     @NotNull
@@ -35,6 +32,14 @@ public class PostResponse {
     @NotBlank
     @NotNull
     String post_content;
+
+    @NotBlank
+    @NotNull
+    String post_description;
+
+    @NotBlank
+    @NotNull
+    String post_profile_picture_url;
 
     @NotBlank
     @NotNull

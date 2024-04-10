@@ -39,7 +39,8 @@ public class FoodistaBackendApplication {
     public abstract static class BaseController {
         @ModelAttribute("jwtToken")
         public String getJwtToken(HttpServletRequest request) {
-            return request.getHeader("Authorization").substring(7);
+            String header = request.getHeader("Authorization");
+            return header != null ? header.substring(7) : null;
         }
     }
 

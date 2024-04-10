@@ -1,26 +1,19 @@
 package com.foodista.services;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import com.foodista.dto.BlogRequest;
+import com.foodista.dto.PostRequest;
 import com.foodista.entities.*;
+import com.foodista.repositories.BlogRepository;
 import com.foodista.repositories.CategoryDetailRepository;
 import com.foodista.repositories.PostRepository;
-import com.foodista.dto.PostRequest;
-
-import com.foodista.repositories.BlogRepository;
-
 import com.foodista.repositories.PostTypeRepository;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import lombok.AllArgsConstructor;
-import org.springframework.web.server.ResponseStatusException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -125,6 +118,8 @@ public class PostService {
             newPost.setCategory(category);
             newPost.setPostType(postType);
             newPost.setPostContent(postRequest.getPost_content());
+            newPost.setPostDescription(postRequest.getPost_description());
+            newPost.setPostProfilePictureURL(postRequest.getPost_profile_picture_url());
 
             return postRepository.save(newPost);
         }

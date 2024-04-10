@@ -1,7 +1,5 @@
 package com.foodista.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -14,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequest {
-    @NotBlank
-    Long post_Id;
+//    @NotBlank
+//    Long post_Id;
 
     @NotBlank
     Long blog_id;
@@ -23,6 +21,14 @@ public class PostRequest {
     @NotBlank
     @NotNull
     String post_content;
+
+    @NotBlank
+    @NotNull
+    String post_description;
+
+    @NotBlank
+    @NotNull
+    String post_profile_picture_url;
 
     @NotBlank
     @NotNull

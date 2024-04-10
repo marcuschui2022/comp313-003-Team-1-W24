@@ -1,41 +1,27 @@
 package com.foodista.controller;
 
 import com.foodista.FoodistaBackendApplication;
-import com.foodista.dto.BlogRequest;
+import com.foodista.dto.PostRequest;
+import com.foodista.dto.PostResponse;
+import com.foodista.entities.Post;
+import com.foodista.repositories.CategoryDetailRepository;
+import com.foodista.repositories.PostTypeRepository;
+import com.foodista.repositories.UserRepository;
+import com.foodista.services.BlogService;
+import com.foodista.services.JwtService;
+import com.foodista.services.PostService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.security.access.prepost.PreAuthorize;
 
-import lombok.RequiredArgsConstructor;
-
-import com.foodista.entities.Post;
-import com.foodista.services.PostService;
-import com.foodista.dto.PostRequest;
-import com.foodista.dto.PostResponse;
-
-import com.foodista.entities.Blog;
-import com.foodista.entities.User;
-import com.foodista.entities.CategoryDetail;
-import com.foodista.entities.PostType;
-
-import com.foodista.services.BlogService;
-import com.foodista.services.JwtService;
-
-import com.foodista.repositories.UserRepository;
-import com.foodista.repositories.CategoryDetailRepository;
-import com.foodista.repositories.PostTypeRepository;
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.sql.Timestamp;
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -53,41 +39,74 @@ public class PostController extends FoodistaBackendApplication.BaseController {
     private final PostTypeRepository postTypeRepository;
 
     @GetMapping("/")
-    public ResponseEntity<List<PostResponse>> getAllNormalPost(@RequestParam(required = false) String title) {
-        System.out.println("get_all_normal_post_1");
+    public ResponseEntity<List<PostResponse>> getAllPost() {
+
         try {
-
-            List<PostResponse> posts = new ArrayList<PostResponse>();
-            System.out.println("get_all_post_2");
-
-            postService.getAll().forEach(post -> {
-                // System.out.println("getBlogId"+blog.getBlogId());
-                // System.out.println("getUser"+blog.getUser().getId());
-                if (post.getPostType().getPostTypeId() == 1) {
-                    PostResponse response = new PostResponse(
-                            post.getPostId(),
-                            post.getBlog().getBlogId(),
-//                            post.getAuthor(),
-                            post.getPublishDate() + "",
-                            "",
-                            post.getCategory(),
-                            post.getPostType());
-
-                    posts.add(response);
-                }
-            });
-            // System.out.println("get_all_3");
+            List<Post> posts = postService.getAll();
+            List<PostResponse> postResponses = new ArrayList<>();
 
             if (posts.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            // System.out.println("get_all_4");
 
-            return new ResponseEntity<>(posts, HttpStatus.OK);
+            DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+
+            for (Post post : posts) {
+                PostResponse postResponse = PostResponse.builder()
+                        .post_Id(post.getPostId())
+                        .blog_id(post.getBlog().getBlogId())
+                        .author(post.getBlog().getUser().getFullName().toUpperCase())
+                        .publishDate(df.format(post.getPublishDate()))
+                        .post_content(post.getPostContent())
+                        .category(post.getCategory())
+                        .postType(post.getPostType())
+                        .build();
+
+                postResponses.add(postResponse);
+            }
+
+            return new ResponseEntity<>(postResponses, HttpStatus.OK);
+
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+//    @GetMapping("/")
+//    public ResponseEntity<List<PostResponse>> getAllNormalPost(@RequestParam(required = false) String title) {
+//        System.out.println("get_all_normal_post_1");
+//        try {
+//
+//            List<PostResponse> posts = new ArrayList<PostResponse>();
+//            System.out.println("get_all_post_2");
+//
+//            postService.getAll().forEach(post -> {
+//                // System.out.println("getBlogId"+blog.getBlogId());
+//                // System.out.println("getUser"+blog.getUser().getId());
+//                if (post.getPostType().getPostTypeId() == 1) {
+//                    PostResponse response = new PostResponse(
+//                            post.getPostId(),
+//                            post.getBlog().getBlogId(),
+////                            post.getAuthor(),
+//                            post.getPublishDate() + "",
+//                            "",
+//                            post.getCategory(),
+//                            post.getPostType());
+//
+//                    posts.add(response);
+//                }
+//            });
+//            // System.out.println("get_all_3");
+//
+//            if (posts.isEmpty()) {
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//            // System.out.println("get_all_4");
+//
+//            return new ResponseEntity<>(posts, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
     @GetMapping("/user/")
     public ResponseEntity<List<Post>> getAllPostByUserId(@ModelAttribute("jwtToken") String jwtToken) {
@@ -99,111 +118,111 @@ public class PostController extends FoodistaBackendApplication.BaseController {
         }
     }
 
-    @GetMapping("/user/{user_id}")
-    public ResponseEntity<List<PostResponse>> getAllPostByUser(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("user_id") Long userId) {
-        try {
-            System.out.println("getByUser_1");
-            List<PostResponse> posts = new ArrayList<PostResponse>();
+//    @GetMapping("/user/{user_id}")
+//    public ResponseEntity<List<PostResponse>> getAllPostByUser(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("user_id") Long userId) {
+//        try {
+//            System.out.println("getByUser_1");
+//            List<PostResponse> posts = new ArrayList<PostResponse>();
+//
+//            final int[] tokenUserId = {-1};
+//
+//            if (token != null && !token.isEmpty()) {
+//                token = token.split(" ")[1];
+//                //  System.out.println(token);
+//                String tmp = jwtService.extractUserId(token);
+//                tokenUserId[0] = Integer.valueOf(tmp);
+//
+//                // System.out.println(tokenUserId);
+//                // System.out.println("getByUser_2");
+//                // System.out.println(userId);
+//            }
+//            // System.out.println("getByUser_2");
+//
+//            postService.getByUserId(userId).forEach(post -> {
+//                // System.out.println("getByUser_3");
+//                // System.out.println(tokenUserId == userId);
+//
+//                if (post.getPostType().getPostTypeId() == 1 || tokenUserId[0] == userId) {
+//                    PostResponse response = new PostResponse(
+//                            post.getPostId(),
+//                            post.getBlog().getBlogId(),
+////                            post.getAuthor(),
+//                            post.getPublishDate() + "",
+//                            post.getPostContent(),
+//                            post.getCategory(),
+//                            post.getPostType());
+//
+//                    posts.add(response);
+//                }
+//            });
+//
+//            if (posts.isEmpty()) {
+//                System.out.println("getByUser_Empty");
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//
+//            return new ResponseEntity<>(posts, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
-            final int[] tokenUserId = {-1};
 
-            if (token != null && !token.isEmpty()) {
-                token = token.split(" ")[1];
-                //  System.out.println(token);
-                String tmp = jwtService.extractUserId(token);
-                tokenUserId[0] = Integer.valueOf(tmp);
-
-                // System.out.println(tokenUserId);
-                // System.out.println("getByUser_2");
-                // System.out.println(userId);
-            }
-            // System.out.println("getByUser_2");
-
-            postService.getByUserId(userId).forEach(post -> {
-                // System.out.println("getByUser_3");
-                // System.out.println(tokenUserId == userId);
-
-                if (post.getPostType().getPostTypeId() == 1 || tokenUserId[0] == userId) {
-                    PostResponse response = new PostResponse(
-                            post.getPostId(),
-                            post.getBlog().getBlogId(),
-//                            post.getAuthor(),
-                            post.getPublishDate() + "",
-                            post.getPostContent(),
-                            post.getCategory(),
-                            post.getPostType());
-
-                    posts.add(response);
-                }
-            });
-
-            if (posts.isEmpty()) {
-                System.out.println("getByUser_Empty");
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(posts, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-
-    @GetMapping("/blog/{blog_id}")
-    public ResponseEntity<List<PostResponse>> getAllPostByBlogId(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("blog_id") Long blogId) {
-        try {
-            System.out.println("getByBlog_1");
-            List<PostResponse> posts = new ArrayList<PostResponse>();
-
-            final int[] tokenUserId = {-1};
-
-            if (token != null && !token.isEmpty()) {
-                token = token.split(" ")[1];
-                //  System.out.println(token);
-                String tmp = jwtService.extractUserId(token);
-                tokenUserId[0] = Integer.valueOf(tmp);
-
-                // System.out.println(tokenUserId);
-                // System.out.println("getByUser_2");
-                // System.out.println(userId);
-            }
-            // System.out.println("getByUser_2");
-            Optional<Blog> tmpBlog = blogService.getById(blogId);
-            if (!tmpBlog.isPresent()) {
-                System.out.println("getByBlog_no_blog");
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            Blog blog = tmpBlog.get();
-            Long userId = blog.getUser().getId();
-
-            postService.getByBlogId(blogId).forEach(post -> {
-                // System.out.println("getByUser_3");
-                // System.out.println(tokenUserId == userId);
-
-                if (post.getPostType().getPostTypeId() == 1 || tokenUserId[0] == userId) {
-                    PostResponse response = new PostResponse(
-                            post.getPostId(),
-                            post.getBlog().getBlogId(),
-//                            post.getAuthor(),
-                            post.getPublishDate() + "",
-                            "",
-                            post.getCategory(),
-                            post.getPostType());
-
-                    posts.add(response);
-                }
-            });
-
-            if (posts.isEmpty()) {
-                System.out.println("getByBlog_Empty");
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(posts, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping("/blog/{blog_id}")
+//    public ResponseEntity<List<PostResponse>> getAllPostByBlogId(@RequestHeader(value = "Authorization", required = false) String token, @PathVariable("blog_id") Long blogId) {
+//        try {
+//            System.out.println("getByBlog_1");
+//            List<PostResponse> posts = new ArrayList<PostResponse>();
+//
+//            final int[] tokenUserId = {-1};
+//
+//            if (token != null && !token.isEmpty()) {
+//                token = token.split(" ")[1];
+//                //  System.out.println(token);
+//                String tmp = jwtService.extractUserId(token);
+//                tokenUserId[0] = Integer.valueOf(tmp);
+//
+//                // System.out.println(tokenUserId);
+//                // System.out.println("getByUser_2");
+//                // System.out.println(userId);
+//            }
+//            // System.out.println("getByUser_2");
+//            Optional<Blog> tmpBlog = blogService.getById(blogId);
+//            if (!tmpBlog.isPresent()) {
+//                System.out.println("getByBlog_no_blog");
+//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//            }
+//            Blog blog = tmpBlog.get();
+//            Long userId = blog.getUser().getId();
+//
+//            postService.getByBlogId(blogId).forEach(post -> {
+//                // System.out.println("getByUser_3");
+//                // System.out.println(tokenUserId == userId);
+//
+//                if (post.getPostType().getPostTypeId() == 1 || tokenUserId[0] == userId) {
+//                    PostResponse response = new PostResponse(
+//                            post.getPostId(),
+//                            post.getBlog().getBlogId(),
+////                            post.getAuthor(),
+//                            post.getPublishDate() + "",
+//                            "",
+//                            post.getCategory(),
+//                            post.getPostType());
+//
+//                    posts.add(response);
+//                }
+//            });
+//
+//            if (posts.isEmpty()) {
+//                System.out.println("getByBlog_Empty");
+//                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//            }
+//
+//            return new ResponseEntity<>(posts, HttpStatus.OK);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
     @GetMapping("/{id}")
@@ -241,6 +260,7 @@ public class PostController extends FoodistaBackendApplication.BaseController {
     @PostMapping("/")
     public ResponseEntity<Post> createPost(@RequestBody PostRequest postRequest, @ModelAttribute("jwtToken") String jwtToken) {
         try {
+            System.out.println(postRequest);
             Post newPost = postService.save(postRequest, jwtToken);
 
             return new ResponseEntity<>(newPost, HttpStatus.CREATED);
