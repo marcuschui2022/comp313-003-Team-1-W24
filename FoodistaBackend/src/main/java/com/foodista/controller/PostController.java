@@ -55,11 +55,13 @@ public class PostController extends FoodistaBackendApplication.BaseController {
                 PostResponse postResponse = PostResponse.builder()
                         .post_Id(post.getPostId())
                         .blog_id(post.getBlog().getBlogId())
-                        .author(post.getBlog().getUser().getFullName().toUpperCase())
+                        .author(post.getBlog().getUser().getFullName())
                         .publishDate(df.format(post.getPublishDate()))
                         .post_content(post.getPostContent())
                         .category(post.getCategory())
                         .postType(post.getPostType())
+                        .post_description(post.getPostDescription())
+                        .post_profile_picture_url(post.getPostProfilePictureURL())
                         .build();
 
                 postResponses.add(postResponse);

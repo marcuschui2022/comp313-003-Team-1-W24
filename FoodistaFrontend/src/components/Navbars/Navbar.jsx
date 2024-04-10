@@ -133,49 +133,49 @@ function Navbar({mode, toggleColorMode, setFullName, fullName}) {
                                     sx={{py: "6px", px: "12px"}}
                                 >
                                     <Typography variant="body2" color="text.primary">
-                                        Home
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection("articlesList")}
-                                    sx={{py: "6px", px: "12px"}}
-                                >
-                                    <Typography variant="body2" color="text.primary">
                                         Articles
                                     </Typography>
                                 </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection("highlights")}
-                                    sx={{py: "6px", px: "12px"}}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Bloggers
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection("pricing")}
-                                    sx={{py: "6px", px: "12px"}}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Videos
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection("faq")}
-                                    sx={{py: "6px", px: "12px"}}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Recipes
-                                    </Typography>
-                                </MenuItem>
-                                <MenuItem
-                                    onClick={() => scrollToSection("faq")}
-                                    sx={{py: "6px", px: "12px"}}
-                                >
-                                    <Typography variant="body2" color="text.primary">
-                                        Contact
-                                    </Typography>
-                                </MenuItem>
+                                {/*<MenuItem*/}
+                                {/*    onClick={() => scrollToSection("articlesList")}*/}
+                                {/*    sx={{py: "6px", px: "12px"}}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="body2" color="text.primary">*/}
+                                {/*        Articles*/}
+                                {/*    </Typography>*/}
+                                {/*</MenuItem>*/}
+                                {/*<MenuItem*/}
+                                {/*    onClick={() => scrollToSection("highlights")}*/}
+                                {/*    sx={{py: "6px", px: "12px"}}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="body2" color="text.primary">*/}
+                                {/*        Bloggers*/}
+                                {/*    </Typography>*/}
+                                {/*</MenuItem>*/}
+                                {/*<MenuItem*/}
+                                {/*    onClick={() => scrollToSection("pricing")}*/}
+                                {/*    sx={{py: "6px", px: "12px"}}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="body2" color="text.primary">*/}
+                                {/*        Videos*/}
+                                {/*    </Typography>*/}
+                                {/*</MenuItem>*/}
+                                {/*<MenuItem*/}
+                                {/*    onClick={() => scrollToSection("faq")}*/}
+                                {/*    sx={{py: "6px", px: "12px"}}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="body2" color="text.primary">*/}
+                                {/*        Recipes*/}
+                                {/*    </Typography>*/}
+                                {/*</MenuItem>*/}
+                                {/*<MenuItem*/}
+                                {/*    onClick={() => scrollToSection("faq")}*/}
+                                {/*    sx={{py: "6px", px: "12px"}}*/}
+                                {/*>*/}
+                                {/*    <Typography variant="body2" color="text.primary">*/}
+                                {/*        Contact*/}
+                                {/*    </Typography>*/}
+                                {/*</MenuItem>*/}
                                 {fullName && <MenuItem
                                     onClick={() => navigate("/myblog")}
                                     sx={{py: "6px", px: "12px"}}

@@ -127,29 +127,6 @@ function NewBlogModal({setOpenNewBlogModal, openNewBlogMoal, setOpenDialAction, 
     );
 }
 
-
-// function BlogsRadioButtonsGroup({options, setSelectedBlog, selectedBlog}) {
-//   return (
-//     <FormControl>
-//       <RadioGroup
-//         row
-//         aria-labelledby="demo-row-radio-buttons-group-label"
-//         name="row-radio-buttons-group"
-//         value={selectedBlog}
-//       >
-//         <FormControlLabel sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} value="all"
-//                           control={<Radio/>}
-//                           label="All" onChange={() => setSelectedBlog('all')}/>
-//         {options.map(x => <FormControlLabel
-//           sx={{"& .MuiFormControlLabel-label": {marginLeft: "-7px"}}} key={x.blog_id}
-//           value={x.blog_id} control={<Radio/>} label={x.title}
-//           onChange={() => setSelectedBlog(x.blog_id)}/>)}
-//
-//       </RadioGroup>
-//     </FormControl>
-//   );
-// }
-
 export default function MyBlog({fullName}) {
     const [openDialAction, setOpenDialAction] = React.useState(false);
     const [openNewBlogModal, setOpenNewBlogModal] = useState(false)
@@ -191,7 +168,7 @@ export default function MyBlog({fullName}) {
 
 
         <>
-            <Container sx={{mt: 20}}>
+            <Container sx={{mt: 0}}>
                 <Typography variant="h3" gutterBottom>
                     {fullName ? fullName : ''} Blog
                 </Typography>
