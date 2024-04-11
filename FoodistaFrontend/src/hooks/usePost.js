@@ -276,6 +276,46 @@ export const usePost = (apiUrl) => {
     }
   };
 
+  const handleSubmitNewComment = async (event, formData, postId) => {
+    event.preventDefault();
+    setIsLoading(false);
+    setErrorMsg("");
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(apiBaseUrl + apiUrl + "comment/post/" + postId, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer  ${token}`
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        setComments(jsonResponse)
+        // navigate("/post?postId=" + postId);
+        // window.location.href = "/post?postId=" + postId;
+        // navigate("/");
+      } else {
+        const jsonResponse = await response.json();
+        if (jsonResponse.message) {
+          setErrorMsg(jsonResponse.message);
+        } else {
+          if (jsonResponse) {
+            setErrorMsg(jsonResponse);
+          } else {
+            setErrorMsg("Error: unexpected error...");
+          }
+        }
+      }
+    } catch (error) {
+      setErrorMsg("Unexpected error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
     isLoading,
@@ -291,6 +331,7 @@ export const usePost = (apiUrl) => {
     singlePostData,
     handleDeletePost,
     handleFetchCommentsByPostId,
-    comments
+    comments,
+    handleSubmitNewComment
   };
 };

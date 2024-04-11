@@ -30,7 +30,8 @@ export default function ShowPost() {
     singlePostData,
     handleDeletePost,
     handleFetchCommentsByPostId,
-    comments
+    comments,
+    handleSubmitNewComment,
   } = usePost(apiUrl);
 
 
@@ -52,7 +53,6 @@ export default function ShowPost() {
     return null;
   }
 
-  console.log(comments)
 
   return (
     <>
@@ -97,10 +97,19 @@ export default function ShowPost() {
               width: '100%',
               alignItems: 'flex-start'
             }}
+            onSubmit={event => {
+              const form = new FormData(event.currentTarget)
+              const params = new URLSearchParams(location.search);
+              const postId = params.get('postId');
+              return handleSubmitNewComment(event, {
+                commentContent: form.get('commentContent'),
+              }, postId,)
+            }}
           >
             <TextField
-              id="outlined-multiline-static"
+              id="commentContent"
               label="Leave your comment here"
+              name="commentContent"
               multiline
               minRows={4}
               maxRows={20}
@@ -114,8 +123,9 @@ export default function ShowPost() {
                 justifyContent: 'flex-end',
                 width: '100%'
               }}
+
             >
-              <Button variant="outlined" type="button" sx={{marginTop: 2}}>
+              <Button variant="outlined" type="submit" sx={{marginTop: 2}}>
                 Enter
               </Button>
             </Box>

@@ -36,12 +36,12 @@ public class CommentController extends FoodistaBackendApplication.BaseController
     }
 
     @PostMapping("/post/{postId}")
-    public ResponseEntity<CommentDetail> addComment(@RequestBody CommentRequest commentRequest,
-                                                    @PathVariable Long postId,
-                                                    @ModelAttribute("jwtToken") String jwtToken) {
+    public ResponseEntity<List<CommentResponse>> addComment(@RequestBody CommentRequest commentRequest,
+                                                            @PathVariable Long postId,
+                                                            @ModelAttribute("jwtToken") String jwtToken) {
         try {
-            CommentDetail commentDetail = commentService.addComment(commentRequest, postId, jwtToken);
-            return new ResponseEntity<>(commentDetail, HttpStatus.CREATED);
+            commentService.addComment(commentRequest, postId, jwtToken);
+            return ResponseEntity.ok(commentService.getCommentsByPostId(postId));
         } catch (Exception e) {
 //            e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
