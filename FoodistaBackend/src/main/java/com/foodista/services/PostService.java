@@ -2,10 +2,7 @@ package com.foodista.services;
 
 import com.foodista.dto.PostRequest;
 import com.foodista.entities.*;
-import com.foodista.repositories.BlogRepository;
-import com.foodista.repositories.CategoryDetailRepository;
-import com.foodista.repositories.PostRepository;
-import com.foodista.repositories.PostTypeRepository;
+import com.foodista.repositories.*;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +22,7 @@ public class PostService {
     private BlogRepository blogRepository;
     private CategoryDetailRepository categoryDetailRepository;
     private PostTypeRepository postTypeRepository;
+    private CommentRepository commentRepository;
     private final JwtService jwtService;
 
     public List<Post> getAll() {
@@ -127,6 +125,8 @@ public class PostService {
         }
     }
 
+
+    @Transactional
     public String delete(String jwtToken, Long id) {
         Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
 
@@ -139,7 +139,13 @@ public class PostService {
 
                 // Check if the post belongs to the logged in user
                 if (post.getBlog().getUser().getId().equals(userId)) {
+                    // Delete all related comments first
+                    List<CommentDetail> comments = commentRepository.findByPostPostId(id);
+                    commentRepository.deleteAll(comments);
+
+                    // Now delete the post
                     postRepository.delete(post);
+
                     return "Post deleted successfully";
                 } else {
                     throw new IllegalArgumentException("The post does not belong to the logged in user");
