@@ -3,18 +3,18 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import {
-    Avatar,
-    CardActionArea,
-    CardContent,
-    CardHeader,
-    CardMedia,
-    Divider,
-    FormControl,
-    FormControlLabel,
-    InputAdornment,
-    Radio,
-    RadioGroup,
-    TextField,
+  Avatar,
+  CardActionArea,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  Divider,
+  FormControl,
+  FormControlLabel,
+  InputAdornment,
+  Radio,
+  RadioGroup,
+  TextField,
 } from "@mui/material";
 import {grey} from "@mui/material/colors";
 import SearchIcon from "@mui/icons-material/Search";
@@ -160,7 +160,7 @@ export default function ArticlesList({postData}) {
                       sx={{
                         backgroundColor: grey[100],
                       }}
-                      avatar={<Avatar src={""} aria-label="author"/>}
+                      avatar={<Avatar src={`https://i.pravatar.cc/150?u=${post.author}`} aria-label="author"/>}
                       title={post.author}
                       titleTypographyProps={{variant: "subtitle2"}}
                       subheader={post.publishDate}

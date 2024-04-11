@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
 
 export const useBlog = (apiUrl) => {
-  const token = document.cookie.split('; ').find(row => row.startsWith('token')).split('=')[1];
+  const token = document.cookie.split('; ').find(row => row.startsWith('token'))?.split('=')[1];
   const [isLoading, setIsLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 

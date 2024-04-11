@@ -159,10 +159,10 @@ export default function ShowPost() {
                     gutterBottom>
                     {comment.full_name} @ {comment.create_at}
                   </Typography>
-                  <IconButton color="secondary" size="large"
-                              onClick={() => handleDeleteCommentsByCommentId(comment.comment_id)}>
+                  {cookiesUserId === comment.user_id.toString() && <IconButton color="secondary" size="large"
+                                                                               onClick={() => handleDeleteCommentsByCommentId(comment.comment_id)}>
                     <CloseIcon/>
-                  </IconButton>
+                  </IconButton>}
                   {/*<IconButton color="primary" size="large">*/}
                   {/*  <EditIcon/>*/}
                   {/*</IconButton>*/}
