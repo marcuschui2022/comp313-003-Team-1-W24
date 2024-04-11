@@ -55,7 +55,7 @@ export default function ShowPost() {
             <Container sx={{mt: 0}}>
                 <Divider sx={{mt: 5, mb: 5}}/>
                 {cookiesUserId === singlePostData.user_Id.toString() && <>
-                    <Button variant="outlined">Edit
+                    <Button variant="outlined" onClick={() => navigate(`/edit?postId=${singlePostData.post_Id}`)}>Edit
                         Post</Button>
                     <Button sx={{ml: 2}} variant="outlined" onClick={() => handleDeletePost(singlePostData.post_Id)}>Delete
                         Post</Button></>}

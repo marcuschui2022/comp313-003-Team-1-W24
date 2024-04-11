@@ -11,6 +11,7 @@ import Navbar from "./components/Navbars/Navbar.jsx";
 import MyBlog from "./pages/MyBlog.jsx";
 import NewPost from "./pages/NewPost.jsx";
 import ShowPost from "./pages/ShowPost.jsx";
+import EditPost from "./pages/EditPost.jsx";
 
 function AppRoutes({mode, toggleColorMode}) {
     const location = useLocation();
@@ -29,6 +30,7 @@ function AppRoutes({mode, toggleColorMode}) {
                 <Route path="/myblog" element={<MyBlog fullName={fullName}/>}/>
                 <Route path="/newpost" element={<NewPost/>}/>
                 <Route path="/post" element={<ShowPost/>}/>
+                <Route path="/edit" element={<EditPost/>}/>
             </Routes>
         </>
     );

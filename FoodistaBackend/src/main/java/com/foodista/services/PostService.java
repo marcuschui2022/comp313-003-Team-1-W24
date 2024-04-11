@@ -70,29 +70,17 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    // public Optional<Post> update(final Integer id, final PostRequest post) {
 
-    //     // return postRepository.findById(id).map(existingPost -> {
-    //     //     if (existingPost != null) {
-    //     //         existingPost.setPostContent(post.getPostContent());
-    //     //         return postRepository.save(existingPost);
-    //     //     } else {
-    //     //         return null;
-    //     //     }
-    //     // });
-    // }
-
-//    public Post save(final Post post) {
-//        // System.out.println("post");
-//        // System.out.println(post);
-//        return postRepository.save(post);
-//    }
-
-    public Post save(PostRequest postRequest, String jwtToken) {
+    public Post saveAndUpdate(PostRequest postRequest, String jwtToken) {
         Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
+        Optional<Post> existingPost = postRepository.findById(postRequest.getPost_Id());
+
+        // If the post exist, check if the current user is the owner of the post
+        if (existingPost.isPresent() && !existingPost.get().getBlog().getUser().getId().equals(foundUser.get().getUserId())) {
+            throw new IllegalArgumentException("The post does not belong to the current user");
+        }
 
         // Fetch the Blog entity using postRequest's blog_id
-        // Replace this with your actual code to fetch Blog entity
         Optional<Blog> foundBlog = blogRepository.findById(postRequest.getBlog_id());
 
         // Fetch the CategoryDetail entity using postRequest's category_id
@@ -112,7 +100,8 @@ public class PostService {
                 throw new RuntimeException("User is not owner of the blog");
             }
 
-            Post newPost = new Post();
+            Post newPost = existingPost.orElse(new Post());
+
             // Set newPost properties here
             newPost.setBlog(blog);
             newPost.setCategory(category);
@@ -126,6 +115,7 @@ public class PostService {
 
         throw new RuntimeException("User, blog, category, or post type not found");
     }
+
 
     public List<Post> getAllPostsByUserId(String jwtToken) {
         Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);

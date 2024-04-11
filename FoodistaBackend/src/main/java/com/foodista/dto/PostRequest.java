@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PostRequest {
-//    @NotBlank
-//    Long post_Id;
+    //    @NotBlank
+    Long post_Id;
 
     @NotBlank
     Long blog_id;
