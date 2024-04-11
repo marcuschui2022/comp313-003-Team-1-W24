@@ -16,7 +16,7 @@ import {useBlog} from "../hooks/useBlog.js";
 import {useNavigate} from "react-router-dom";
 import BlogsRadioButtonsGroup from "../components/BlogsRadioButtonsGroup.jsx";
 import {usePost} from "../hooks/usePost.js";
-import {RichTextEditor} from '@mantine/rte';
+import UserArticlesList from "../components/UserArticlesList.jsx";
 
 const apiUrl = "/api/v1/";
 
@@ -176,63 +176,51 @@ export default function MyBlog({fullName}) {
                 <BlogsRadioButtonsGroup options={myBlogData} selectedBlog={selectedBlog}
                                         setSelectedBlog={setSelectedBlog}/>
 
-                {userPostData && userPostData.filter(p => {
-                    if (selectedBlog === 'all') {
-                        return p;
-                    } else {
-                        return p.blog.blogId === selectedBlog
-                    }
-                }).map(p => {
-                    return <Box key={p.postId} sx={{mb: 5, mt: 2}}>
-                        <Typography variant="h5" gutterBottom>
-                            Publish Date: {p.publishDate}
-                        </Typography>
-                        <RichTextEditor
-                            readOnly={true}
-                            value={p.postContent}
-                            id="rte"/>
-                    </Box>
-                })}
 
-                <Backdrop open={openDialAction}/>
-                <SpeedDial
-                    ariaLabel="SpeedDial tooltip example"
-                    sx={{position: 'fixed', bottom: 26, right: 26}}
-                    icon={<SpeedDialIcon/>}
-                    onClose={handleClose}
-                    onOpen={handleOpen}
-                    open={openDialAction}
-                >
-                    {(myBlogData && myBlogData.length === 0) ?
+                {selectedBlog !== 'all' &&
+                    <UserArticlesList postData={userPostData.filter(p => p.blog_id === selectedBlog)}/>}
+                {selectedBlog === 'all' && <UserArticlesList postData={userPostData}/>}
 
 
-                        <SpeedDialAction
-                            icon={<SaveIcon/>}
-                            tooltipTitle={'New Blog'}
-                            tooltipOpen
-                            onClick={() => handleDialAction({name: 'New Blog'})}
-                        />
-                        : actions.map((action) => {
-
-
-                            return <SpeedDialAction
-                                key={action.name}
-                                icon={action.icon}
-                                tooltipTitle={action.name}
-                                tooltipOpen
-                                onClick={() => handleDialAction(action)}
-                            />
-                        })}
-
-                </SpeedDial>
-
-
-                <div style={{marginTop: "200px"}}></div>
             </Container>
+
+            <Backdrop open={openDialAction}/>
+
+            <SpeedDial
+                ariaLabel="SpeedDial tooltip example"
+                sx={{position: 'fixed', bottom: 30, right: 30}}
+                icon={<SpeedDialIcon/>}
+                onClose={handleClose}
+                onOpen={handleOpen}
+                open={openDialAction}
+            >
+                {(myBlogData && myBlogData.length === 0) ?
+
+
+                    <SpeedDialAction
+                        icon={<SaveIcon/>}
+                        tooltipTitle={'New Blog'}
+                        tooltipOpen
+                        onClick={() => handleDialAction({name: 'New Blog'})}
+                    />
+                    : actions.map((action) => {
+
+
+                        return <SpeedDialAction
+                            key={action.name}
+                            icon={action.icon}
+                            tooltipTitle={action.name}
+                            tooltipOpen
+                            onClick={() => handleDialAction(action)}
+                        />
+                    })}
+
+            </SpeedDial>
+
             <NewBlogModal openNewBlogMoal={openNewBlogModal} setOpenNewBlogModal={setOpenNewBlogModal}
                           setOpenDialAction={setOpenDialAction}
                           handleFetchBlogDataByCurrentUserId={handleFetchBlogDataByCurrentUserId}/>
-
+            <div style={{marginTop: "200px"}}></div>
         </>
     );
 }

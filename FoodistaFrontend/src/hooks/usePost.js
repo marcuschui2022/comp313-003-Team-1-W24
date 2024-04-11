@@ -11,6 +11,7 @@ export const usePost = (apiUrl) => {
     const [postType, setPostType] = useState([])
     const [userPostData, setUserPostData] = useState([])
     const [postData, setPostData] = useState([])
+    const [singlePostData, setSinglePostData] = useState(null)
 
     const navigate = useNavigate();
 
@@ -142,7 +143,6 @@ export const usePost = (apiUrl) => {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    // "Authorization": `Bearer  ${token}`
                 },
             });
 
@@ -150,6 +150,42 @@ export const usePost = (apiUrl) => {
                 const jsonResponse = await response.json();
                 // console.log(jsonResponse)
                 setPostData(jsonResponse)
+            } else {
+                const jsonResponse = await response.json();
+                if (jsonResponse.message) {
+                    setErrorMsg(jsonResponse.message);
+                } else {
+                    if (jsonResponse) {
+                        setErrorMsg(jsonResponse);
+                    } else {
+                        setErrorMsg("Error: unexpected error...");
+                    }
+                }
+            }
+        } catch (error) {
+            setErrorMsg("Unexpected error: " + error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleFetchPostById = async (postId) => {
+        setIsLoading(false);
+        setErrorMsg("");
+
+        try {
+            setIsLoading(true);
+            const response = await fetch(apiBaseUrl + apiUrl + "post/" + postId, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            if (response.ok) {
+                const jsonResponse = await response.json();
+                console.log(jsonResponse)
+                setSinglePostData(jsonResponse)
             } else {
                 const jsonResponse = await response.json();
                 if (jsonResponse.message) {
@@ -179,6 +215,8 @@ export const usePost = (apiUrl) => {
         handleFetchPostByUserId,
         userPostData,
         handleAllPost,
-        postData
+        postData,
+        handleFetchPostById,
+        singlePostData
     };
 };

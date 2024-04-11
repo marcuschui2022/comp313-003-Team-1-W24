@@ -140,7 +140,7 @@ export default function NewPost() {
 
     return (
         <>
-            <Container sx={{mt: 20}}>
+            <Container sx={{mt: 0}}>
                 <Typography variant="h4" gutterBottom>New Post</Typography>
                 <Divider sx={{mb: 3}}/>
                 <ThemeProvider theme={defaultTheme}>
