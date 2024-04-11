@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import CloseIcon from '@mui/icons-material/Close';
 import IconButton from "@mui/material/IconButton";
+import CircularIndeterminate from "../components/CircularIndeterminate.jsx";
 
 export default function ShowPost() {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export default function ShowPost() {
     handleDeletePost,
     handleFetchCommentsByPostId,
     comments,
-    handleSubmitNewComment, handleDeleteCommentsByCommentId
+    handleSubmitNewComment, handleDeleteCommentsByCommentId, isLoading
   } = usePost(apiUrl);
 
 
@@ -50,10 +51,17 @@ export default function ShowPost() {
 
   // console.log(singlePostData)
 
+
+  if (isLoading) {
+    return <Box>
+      <Hero/>
+      <Container sx={{mt: 0}}><CircularIndeterminate/></Container>
+    </Box>
+  }
+
   if (!singlePostData) {
     return null;
   }
-
 
   return (
     <>
