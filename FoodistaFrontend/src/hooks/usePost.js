@@ -4,7 +4,8 @@ import {useNavigate} from "react-router-dom";
 const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "";
 
 export const usePost = (apiUrl) => {
-    const token = document.cookie.split('; ').find(row => row.startsWith('token')).split('=')[1];
+    const token = document.cookie.split('; ').find(row => row.startsWith('token'))?.split('=')[1];
+
     const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
 
@@ -56,7 +57,6 @@ export const usePost = (apiUrl) => {
     };
 
     const handleFetchPostType = async () => {
-
         setIsLoading(false);
         setErrorMsg("");
 
@@ -94,8 +94,6 @@ export const usePost = (apiUrl) => {
     };
 
     const handleFetchPostByUserId = async () => {
-        // const userId = document.cookie.split('; ').find(row => row.startsWith('userId')).split('=')[1];
-
         setIsLoading(false);
         setErrorMsg("");
 
@@ -205,6 +203,41 @@ export const usePost = (apiUrl) => {
         }
     };
 
+    const handleDeletePost = async (postId) => {
+        setIsLoading(false);
+        setErrorMsg("");
+
+        try {
+            setIsLoading(true);
+            const response = await fetch(apiBaseUrl + apiUrl + "post/" + postId, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer  ${token}`
+                },
+            });
+
+            if (response.ok) {
+                navigate("/myblog");
+            } else {
+                const jsonResponse = await response.json();
+                if (jsonResponse.message) {
+                    setErrorMsg(jsonResponse.message);
+                } else {
+                    if (jsonResponse) {
+                        setErrorMsg(jsonResponse);
+                    } else {
+                        setErrorMsg("Error: unexpected error...");
+                    }
+                }
+            }
+        } catch (error) {
+            setErrorMsg("Unexpected error: " + error.message);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
 
     return {
         isLoading,
@@ -217,6 +250,7 @@ export const usePost = (apiUrl) => {
         handleAllPost,
         postData,
         handleFetchPostById,
-        singlePostData
+        singlePostData,
+        handleDeletePost
     };
 };

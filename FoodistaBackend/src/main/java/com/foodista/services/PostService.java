@@ -137,14 +137,29 @@ public class PostService {
         }
     }
 
-    public Optional<Post> delete(final Long id) {
-        Optional<Post> postToBeDeleted = getById(id);
+    public String delete(String jwtToken, Long id) {
+        Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
 
-        if (postToBeDeleted.isPresent()) {
-            postRepository.delete(postToBeDeleted.get());
+        if (foundUser.isPresent()) {
+            Long userId = foundUser.get().getId();
+            Optional<Post> postOptional = postRepository.findById(id);
+
+            if (postOptional.isPresent()) {
+                Post post = postOptional.get();
+
+                // Check if the post belongs to the logged in user
+                if (post.getBlog().getUser().getId().equals(userId)) {
+                    postRepository.delete(post);
+                    return "Post deleted successfully";
+                } else {
+                    throw new IllegalArgumentException("The post does not belong to the logged in user");
+                }
+            } else {
+                throw new IllegalArgumentException("Post not found");
+            }
+        } else {
+            throw new IllegalArgumentException("Invalid JWT Token");
         }
-
-        return postToBeDeleted;
     }
 
 

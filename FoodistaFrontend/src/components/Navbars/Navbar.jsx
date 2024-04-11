@@ -32,6 +32,8 @@ function Navbar({mode, toggleColorMode, setFullName, fullName}) {
         navigate("/")
         setFullName('')
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "fullName=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "userId=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         setIsUserLoggedIn(false);
     };
 

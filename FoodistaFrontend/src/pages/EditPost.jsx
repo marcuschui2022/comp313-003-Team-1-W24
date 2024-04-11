@@ -18,7 +18,6 @@ import {
 import {useBlog} from "../hooks/useBlog.js";
 import {usePost} from "../hooks/usePost.js";
 import {useNavigate} from "react-router-dom";
-import Hero from "../components/Hero.jsx";
 
 
 function CategoryRadioButtonsGroup({data, setSelectedCategory}) {
@@ -102,7 +101,7 @@ function PreviewSwitchLabels({isPreview, setIsPreview}) {
 
 const initialValue =
     '<p>type something here...</p>';
-export default function NewPost() {
+export default function EditPost() {
     const navigate = useNavigate();
     const apiUrl = "/api/v1/";
 
@@ -141,7 +140,6 @@ export default function NewPost() {
 
     return (
         <>
-            <Hero/>
             <Container sx={{mt: 0}}>
                 <Typography variant="h4" gutterBottom>New Post</Typography>
                 <Divider sx={{mb: 3}}/>
@@ -194,9 +192,7 @@ export default function NewPost() {
                                 post_description: postDescription,
                                 post_profile_picture_url: postProfilePictureURL
                             }).then(() => {
-                                // Added setTimeout to ensure setOpenNewBlogModal is run first
-                                // setTimeout(() => setOpenDialAction(false), 100)
-                                // setTimeout(() => handleFetchBlogDataByCurrentUserId(), 200)
+
                                 navigate('/myblog')
                             })
                         }}

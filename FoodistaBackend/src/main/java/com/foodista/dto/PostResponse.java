@@ -48,4 +48,6 @@ public class PostResponse {
     @NotBlank
     @NotNull
     PostType postType;
+
+    Long user_Id;
 }

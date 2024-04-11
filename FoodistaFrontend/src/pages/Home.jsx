@@ -7,7 +7,9 @@ import ArticlesList from "../components/ArticlesList";
 import HomeSection from "../components/HomeSection";
 import Footer from "../components/Footer.jsx";
 import {usePost} from "../hooks/usePost.js";
+import * as React from "react";
 import {useEffect} from "react";
+import Hero from "../components/Hero.jsx";
 
 
 export default function Home() {
@@ -24,6 +26,7 @@ export default function Home() {
     return (
         <>
             <Box sx={{bgcolor: "background.default"}}>
+                <Hero/>
                 <HomeSection/>
                 <ArticlesList postData={postData}/>
                 <Divider/>

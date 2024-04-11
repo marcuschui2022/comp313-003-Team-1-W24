@@ -62,6 +62,7 @@ public class PostController extends FoodistaBackendApplication.BaseController {
                         .postType(post.getPostType())
                         .post_description(post.getPostDescription())
                         .post_profile_picture_url(post.getPostProfilePictureURL())
+                        .user_Id(post.getBlog().getUser().getUserId())
                         .build();
 
                 postResponses.add(postResponse);
@@ -101,6 +102,7 @@ public class PostController extends FoodistaBackendApplication.BaseController {
                         .postType(post.getPostType())
                         .post_description(post.getPostDescription())
                         .post_profile_picture_url(post.getPostProfilePictureURL())
+                        .user_Id(post.getBlog().getUser().getUserId())
                         .build();
                 postResponses.add(postResponse);
             }
@@ -236,6 +238,7 @@ public class PostController extends FoodistaBackendApplication.BaseController {
                     .postType(post.getPostType())
                     .post_description(post.getPostDescription())
                     .post_profile_picture_url(post.getPostProfilePictureURL())
+                    .user_Id(post.getBlog().getUser().getUserId())
                     .build();
 
             return new ResponseEntity<>(postResponse, HttpStatus.OK);
@@ -484,42 +487,17 @@ public class PostController extends FoodistaBackendApplication.BaseController {
 //
 //    }
 
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<HttpStatus> deleteBlog(@RequestHeader(value = "Authorization", required = true) String token, @PathVariable("id") Long id) {
-//
-//        try {
-//            Optional<Post> post = postService.getById(id);
-//
-//            if (post.isPresent()) {
-//                Post response = post.get();
-//
-//                token = token.split(" ")[1];
-//                String tokenUserId = jwtService.extractUserId(token);
-//                Long tmpTokenUserId = Long.valueOf(tokenUserId);
-//                Long original_user_id = response.getBlog().getUser().getId();
-//                System.out.println(tokenUserId);
-//                System.out.println(original_user_id);
-//                System.out.println(tmpTokenUserId != original_user_id);
-//
-//
-//                if (tmpTokenUserId != original_user_id) {
-//                    return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-//                }
-//
-//
-//                Long archivePostId = 3L;
-//
-//                Optional<PostType> tmpPostType = postTypeRepository.findById(archivePostId);
-//                response.setPostType(tmpPostType.get());
-//
-//                postService.save(response);
-//                return new ResponseEntity<>(HttpStatus.OK);
-//            } else {
-//                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//            }
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@ModelAttribute("jwtToken") String jwtToken, @PathVariable("id") Long id) {
+        try {
+            String response = postService.delete(jwtToken, id);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

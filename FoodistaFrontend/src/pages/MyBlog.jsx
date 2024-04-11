@@ -17,6 +17,7 @@ import {useNavigate} from "react-router-dom";
 import BlogsRadioButtonsGroup from "../components/BlogsRadioButtonsGroup.jsx";
 import {usePost} from "../hooks/usePost.js";
 import UserArticlesList from "../components/UserArticlesList.jsx";
+import Hero from "../components/Hero.jsx";
 
 const apiUrl = "/api/v1/";
 
@@ -132,6 +133,7 @@ export default function MyBlog({fullName}) {
     const [openNewBlogModal, setOpenNewBlogModal] = useState(false)
     const [selectedBlog, setSelectedBlog] = useState('all')
 
+
     const navigate = useNavigate();
 
     const {handleFetchBlogDataByCurrentUserId, isLoading, errorMsg, myBlogData} = useBlog(apiUrl);
@@ -168,6 +170,7 @@ export default function MyBlog({fullName}) {
 
 
         <>
+            <Hero/>
             <Container sx={{mt: 0}}>
                 <Typography variant="h3" gutterBottom>
                     {fullName ? fullName : ''} Blog

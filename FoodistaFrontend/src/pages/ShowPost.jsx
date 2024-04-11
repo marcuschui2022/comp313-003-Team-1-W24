@@ -7,13 +7,18 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import {CardMedia} from "@mui/material";
+import Hero from "../components/Hero.jsx";
+import Button from "@mui/material/Button";
 
 
 export default function ShowPost() {
     const navigate = useNavigate();
     const location = useLocation();
     const apiUrl = "/api/v1/";
-
+    const cookiesUserId = document.cookie
+        .split('; ')
+        .find(row => row.startsWith("userId"))
+        ?.split('=')[1]
 
     const defaultTheme = createTheme();
     // const [postContent, setPostContent] = useState(initialValue);
@@ -21,7 +26,8 @@ export default function ShowPost() {
 
     const {
         handleFetchPostById,
-        singlePostData
+        singlePostData,
+        handleDeletePost
     } = usePost(apiUrl);
 
 
@@ -36,17 +42,24 @@ export default function ShowPost() {
         }
     }, []);
 
-    console.log(singlePostData)
+    // console.log(singlePostData)
 
     if (!singlePostData) {
         return null;
     }
 
+
     return (
         <>
+            <Hero/>
             <Container sx={{mt: 0}}>
                 <Divider sx={{mt: 5, mb: 5}}/>
-                <Typography variant="h6" gutterBottom>Description:</Typography>
+                {cookiesUserId === singlePostData.user_Id.toString() && <>
+                    <Button variant="outlined">Edit
+                        Post</Button>
+                    <Button sx={{ml: 2}} variant="outlined" onClick={() => handleDeletePost(singlePostData.post_Id)}>Delete
+                        Post</Button></>}
+                <Typography sx={{mt: 2, mb: 2}} variant="h6" gutterBottom>Description:</Typography>
                 <Typography variant="h6" gutterBottom>{singlePostData.post_description}</Typography>
                 <CardMedia
                     component="img"

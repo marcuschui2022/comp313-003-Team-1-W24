@@ -10,7 +10,6 @@ import SignIn from "./pages/SignIn.jsx";
 import Navbar from "./components/Navbars/Navbar.jsx";
 import MyBlog from "./pages/MyBlog.jsx";
 import NewPost from "./pages/NewPost.jsx";
-import Hero from "./components/Hero.jsx";
 import ShowPost from "./pages/ShowPost.jsx";
 
 function AppRoutes({mode, toggleColorMode}) {
@@ -19,7 +18,7 @@ function AppRoutes({mode, toggleColorMode}) {
 
     return (
         <>
-            <Hero/>
+
             {location.pathname !== "/signup" && location.pathname !== "/signin" && (
                 <Navbar mode={mode} toggleColorMode={toggleColorMode} setFullName={setFullName} fullName={fullName}/>
             )}
