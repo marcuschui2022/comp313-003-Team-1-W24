@@ -9,6 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest {
-    String commentContent;
+public class CommentResponse {
+    Long comment_id;
+    String comment;
+    Long user_id;
+    String full_name;
+    String create_at;
 }

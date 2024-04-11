@@ -58,6 +58,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                                 .requestMatchers(HttpMethod.POST, "/api/v1/signup", "/api/v1/signin").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/post/", "/api/v1/post/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/comment/", "/api/v1/comment/**", "/api/v1/comment/post/**").permitAll()
 //                        .requestMatchers(HttpMethod.GET, "/api/v1/post/**", "/api/v1/post/user/**", "/api/v1/post/blog/**").permitAll()
 //                        .requestMatchers(HttpMethod.POST, "/api/v1/post/**", "/api/v1/post/user/**", "/api/v1/post/blog/**").permitAll()
                                 .anyRequest().authenticated()
