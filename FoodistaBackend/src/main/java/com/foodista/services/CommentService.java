@@ -61,7 +61,7 @@ public class CommentService {
     }
 
 
-    public void deleteComment(Long commentId, String jwtToken) {
+    public Long deleteComment(Long commentId, String jwtToken) {
         Optional<User> foundUser = jwtService.extractUserDetails(jwtToken);
         Optional<CommentDetail> commentOptional = commentRepository.findById(commentId);
 
@@ -70,6 +70,7 @@ public class CommentService {
 
             if (foundUser.isPresent() && comment.getUser().getUserId().equals(foundUser.get().getUserId())) {
                 commentRepository.deleteById(commentId);
+                return comment.getPost().getPostId();
             } else {
                 throw new IllegalArgumentException("User is not the owner of the comment with id " + commentId);
             }

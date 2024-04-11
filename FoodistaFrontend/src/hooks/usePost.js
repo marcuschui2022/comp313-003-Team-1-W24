@@ -317,6 +317,42 @@ export const usePost = (apiUrl) => {
     }
   };
 
+  const handleDeleteCommentsByCommentId = async (commentId) => {
+    setIsLoading(false);
+    setErrorMsg("");
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(apiBaseUrl + apiUrl + "comment/" + commentId, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer  ${token}`
+        },
+      });
+
+      if (response.ok) {
+        const jsonResponse = await response.json();
+        setComments(jsonResponse)
+      } else {
+        const jsonResponse = await response.json();
+        if (jsonResponse.message) {
+          setErrorMsg(jsonResponse.message);
+        } else {
+          if (jsonResponse) {
+            setErrorMsg(jsonResponse);
+          } else {
+            setErrorMsg("Error: unexpected error...");
+          }
+        }
+      }
+    } catch (error) {
+      setErrorMsg("Unexpected error: " + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     isLoading,
     errorMsg,
@@ -332,6 +368,6 @@ export const usePost = (apiUrl) => {
     handleDeletePost,
     handleFetchCommentsByPostId,
     comments,
-    handleSubmitNewComment
+    handleSubmitNewComment, handleDeleteCommentsByCommentId
   };
 };

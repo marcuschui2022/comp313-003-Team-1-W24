@@ -10,7 +10,8 @@ import {Avatar, CardMedia, TextField} from "@mui/material";
 import Hero from "../components/Hero.jsx";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-
+import CloseIcon from '@mui/icons-material/Close';
+import IconButton from "@mui/material/IconButton";
 
 export default function ShowPost() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function ShowPost() {
     handleDeletePost,
     handleFetchCommentsByPostId,
     comments,
-    handleSubmitNewComment,
+    handleSubmitNewComment, handleDeleteCommentsByCommentId
   } = usePost(apiUrl);
 
 
@@ -150,6 +151,13 @@ export default function ShowPost() {
                     gutterBottom>
                     {comment.full_name} @ {comment.create_at}
                   </Typography>
+                  <IconButton color="secondary" size="large"
+                              onClick={() => handleDeleteCommentsByCommentId(comment.comment_id)}>
+                    <CloseIcon/>
+                  </IconButton>
+                  {/*<IconButton color="primary" size="large">*/}
+                  {/*  <EditIcon/>*/}
+                  {/*</IconButton>*/}
                 </Box>
                 <Typography sx={{mt: 1, mb: 2}} variant="body1" gutterBottom>
                   {comment.comment}

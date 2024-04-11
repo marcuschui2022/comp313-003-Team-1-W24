@@ -50,11 +50,12 @@ public class CommentController extends FoodistaBackendApplication.BaseController
 
 
     @DeleteMapping("/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable Long commentId,
-                                        @ModelAttribute("jwtToken") String jwtToken) {
+    public ResponseEntity<List<CommentResponse>> deleteComment(@PathVariable Long commentId,
+                                                               @ModelAttribute("jwtToken") String jwtToken) {
         try {
-            commentService.deleteComment(commentId, jwtToken);
-            return new ResponseEntity<>(HttpStatus.OK);
+            var postId = commentService.deleteComment(commentId, jwtToken);
+//            return new ResponseEntity<>(HttpStatus.OK);
+            return ResponseEntity.ok(commentService.getCommentsByPostId(postId));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
