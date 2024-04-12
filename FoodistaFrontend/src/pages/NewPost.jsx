@@ -19,6 +19,7 @@ import {useBlog} from "../hooks/useBlog.js";
 import {usePost} from "../hooks/usePost.js";
 import {useNavigate} from "react-router-dom";
 import Hero from "../components/Hero.jsx";
+import AI from "../components/AI.jsx";
 
 
 function CategoryRadioButtonsGroup({data, setSelectedCategory}) {
@@ -139,13 +140,18 @@ export default function NewPost() {
     handleFetchPostType();
   }, []);
 
+
   return (
     <>
       <Hero/>
       <Container sx={{mt: 0}}>
+
         <Typography variant="h4" gutterBottom>New Post</Typography>
         <Divider sx={{mb: 3}}/>
+
         <ThemeProvider theme={defaultTheme}>
+
+
           <NewBlogsRadioButtonsGroup options={myBlogData} selectedBlog={selectedBlog}
                                      setSelectedBlog={setSelectedBlog}/>
           <br/>
@@ -175,6 +181,7 @@ export default function NewPost() {
             onChange={(event) => setPostProfilePictureURL(event.target.value)}
           />
           <br/>
+          <AI setValue={setPostContent}/><br/>
           <PreviewSwitchLabels isPreview={isPreview} setIsPreview={setIsPreview}/>
           <RichTextEditor readOnly={isPreview} value={postContent} onChange={setPostContent} id="rte"
             // initialHeight={"1000px"}
@@ -205,6 +212,7 @@ export default function NewPost() {
             Submit New Post
           </Button>
         </ThemeProvider>
+
       </Container>
     </>
   );
