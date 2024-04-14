@@ -19,29 +19,13 @@ pipeline {
                 }
             }
         }
-        // stage('check file') {
-        //     steps {
-        //         dir('FoodistaBackend') {  
-        //             sh "ls"
-        //             sh "ls target"
-        //         }
-        //     }
-        // }
-        // stage('Run Application') {
-        //     steps {
-        //         dir('FoodistaBackend') {  
-        //             sh "java -jar target/FoodistaBackend-0.0.1-SNAPSHOT.jar"
-        //         }
-        //     }
-        // }
-        // stage('Test Application') {
-        //     steps {
-        //         dir('FoodistaBackend') {  
-        //             sh "sleep 10"
-        //             sh 'curl -X GET http://localhost:8084/'
-        //         }
-        //     }
-        // }
+        stage('Code Analysis with SonarQube') {
+            steps {
+                dir('FoodistaBackend') {
+                    sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://http://localhost:9000"
+                }
+            }
+        }
         stage('Code Coverage for Backend') {  
             steps {
                 dir('FoodistaBackend') {  
@@ -49,6 +33,7 @@ pipeline {
                 }
             }
         }
+
     }
 
     post {
