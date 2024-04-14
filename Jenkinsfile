@@ -4,6 +4,7 @@ pipeline {
         maven 'Maven 3.9.6'
     }
     environment {
+        DOCKERHUB_PWD=credentials('DockerHub_Token')
     }
     stages {
         stage('Check out') {  
