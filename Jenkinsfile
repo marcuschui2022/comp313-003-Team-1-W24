@@ -22,7 +22,7 @@ pipeline {
         stage('Code Analysis with SonarQube') {
             steps {
                 dir('FoodistaBackend') {
-                    sh "mvn sonar:sonar -Dsonar.projectKey=sqp_a471f83e1b4610aaadb0f9c8583aae78fe669ebf -Dsonar.host.url=http://host.docker.internal:9000"
+                    sh "mvn sonar:sonar -Dsonar.projectKey=sqp_a471f83e1b4610aaadb0f9c8583aae78fe669ebf -Dsonar.host.url=http://sonarqube:9000"
                 }
             }
         }
