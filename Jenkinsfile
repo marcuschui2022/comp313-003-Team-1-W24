@@ -47,6 +47,13 @@ pipeline {
                 }
             }
         }
+        stage('Deploy to Dev Env') {
+            steps {
+                echo "Deploying to Development Environment..."
+                sh "docker pull marcusyuk/313-backend:${BUILD_NUMBER}"
+                sh "docker run -d --name 313-backend-dev -p 8081:8081 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
 
 
     }
