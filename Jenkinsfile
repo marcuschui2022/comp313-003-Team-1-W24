@@ -19,21 +19,21 @@ pipeline {
                 }
             }
         }
-        stage('check file') {
-            steps {
-                dir('FoodistaBackend') {  
-                    sh "ls"
-                    sh "ls target"
-                }
-            }
-        }
-        stage('Run Application') {
-            steps {
-                dir('FoodistaBackend') {  
-                    sh "java -jar target/FoodistaBackend-0.0.1-SNAPSHOT.jar"
-                }
-            }
-        }
+        // stage('check file') {
+        //     steps {
+        //         dir('FoodistaBackend') {  
+        //             sh "ls"
+        //             sh "ls target"
+        //         }
+        //     }
+        // }
+        // stage('Run Application') {
+        //     steps {
+        //         dir('FoodistaBackend') {  
+        //             sh "java -jar target/FoodistaBackend-0.0.1-SNAPSHOT.jar"
+        //         }
+        //     }
+        // }
         // stage('Test Application') {
         //     steps {
         //         dir('FoodistaBackend') {  
@@ -42,13 +42,13 @@ pipeline {
         //         }
         //     }
         // }
-        // stage('Code Coverage for Backend') {  
-        //     steps {
-        //         dir('FoodistaBackend') {  
-        //             sh "mvn test jacoco:report"
-        //         }
-        //     }
-        // }
+        stage('Code Coverage for Backend') {  
+            steps {
+                dir('FoodistaBackend') {  
+                    sh "mvn test jacoco:report"
+                }
+            }
+        }
     }
 
     // post {
