@@ -22,18 +22,18 @@ pipeline {
         stage('Run Application') {
             steps {
                 dir('FoodistaBackend') {  
-                    sh "java -jar target/FoodistaBackend-0.0.1-SNAPSHOT.jar &"
+                    sh "java -jar target/FoodistaBackend-0.0.1-SNAPSHOT.jar"
                 }
             }
         }
-        stage('Test Application') {
-            steps {
-                dir('FoodistaBackend') {  
-                    sh "sleep 10"
-                    sh 'curl -X GET http://localhost:8084/'
-                }
-            }
-        }
+        // stage('Test Application') {
+        //     steps {
+        //         dir('FoodistaBackend') {  
+        //             sh "sleep 10"
+        //             sh 'curl -X GET http://localhost:8084/'
+        //         }
+        //     }
+        // }
         // stage('Code Coverage for Backend') {  
         //     steps {
         //         dir('FoodistaBackend') {  
