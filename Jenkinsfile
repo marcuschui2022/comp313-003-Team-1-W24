@@ -39,7 +39,7 @@ pipeline {
                sh "docker login -u marcusyuk -p ${DOCKERHUB_PWD}"
             }
         }
-        stage('Deliver Stage - Docker Build And Push') {  x
+        stage('Deliver Stage - Docker Build And Push') { 
             steps {
                 sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
                 sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
