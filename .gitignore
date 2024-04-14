@@ -72,5 +72,5 @@ dist-ssr
 
 FoodistaBackend/target
 
-application.properties
-**/application.properties
+# application.properties
+# **/application.properties
