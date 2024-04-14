@@ -19,6 +19,13 @@ pipeline {
                 }
             }
         }
+        stage('check file') {
+            steps {
+                dir('FoodistaBackend') {  
+                    sh "ls"
+                }
+            }
+        }
         stage('Run Application') {
             steps {
                 dir('FoodistaBackend') {  
