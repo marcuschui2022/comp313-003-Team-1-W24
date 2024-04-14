@@ -41,8 +41,10 @@ pipeline {
         }
         stage('Deliver Stage - Docker Build And Push') { 
             steps {
-                sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
-                sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
+                dir('FoodistaBackend') {  
+                    sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
+                    sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
+                }
             }
         }
 
