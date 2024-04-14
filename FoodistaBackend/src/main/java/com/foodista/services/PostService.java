@@ -139,9 +139,6 @@ public class PostService {
 
                 // Check if the post belongs to the logged in user
                 if (post.getBlog().getUser().getId().equals(userId)) {
-                    // Delete all related comments first
-                    List<CommentDetail> comments = commentRepository.findByPostPostId(id);
-                    commentRepository.deleteAll(comments);
 
                     // Now delete the post
                     postRepository.delete(post);
