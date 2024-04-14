@@ -23,6 +23,8 @@ pipeline {
             steps {
                 dir('FoodistaBackend') {  
                     sh "ls"
+                    sh "cd target"
+                    sh "ls"
                 }
             }
         }
