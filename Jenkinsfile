@@ -3,8 +3,9 @@ pipeline {
     tools {
         maven 'Maven 3.9.6'
     }
-    // environment {
-    // }
+    environment {
+        DOCKERHUB_PWD=credentials('DockerHub_Token')
+    }
     stages {
         stage('Check out') {  
             steps {
@@ -26,13 +27,25 @@ pipeline {
                 }
             }
         }
-        stage('Code Coverage for Backend') {  
+        stage('Code Test Coverage') {  
             steps {
                 dir('FoodistaBackend') {  
                     sh "mvn test jacoco:report"
                 }
             }
         }
+        stage('Docker Login') {  // Docker login stage
+            steps {
+               sh "docker login -u marcusyuk -p ${DOCKERHUB_PWD}"
+            }
+        }
+        stage('Deliver Stage(Docker Build & Push)') {  x
+            steps {
+                sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
+                sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+
 
     }
 
