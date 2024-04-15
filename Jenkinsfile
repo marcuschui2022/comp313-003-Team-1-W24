@@ -83,19 +83,13 @@ pipeline {
                 sh "docker stop 313-backend-prod || true"
                 sh "docker rm -f 313-backend-prod || true"
                 sh "docker run -d --name 313-backend-prod -p 3000:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
-            }
-           
-        }
-         stage('Deploy Frontend to Production Env') {
-            steps {
                 echo "Deploying Frontend to Production Environment..."
                 sh "docker stop 313-frontend-dev || true"
                 sh "docker rm -f 313-frontend-dev || true"
                 sh "docker run -d --name 313-frontend-dev -p 3001:3001 marcusyuk/313-frontend:${BUILD_NUMBER}"
             }
+           
         }
-
-
     }
 
     post {
