@@ -20,6 +20,14 @@ pipeline {
                 }
             }
         }
+        stage('Code Analysis with SonarQube - Frontend') {
+            steps {
+                dir('FoodistaFrontend') { 
+                    sh "npm install" 
+                    sh "npm run sonar"
+                }
+            }
+        }
         stage('Code Analysis with SonarQube') {
             steps {
                 dir('FoodistaBackend') {
