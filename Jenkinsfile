@@ -6,6 +6,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_PWD=credentials('DockerHub_Token')
+        SonarQube_Frontend=credentials('SonarQube_Frontend')
     }
     stages {
         stage('Check out') {  
@@ -32,13 +33,10 @@ pipeline {
         stage('Code Analysis with SonarQube - Frontend') {
             steps {
                 dir('FoodistaFrontend') { 
-                    withCredentials([string(credentialsId: 'SonarQube_Frontend', variable: 'SonarQube_Frontend')]) {
-                        sh '''
-                            sonar-scanner \
-                            -Dsonar.projectKey=frontend \
-                            -Dsonar.host.url=http://sonarqube:9000 \
-                            -Dsonar.login=$SonarQube_Frontend
-                        '''
+                    withSonarQubeEnv('SonarQube-Frontend') {
+                        sh "npm install"
+                        sh "npm run build"
+                        sh "sonar-scanner"
                     }
                 }
             }
