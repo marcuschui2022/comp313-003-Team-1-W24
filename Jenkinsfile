@@ -22,14 +22,6 @@ pipeline {
                 }
             }
         }
-        // stage('Code Analysis with SonarQube - Frontend') {
-        //     steps {
-        //         dir('FoodistaFrontend') { 
-        //             sh "npm install" 
-        //             sh "npm run sonar"
-        //         }
-        //     }
-        // }
         stage('Code Analysis with SonarQube - Frontend') {
             steps {
                 dir('FoodistaFrontend') { 
@@ -41,17 +33,17 @@ pipeline {
                 }
             }
         }
-        // stage('Code Analysis with SonarQube - Backend') {
-        //     steps {
-        //         dir('FoodistaBackend') {
-        //             withSonarQubeEnv('SonarQube_Backend') {
-        //                 sh "echo $SONARQUBE_SCANNER_PARAMS"
-        //                 sh "mvn sonar:sonar -Dsonar.projectKey=group12"
-        //             }
-        //             // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=key"
-        //         }
-        //     }
-        // }
+        stage('Code Analysis with SonarQube - Backend') {
+            steps {
+                dir('FoodistaBackend') {
+                    withSonarQubeEnv('SonarQube_Backend') {
+                        sh "echo $SONARQUBE_SCANNER_PARAMS"
+                        sh "mvn sonar:sonar -Dsonar.projectKey=group12"
+                    }
+                    // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=key"
+                }
+            }
+        }
         stage('Code Coverage Test with Jacoco ') {  
             steps {
                 dir('FoodistaBackend') {  
@@ -59,62 +51,61 @@ pipeline {
                 }
             }
         }
-        // stage('Docker Login') {  // Docker login stage
-        //     steps {
-        //        sh "docker login -u marcusyuk -p ${DOCKERHUB_PWD}"
-        //     }
-        // }
-        // stage('Deliver Stage - Docker Build & Push & Pull') { 
-        //     steps {
-        //         dir('FoodistaBackend') {  
-        //             sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
-        //             sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
-        //             sh "docker pull marcusyuk/313-backend:${BUILD_NUMBER}"
-        //         }
-        //          dir('FoodistaFrontend') {  
-        //             sh "docker build -t marcusyuk/313-frontend:${BUILD_NUMBER} ."
-        //             sh "docker push marcusyuk/313-frontend:${BUILD_NUMBER}"
-        //             sh "docker pull marcusyuk/313-frontend:${BUILD_NUMBER}"
-        //         }
-        //     }
-        // }
-        // stage('Deploy to Dev Env') {
-        //     steps {
-        //         echo "Deploying to Development Environment..."          
-        //         sh "docker stop 313-backend-dev || true"
-        //         sh "docker rm -f 313-backend-dev || true"
-        //         sh "docker run -d --name 313-backend-dev -p 8081:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
-        //     }
-        // }
-        // stage('Deploy to QAT Env') {
-        //     steps {
-        //         echo "Deploying to QAT Environment..."          
-        //         sh "docker stop 313-backend-qat || true"
-        //         sh "docker rm -f 313-backend-qat || true"
-        //         sh "docker run -d --name 313-backend-qat -p 8082:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
-        //     }
-        // }
-        // stage('Deploy to Staging Env') {
-        //     steps {
-        //         echo "Deploying to Staging Environment..."          
-        //         sh "docker stop 313-backend-staging || true"
-        //         sh "docker rm -f 313-backend-staging || true"
-        //         sh "docker run -d --name 313-backend-staging -p 8083:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
-        //     }
-        // }
-        // stage('Deploy to Production Env') {
-        //     steps {
-        //         echo "Deploying Backend to Production Environment..."          
-        //         sh "docker stop 313-backend-prod || true"
-        //         sh "docker rm -f 313-backend-prod || true"
-        //         sh "docker run -d --name 313-backend-prod -p 3000:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
-        //         echo "Deploying Frontend to Production Environment..."
-        //         sh "docker stop 313-frontend-dev || true"
-        //         sh "docker rm -f 313-frontend-dev || true"
-        //         sh "docker run -d --name 313-frontend-dev -p 3001:3001 marcusyuk/313-frontend:${BUILD_NUMBER}"
-        //     }
-           
-        // }
+        stage('Docker Login') {  // Docker login stage
+            steps {
+               sh "docker login -u marcusyuk -p ${DOCKERHUB_PWD}"
+            }
+        }
+        stage('Deliver Stage - Docker Build & Push & Pull') { 
+            steps {
+                dir('FoodistaBackend') {  
+                    sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
+                    sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
+                    sh "docker pull marcusyuk/313-backend:${BUILD_NUMBER}"
+                }
+                 dir('FoodistaFrontend') {  
+                    sh "docker build -t marcusyuk/313-frontend:${BUILD_NUMBER} ."
+                    sh "docker push marcusyuk/313-frontend:${BUILD_NUMBER}"
+                    sh "docker pull marcusyuk/313-frontend:${BUILD_NUMBER}"
+                }
+            }
+        }
+        stage('Deploy to Dev Env') {
+            steps {
+                echo "Deploying to Development Environment..."          
+                sh "docker stop 313-backend-dev || true"
+                sh "docker rm -f 313-backend-dev || true"
+                sh "docker run -d --name 313-backend-dev -p 8081:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+        stage('Deploy to QAT Env') {
+            steps {
+                echo "Deploying to QAT Environment..."          
+                sh "docker stop 313-backend-qat || true"
+                sh "docker rm -f 313-backend-qat || true"
+                sh "docker run -d --name 313-backend-qat -p 8082:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+        stage('Deploy to Staging Env') {
+            steps {
+                echo "Deploying to Staging Environment..."          
+                sh "docker stop 313-backend-staging || true"
+                sh "docker rm -f 313-backend-staging || true"
+                sh "docker run -d --name 313-backend-staging -p 8083:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+        stage('Deploy to Production Env') {
+            steps {
+                echo "Deploying Backend to Production Environment..."          
+                sh "docker stop 313-backend-prod || true"
+                sh "docker rm -f 313-backend-prod || true"
+                sh "docker run -d --name 313-backend-prod -p 3000:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+                echo "Deploying Frontend to Production Environment..."
+                sh "docker stop 313-frontend-dev || true"
+                sh "docker rm -f 313-frontend-dev || true"
+                sh "docker run -d --name 313-frontend-dev -p 3001:3001 marcusyuk/313-frontend:${BUILD_NUMBER}"
+            }
+        }
     }
 
     post {
