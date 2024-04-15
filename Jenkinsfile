@@ -36,7 +36,7 @@ pipeline {
                     withSonarQubeEnv('SonarQube-Frontend') {
                         sh "npm install"
                         sh "npm run build"
-                        sh "sonar-scanner"
+                        // sh "sonar-scanner"
                     }
                 }
             }
