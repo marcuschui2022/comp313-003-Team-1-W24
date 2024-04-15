@@ -21,11 +21,25 @@ pipeline {
                 }
             }
         }
+        // stage('Code Analysis with SonarQube - Frontend') {
+        //     steps {
+        //         dir('FoodistaFrontend') { 
+        //             sh "npm install" 
+        //             sh "npm run sonar"
+        //         }
+        //     }
+        // }
         stage('Code Analysis with SonarQube - Frontend') {
             steps {
                 dir('FoodistaFrontend') { 
-                    sh "npm install" 
-                    sh "npm run sonar"
+                    withCredentials([string(credentialsId: 'SonarQube_Frontend', variable: 'SonarQube_Frontend')]) {
+                        sh '''
+                            sonar-scanner \
+                            -Dsonar.projectKey=frontend \
+                            -Dsonar.host.url=http://sonarqube:9000 \
+                            -Dsonar.login=$SonarQube_Frontend
+                        '''
+                    }
                 }
             }
         }
