@@ -44,7 +44,7 @@ pipeline {
         stage('Code Analysis with SonarQube - Backend') {
             steps {
                 dir('FoodistaBackend') {
-                    withSonarQubeEnv('SonarQube-Backend') {
+                    withSonarQubeEnv('SonarQube_Backend') {
                         sh "echo $SONARQUBE_SCANNER_PARAMS"
                         sh "mvn sonar:sonar -Dsonar.projectKey=group12"
                     }
