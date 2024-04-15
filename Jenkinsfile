@@ -27,7 +27,7 @@ pipeline {
                 }
             }
         }
-        stage('Code Test Coverage') {  
+        stage('Code Coverage Test with Jacoco ') {  
             steps {
                 dir('FoodistaBackend') {  
                     sh "mvn test jacoco:report"
