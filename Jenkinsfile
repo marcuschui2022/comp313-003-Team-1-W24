@@ -39,19 +39,21 @@ pipeline {
                sh "docker login -u marcusyuk -p ${DOCKERHUB_PWD}"
             }
         }
-        stage('Deliver Stage - Docker Build And Push') { 
+        stage('Deliver Stage - Docker Build & Push & Pull') { 
             steps {
                 dir('FoodistaBackend') {  
                     sh "docker build -t marcusyuk/313-backend:${BUILD_NUMBER} ."
                     sh "docker push marcusyuk/313-backend:${BUILD_NUMBER}"
+                    sh "docker pull marcusyuk/313-backend:${BUILD_NUMBER}"
                 }
             }
         }
         stage('Deploy to Dev Env') {
             steps {
-                echo "Deploying to Development Environment..."
-                sh "docker pull marcusyuk/313-backend:${BUILD_NUMBER}"
-                sh "docker run -d --name 313-backend-dev -p 8081:8081 marcusyuk/313-backend:${BUILD_NUMBER}"
+                echo "Deploying to Development Environment..."          
+                sh "docker stop 313-backend-dev || true"
+                sh "docker rm -f 313-backend-dev || true"
+                sh "docker run -d --name 313-backend-dev -p 8081:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
             }
         }
 
