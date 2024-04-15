@@ -77,7 +77,7 @@ pipeline {
                 echo "Deploying to Development Environment..."          
                 sh "docker stop 313-backend-prod || true"
                 sh "docker rm -f 313-backend-prod || true"
-                sh "docker run -d --name 313-backend-prod -p 8080:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+                sh "docker run -d --name 313-backend-prod -p 3000:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
             }
         }
 
