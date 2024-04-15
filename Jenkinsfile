@@ -45,7 +45,7 @@ pipeline {
                 dir('FoodistaBackend') {
                     withSonarQubeEnv('SonarQube_Backend') {
                         sh "echo $SONARQUBE_SCANNER_PARAMS"
-                        sh "mvn sonar:sonar"
+                        sh "mvn sonar:sonar -Dsonar.projectKey=group12"
                     }
                     // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=key"
                 }
