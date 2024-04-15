@@ -56,6 +56,30 @@ pipeline {
                 sh "docker run -d --name 313-backend-dev -p 8081:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
             }
         }
+        stage('Deploy to QAT Env') {
+            steps {
+                echo "Deploying to Development Environment..."          
+                sh "docker stop 313-backend-qat || true"
+                sh "docker rm -f 313-backend-qat || true"
+                sh "docker run -d --name 313-backend-qat -p 8082:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+        stage('Deploy to Staging Env') {
+            steps {
+                echo "Deploying to Development Environment..."          
+                sh "docker stop 313-backend-staging || true"
+                sh "docker rm -f 313-backend-staging || true"
+                sh "docker run -d --name 313-backend-staging -p 8083:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
+        stage('Deploy to Production Env') {
+            steps {
+                echo "Deploying to Development Environment..."          
+                sh "docker stop 313-backend-prod || true"
+                sh "docker rm -f 313-backend-prod || true"
+                sh "docker run -d --name 313-backend-prod -p 8080:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
+            }
+        }
 
 
     }
