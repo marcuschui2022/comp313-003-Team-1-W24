@@ -2,7 +2,7 @@ pipeline {
     agent any
     tools {
         maven 'Maven 3.9.6'
-        nodejs 'node-20'
+        nodejs 'nodejs-20'
     }
     environment {
         DOCKERHUB_PWD=credentials('DockerHub_Token')
