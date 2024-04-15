@@ -77,13 +77,16 @@ pipeline {
                 sh "docker run -d --name 313-backend-staging -p 8083:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
             }
         }
-        stage('Deploy to Production Env') {
+        stage('Deploy Backend to Production Env') {
             steps {
                 echo "Deploying Backend to Production Environment..."          
                 sh "docker stop 313-backend-prod || true"
                 sh "docker rm -f 313-backend-prod || true"
                 sh "docker run -d --name 313-backend-prod -p 3000:8080 marcusyuk/313-backend:${BUILD_NUMBER}"
             }
+           
+        }
+         stage('Deploy Frontend to Production Env') {
             steps {
                 echo "Deploying Frontend to Production Environment..."
                 sh "docker stop 313-frontend-dev || true"
