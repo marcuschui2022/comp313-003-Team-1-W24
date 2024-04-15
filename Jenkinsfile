@@ -36,7 +36,6 @@ pipeline {
                     withSonarQubeEnv('SonarQube-Frontend') {
                         sh "npm install"
                         sh "npm run build"
-                        // sh "sonar-scanner"
                     }
                 }
             }
@@ -46,9 +45,9 @@ pipeline {
                 dir('FoodistaBackend') {
                     withSonarQubeEnv('SonarQube_Backend') {
                         sh "echo $SONARQUBE_SCANNER_PARAMS"
-                        sh "mvn sonar:sonar -Dsonar.projectKey=group12"
+                        sh "mvn sonar:sonar"
                     }
-                    // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=sqp_440d6ec5087e4d5df025cb3a020d00c15dca77a7"
+                    // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=key"
                 }
             }
         }
