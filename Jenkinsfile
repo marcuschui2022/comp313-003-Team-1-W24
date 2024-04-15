@@ -6,7 +6,7 @@ pipeline {
     }
     environment {
         DOCKERHUB_PWD=credentials('DockerHub_Token')
-        SonarQube_Frontend=credentials('SonarQube_Frontend')
+        // SonarQube_Frontend=credentials('SonarQube_Frontend')
     }
     stages {
         stage('Check out') {  
