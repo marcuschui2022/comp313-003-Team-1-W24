@@ -10,8 +10,7 @@
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist",
-    "serve": "serve -s dist -l 3001",
-    "sonar": "sonar-scanner -Dsonar.projectKey=frontend -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=sqp_22f84ed51c98054f8c9b8e02db735e611f737e10"
+    "serve": "serve -s dist -l 3001"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

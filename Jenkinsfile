@@ -44,7 +44,10 @@ pipeline {
         stage('Code Analysis with SonarQube - Backend') {
             steps {
                 dir('FoodistaBackend') {
-                    sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=sqp_440d6ec5087e4d5df025cb3a020d00c15dca77a7"
+                    withSonarQubeEnv('SonarQube-Backend') {
+                        sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000"
+                    }
+                    // sh "mvn sonar:sonar -Dsonar.projectKey=group12 -Dsonar.host.url=http://sonarqube:9000 -Dsonar.login=sqp_440d6ec5087e4d5df025cb3a020d00c15dca77a7"
                 }
             }
         }
